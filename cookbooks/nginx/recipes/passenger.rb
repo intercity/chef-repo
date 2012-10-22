@@ -16,9 +16,9 @@
 #
 
 #package 'libcurl4-openssl-dev' do
-package 'ruby-devel' do
-  action :install
-end
+#package 'ruby-devel' do
+#  action :install
+#end
 
 gem_package 'passenger' do
   action :install

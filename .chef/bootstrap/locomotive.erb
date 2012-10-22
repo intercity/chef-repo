@@ -3,7 +3,7 @@ bash -c '
 
 if [ ! -f /usr/bin/chef-client ]; then
   aptitude update
-  aptitude install -y ruby1.9.3 build-essential wget rubygems
+  aptitude install -y ruby1.9.3 build-essential wget
 fi
 
 gem update --no-rdoc --no-ri
@@ -54,4 +54,6 @@ cat <<'EOP'
 EOP
 ) > ~/node.json
 
-chef-solo -j ~/node.json -c ~/solo.rb -r https://github.com/firmhouse/locomotive-chef-repo/tarball/master'
+wget 
+
+chef-solo -j ~/node.json -c ~/solo.rb -r http://cloud.github.com/downloads/firmhouse/locomotive-chef-repo/chef-solo.tar.gz'
