@@ -22,7 +22,7 @@ user "deploy" do
   home "/home/deploy"
   shell "/bin/bash"
 
-  supports({ :manage_home => true })
+  supports(:manage_home => true )
 end
 
 group "deploy" do
@@ -42,15 +42,17 @@ node[:active_applications].each do |app, app_info|
     notifies :reload, resources(:service => "nginx")
   end
 
-  nginx_site app do
+  nginx_site "#{app}.conf" do
     action :enable
   end
 
-  logrotate app do
-    files ["/u/apps/#{app}/current/log/*.log"]
+  logrotate_app do
+    cookbook "logrotate"
+    path ["/u/apps/#{app}/current/log/*.log"]
     frequency "daily"
-    rotate_count 14
+    rotate 14
     compress true
+    create "644 deploy deploy"
   end
 
 end

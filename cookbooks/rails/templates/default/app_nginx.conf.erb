@@ -1,6 +1,6 @@
 server {
   listen 80;
-  server_name <%= @domain_names %>
+  server_name <%= @domain_names.join(' ') %>;
   root /u/apps/<%= @name %>/public;
   passenger_enabled on;
 }
