@@ -38,7 +38,7 @@ node[:active_applications].each do |app, app_info|
 
   template "/etc/nginx/sites-available/#{app}.conf" do
     source "app_nginx.conf.erb"
-    variables :name => name, :domain_names => app_info['domain_names']
+    variables :name => app, :domain_names => app_info['domain_names']
     notifies :reload, resources(:service => "nginx")
   end
 
@@ -46,7 +46,7 @@ node[:active_applications].each do |app, app_info|
     action :enable
   end
 
-  logrotate_app do
+  logrotate_app "rails-#{app}" do
     cookbook "logrotate"
     path ["/u/apps/#{app}/current/log/*.log"]
     frequency "daily"

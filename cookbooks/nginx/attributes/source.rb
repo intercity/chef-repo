@@ -33,5 +33,6 @@ default['nginx']['source']['url']     = "http://nginx.org/download/nginx-#{node[
 default['nginx']['source']['checksum'] = "06a1153b32b43f100ee9147fe230917deea648f0155111c749e35da120646bf5"
 default['nginx']['source']['modules'] = [
   "http_ssl_module",
-  "http_gzip_static_module"
+  "http_gzip_static_module",
+  "passenger"
 ]
