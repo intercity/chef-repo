@@ -39,21 +39,50 @@ EOP
 cat <<'EOP'
 file_cache_path "/var/chef-solo"
 cookbook_path "/var/chef-solo/cookbooks"
+role_path "/var/chef-solo/roles"
 EOP
 ) > ~/solo.rb
+
+mkdir -p /var/chef-solo/roles
 
 (
 cat <<'EOP'
 {
-  "nginx": {
-     "init_style": "bluepill",
-     "install_method": "source"
+  "name": "rails",
+  "json_class": "Chef::Role",
+  "description": "This role configures a full stack Rails server",
+  "chef_type": "role",
+  "default_attributes": {
+    "nginx": {
+       "init_style": "bluepill",
+       "install_method": "source",
+       "source": {
+        "modules": [
+          "http_ssl_module",
+          "http_gzip_static_module"
+        ]
+      }
+    },
+    "bluepill": {
+      "bin": "/usr/local/bin/bluepill"
+    },
+    "active_applications": {
+      "apphakker": {
+        "domain_names": ["localhost", "apphakker.dev", "127.0.0.1"]
+      }
+    }
   },
-  "run_list": ["recipe[nginx::http_ssl_module]", "recipe[nginx::passenger]", "recipe[nginx]"]
+  "run_list": ["recipe[bluepill]", "recipe[nginx::source]", "recipe[rails]"]
+}
+EOP
+) > /var/chef-solo/roles/rails.json
+
+(
+cat <<'EOP'
+{
+  "run_list": ["role[rails]"]
 }
 EOP
 ) > ~/node.json
 
-wget 
-
-chef-solo -j ~/node.json -c ~/solo.rb -r http://cloud.github.com/downloads/firmhouse/locomotive-chef-repo/chef-solo.tar.gz'
+chef-solo -j ~/node.json -c ~/solo.rb -r http://cloud.github.com/downloads/firmhouse/locomotive-chef-repo/locomotive.tar.gz'

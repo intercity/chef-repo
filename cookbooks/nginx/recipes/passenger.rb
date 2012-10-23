@@ -15,7 +15,8 @@
 # limitations under the License.
 #
 
-#package 'libcurl4-openssl-dev' do
+package 'libcurl4-openssl-dev'
+
 #package 'ruby-devel' do
 #  action :install
 #end
@@ -26,7 +27,7 @@ gem_package 'passenger' do
 end
 
 node.default["nginx"]["passenger"]["version"] = "3.0.12"
-node.default["nginx"]["passenger"]["root"] = "/usr/lib/ruby/gems/1.8/gems/passenger-3.0.12"
+node.default["nginx"]["passenger"]["root"] = "/var/lib/gems/1.9.1/gems/passenger-3.0.12"
 node.default["nginx"]["passenger"]["ruby"] = %x{which ruby}.chomp
 node.default["nginx"]["passenger"]["max_pool_size"] = 10
 
@@ -47,5 +48,6 @@ template "#{node["nginx"]["dir"]}/conf.d/passenger.conf" do
   notifies :reload, resources(:service => "nginx")
 end
 
-node.run_state[:nginx_configure_flags] =
-  node.run_state[:nginx_configure_flags] | ["--add-module=#{node["nginx"]["passenger"]["root"]}/ext/nginx"]
+node.run_state['nginx_configure_flags'] =
+  node.run_state['nginx_configure_flags'] | ["--add-module=#{node["nginx"]["passenger"]["root"]}/ext/nginx"]
+

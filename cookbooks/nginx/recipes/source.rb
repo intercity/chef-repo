@@ -97,6 +97,18 @@ end
 node.run_state.delete(:nginx_configure_flags)
 node.run_state.delete(:nginx_force_recompile)
 
+directory node['nginx']['dir'] do
+  owner "root"
+  group "root"
+  mode "0755"
+end
+
+directory node['nginx']['log_dir'] do
+  mode 0755
+  owner node['nginx']['user']
+  action :create
+end
+
 case node['nginx']['init_style']
 when "runit"
   node.set['nginx']['src_binary'] = node['nginx']['binary']
@@ -174,7 +186,7 @@ end
   end
 end
 
-include_recipe 'nginx::commons'
+include_recipe "nginx::commons"
 
 cookbook_file "#{node['nginx']['dir']}/mime.types" do
   source "mime.types"

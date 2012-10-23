@@ -1,0 +1,6 @@
+server {
+  listen 80;
+  server_name <%= @domain_names %>
+  root /u/apps/<%= @name %>/public;
+  passenger_enabled on;
+}
