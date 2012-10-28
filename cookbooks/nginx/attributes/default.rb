@@ -64,6 +64,7 @@ default['nginx']['keepalive_timeout']  = 65
 default['nginx']['worker_processes']   = cpu['total']
 default['nginx']['worker_connections'] = 1024
 default['nginx']['server_names_hash_bucket_size'] = 64
+default['nginx']['types_hash_bucket_size'] = 64
 
 default['nginx']['disable_access_log'] = false
 default['nginx']['install_method'] = 'package'

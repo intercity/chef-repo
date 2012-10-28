@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+include_recipe "sudo"
+
 user "deploy" do
   comment "Deploy User"
   home "/home/deploy"
@@ -27,6 +29,12 @@ end
 
 group "deploy" do
   members ['deploy']
+end
+
+sudo "deploy" do
+  user "deploy"
+  commands ["/usr/local/bin/bluepill"]
+  nopasswd true
 end
 
 node[:active_applications].each do |app, app_info|

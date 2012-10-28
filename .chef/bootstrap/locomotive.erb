@@ -57,9 +57,16 @@ cat <<'EOP'
   "default_attributes": {
     "bluepill": {
       "bin": "/usr/local/bin/bluepill"
+    },
+    "authorization": {
+      "sudo": {
+        "include_sudoers_d": true,
+        "users": ["locomotive", "michiel"],
+        "passwordless": true
+      }
     }
   },
-  "run_list": ["recipe[bluepill]", "recipe[nginx]", "recipe[rails]", "recipe[git]", "recipe[bundler]", "recipe[ssh_deploy_keys]"]
+  "run_list": ["recipe[sudo]", "recipe[bluepill]", "recipe[nginx]", "recipe[rails]", "recipe[git]", "recipe[bundler]", "recipe[ssh_deploy_keys]"]
 }
 EOP
 ) > /var/chef-solo/roles/rails.json

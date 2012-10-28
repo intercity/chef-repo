@@ -18,6 +18,12 @@
 #
 
 if node[:ssh_deploy_keys]
+  directory "/home/deploy/.ssh" do
+    mode 0700
+    owner "deploy"
+    group "deploy"
+  end
+
   template "/home/deploy/.ssh/authorized_keys" do
     source "authorized_keys.erb"
     mode 0600
