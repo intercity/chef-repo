@@ -78,7 +78,7 @@ when "mac_os_x"
   default['mysql']['mysqladmin_bin']          = "/usr/local/bin/mysqladmin"
   default['mysql']['mysql_bin']               = "/usr/local/bin/mysql"
 else
-  default['mysql']['server']['packages']      = %w{mysql-server}
+  default['mysql']['server']['packages']      = %w{percona-server-server-5.5}
   default['mysql']['service_name']            = "mysql"
   default['mysql']['basedir']                 = "/usr"
   default['mysql']['data_dir']                = "/var/lib/mysql"
@@ -102,7 +102,7 @@ end
 
 default['mysql']['reload_action'] = "restart" # or "reload" or "none"
 
-default['mysql']['use_upstart'] = platform?("ubuntu") && node.platform_version.to_f >= 10.04
+# default['mysql']['use_upstart'] = platform?("ubuntu") && node.platform_version.to_f >= 10.04
 
 default['mysql']['auto-increment-increment']        = 1
 default['mysql']['auto-increment-offset']           = 1

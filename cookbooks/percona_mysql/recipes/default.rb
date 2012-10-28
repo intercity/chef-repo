@@ -18,7 +18,7 @@
 #
 
 apt_repository "percona" do 
-  uri "http://repo.percona.com"
+  uri "http://repo.percona.com/apt"
   components ["main"]
   distribution node['lsb']['codename']
   keyserver "keys.gnupg.net"
