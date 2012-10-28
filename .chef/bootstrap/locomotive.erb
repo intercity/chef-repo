@@ -66,7 +66,7 @@ cat <<'EOP'
       }
     }
   },
-  "run_list": ["recipe[sudo]", "recipe[bluepill]", "recipe[nginx]", "recipe[rails]", "recipe[git]", "recipe[bundler]", "recipe[ssh_deploy_keys]"]
+  "run_list": ["recipe[apt]", "recipe[packages]", "recipe[sudo]", "recipe[bluepill]", "recipe[nginx]", "recipe[rails]", "recipe[git]", "recipe[bundler]", "recipe[ssh_deploy_keys]"]
 }
 EOP
 ) > /var/chef-solo/roles/rails.json
