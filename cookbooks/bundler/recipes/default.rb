@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: git
+# Cookbook Name:: bundler
 # Recipe:: default
 #
 # Copyright 2012, Michiel Sikkes
@@ -17,4 +17,6 @@
 # limitations under the License.
 #
 
-package "git-core"
+gem_package "bundler" do
+  version node[:bundler][:version]
+end

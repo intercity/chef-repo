@@ -1,10 +1,10 @@
-# CHANGELOG for git
+# CHANGELOG for ssh_deploy_keys
 
-This file is used to list changes made in each version of git.
+This file is used to list changes made in each version of ssh_deploy_keys.
 
 ## 0.1.0:
 
-* Initial release of git
+* Initial release of ssh_deploy_keys
 
 - - - 
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.

@@ -1,10 +1,10 @@
-# CHANGELOG for git
+# CHANGELOG for bundler
 
-This file is used to list changes made in each version of git.
+This file is used to list changes made in each version of bundler.
 
 ## 0.1.0:
 
-* Initial release of git
+* Initial release of bundler
 
 - - - 
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.

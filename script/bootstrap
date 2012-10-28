@@ -1,0 +1,3 @@
+#!/bin/sh
+knife bootstrap -d locomotive -x michiel -p 2222 localhost --sudo
+

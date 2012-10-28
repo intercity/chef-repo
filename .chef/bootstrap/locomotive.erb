@@ -1,6 +1,8 @@
 bash -c '
 <%= "export http_proxy=\"#{knife_config[:bootstrap_proxy]}\"" if knife_config[:bootstrap_proxy] -%>
 
+rm -rf /var/chef-solo/cookbooks /var/chef-solo/recipes.tgz /var/chef/cache
+
 if [ ! -f /usr/bin/chef-client ]; then
   aptitude update
   aptitude install -y ruby1.9.3 build-essential wget
@@ -53,26 +55,11 @@ cat <<'EOP'
   "description": "This role configures a full stack Rails server",
   "chef_type": "role",
   "default_attributes": {
-    "nginx": {
-       "init_style": "bluepill",
-       "install_method": "source",
-       "source": {
-        "modules": [
-          "http_ssl_module",
-          "http_gzip_static_module"
-        ]
-      }
-    },
     "bluepill": {
       "bin": "/usr/local/bin/bluepill"
-    },
-    "active_applications": {
-      "apphakker": {
-        "domain_names": ["localhost", "apphakker.dev", "127.0.0.1"]
-      }
     }
   },
-  "run_list": ["recipe[bluepill]", "recipe[nginx::source]", "recipe[rails]"]
+  "run_list": ["recipe[bluepill]", "recipe[nginx]", "recipe[rails]", "recipe[git]", "recipe[bundler]", "recipe[ssh_deploy_keys]"]
 }
 EOP
 ) > /var/chef-solo/roles/rails.json
@@ -80,6 +67,15 @@ EOP
 (
 cat <<'EOP'
 {
+  "active_applications": {
+    "apphakker": {
+      "domain_names": ["localhost", "clearlightventures.dev", "apphakker.dev", "127.0.0.1"]
+    },
+    "enviu": {
+      "domain_names": ["enviu.dev"]
+    }
+  },
+  "ssh_deploy_keys": ["ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAzhkBf6REh0MTLJko7y8mxmqF+9Cn1CIUblYas+hOgawwwzUAG4zbikKEZrNd+79oyh1qBNZcwMljN0EKHwKgwGpEhxg7EGpRLtqD8ePGl5dOql1hIjP9Q+gw+eBjbpM1uBeWE5QaV0DEMQCVAOEn2Tr18mqNY/MGY9hSFUARGrXcBHERsbCNmEpnopUBpQO9OcgJDcMuO6kPWvCM5QfcU+88aaZq4ECOvw6NZKVP5Ovv+wNTP6SFAcCf0SZEU0ossCBtoI8V5lh+DK9ivxmvRHXbxZBYMY34HSqYZSrw60qzBBu4+Zi71Hq2N0/GwTLRcayxseWjLstnc6Gs7DahpQ== michiel@Michiel-Sikkess-MacBook-Pro.local"],
   "run_list": ["role[rails]"]
 }
 EOP

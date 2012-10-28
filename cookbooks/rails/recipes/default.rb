@@ -36,10 +36,34 @@ node[:active_applications].each do |app, app_info|
     owner "deploy"
   end
 
+  ['config', 'shared', 'shared/sockets', 'shared/pids', 'shared/log', 'releases'].each do |dir| 
+    directory "/u/apps/#{app}/#{dir}" do
+      recursive true
+      group "deploy"
+      owner "deploy"
+    end
+  end
+
   template "/etc/nginx/sites-available/#{app}.conf" do
     source "app_nginx.conf.erb"
     variables :name => app, :domain_names => app_info['domain_names']
     notifies :reload, resources(:service => "nginx")
+  end
+
+  template "/u/apps/#{app}/config/unicorn.rb" do
+    mode 0644
+    source "app_unicorn.rb.erb"
+    variables :name => app
+  end
+
+  template "#{node[:bluepill][:conf_dir]}/#{app}.pill" do
+    mode 0644
+    source "bluepill_unicorn.rb.erb"
+    variables :name => app
+  end
+
+  bluepill_service app do
+    action [:enable, :load, :start]
   end
 
   nginx_site "#{app}.conf" do
