@@ -58,6 +58,14 @@ cat <<'EOP'
     "bluepill": {
       "bin": "/usr/local/bin/bluepill"
     },
+    "mysql": {
+      "server": {
+        "packages": ["percona-server-server-5.5"]
+      },
+      "client": {
+        "packages": ["percona-server-client-5.5"]
+      }
+    }
     "authorization": {
       "sudo": {
         "include_sudoers_d": true,
@@ -66,7 +74,7 @@ cat <<'EOP'
       }
     }
   },
-  "run_list": ["recipe[apt]", "recipe[packages]", "recipe[sudo]", "recipe[bluepill]", "recipe[nginx]", "recipe[rails]", "recipe[git]", "recipe[bundler]", "recipe[ssh_deploy_keys]"]
+  "run_list": ["recipe[apt]", "recipe[packages]", "recipe[sudo]", "recipe[bluepill]", "recipe[percona_mysql]", "recipe[percona_mysql::server]", "recipe[nginx]", "recipe[rails]", "recipe[git]", "recipe[bundler]", "recipe[ssh_deploy_keys]"]
 }
 EOP
 ) > /var/chef-solo/roles/rails.json
