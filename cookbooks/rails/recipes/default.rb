@@ -18,6 +18,9 @@
 #
 
 include_recipe "sudo"
+include_recipe "nginx"
+include_recipe "bluepill"
+include_recipe "rails::dependencies"
 
 user "deploy" do
   comment "Deploy User"
@@ -44,7 +47,7 @@ node[:active_applications].each do |app, app_info|
     owner "deploy"
   end
 
-  ['config', 'shared', 'shared/sockets', 'shared/pids', 'shared/log', 'releases'].each do |dir| 
+  ['config', 'shared', 'shared/config', 'shared/sockets', 'shared/pids', 'shared/log', 'releases'].each do |dir| 
     directory "/u/apps/#{app}/#{dir}" do
       recursive true
       group "deploy"

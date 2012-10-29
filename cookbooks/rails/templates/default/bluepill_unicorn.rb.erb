@@ -1,7 +1,7 @@
 Bluepill.application("<%= @name %>") do |app|
   app.working_dir = "/u/apps/<%= @name %>/current"
   app.process("<%= @name %>") do |process|
-    process.start_command = "bundle exec unicorn -c /u/apps/<%= @name %>/config/unicorn.rb -D -E production"
+    process.start_command = "cd /u/apps/<%= @name %>/current && bundle exec unicorn /u/apps/<%= @name %>/current/config.ru -c /u/apps/<%= @name %>/config/unicorn.rb -D -E production"
     process.stop_command = "kill -QUIT {{PID}}"
     process.restart_command = "kill -USR2 {{PID}}"
     process.stdout = process.stderr = "/u/apps/<%= @name %>/shared/log/unicorn.log"

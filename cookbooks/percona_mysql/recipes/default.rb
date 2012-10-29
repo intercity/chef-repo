@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+include_recipe "apt"
+
 apt_repository "percona" do 
   uri "http://repo.percona.com/apt"
   components ["main"]
@@ -24,5 +26,3 @@ apt_repository "percona" do
   keyserver "keys.gnupg.net"
   key "1C4CBDCDCD2EFD2A"
 end
-
-include_recipe "mysql::client"

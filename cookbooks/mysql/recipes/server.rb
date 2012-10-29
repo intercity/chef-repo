@@ -35,17 +35,17 @@ if platform?(%w{debian ubuntu})
     recursive true
   end
 
-  execute "preseed mysql-server" do
-    command "debconf-set-selections /var/cache/local/preseeding/mysql-server.seed"
+  execute "preseed percona-server-server" do
+    command "debconf-set-selections /var/cache/local/preseeding/percona-server-server.seed"
     action :nothing
   end
 
-  template "/var/cache/local/preseeding/mysql-server.seed" do
-    source "mysql-server.seed.erb"
+  template "/var/cache/local/preseeding/percona-server-server.seed" do
+    source "percona-server-server.seed.erb"
     owner "root"
     group node['mysql']['root_group']
     mode "0600"
-    notifies :run, resources(:execute => "preseed mysql-server"), :immediately
+    notifies :run, resources(:execute => "preseed percona-server-server"), :immediately
   end
 
   template "#{node['mysql']['conf_dir']}/debian.cnf" do

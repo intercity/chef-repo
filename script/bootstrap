@@ -1,3 +1,0 @@
-#!/bin/sh
-knife bootstrap -d locomotive -x locomotive --sudo $*
-

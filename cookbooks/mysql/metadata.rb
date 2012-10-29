@@ -16,6 +16,7 @@ end
 
 depends "openssl"
 depends "build-essential"
+depends "percona_mysql"
 suggests "homebrew"
 suggests "windows"
 
