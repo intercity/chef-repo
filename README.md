@@ -1,5 +1,5 @@
-Set up a Rails server with Locomotive
-=====================================
+Setting up a Rails server
+=========================
 
 This Chef repository lets you easily set up and configure your own Rails server
 to host single or multiple Ruby on Rails applications using best
