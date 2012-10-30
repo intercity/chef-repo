@@ -63,8 +63,17 @@ this in the next section.
 
 ### Deploying your applications
 
-The scripts in Getting started set up a bare deployment structure on your
-server that you can use with Capistrano.
+The scripts in **Getting started** set up a bare deployment structure on your
+server that you can use with Capistrano. The deployment structure for your
+apps look like:
+
+```
+/u/apps/your_app
+  current/
+  releases/
+  shared/
+  config/
+```
 
 First, copy the ```examples/deploy.rb``` file from this repository into 
 ```config/deploy.rb``` in your Capified Rails project and modify it
