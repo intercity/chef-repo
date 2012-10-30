@@ -72,7 +72,12 @@ apps look like:
   current/
   releases/
   shared/
+    config/
+    pids/
+    log/
+    sockets/
   config/
+    unicorn.rb
 ```
 
 First, copy the ```examples/deploy.rb``` file from this repository into 
