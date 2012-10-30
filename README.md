@@ -56,11 +56,10 @@ cap chef:apply
 ```
 
 After this command runs successfully, you should be able to browse to the
-domain name of your server and see a 50x Nginx error message.
-
-This is because running the above commands have set up a bare deployment
-skeleton for your application(s) and it is now time to deploy it using
-Capistrano. Read about this in the next section.
+domain name of your server and see a 50x Nginx error message. This is because 
+running the above commands have set up a bare deployment skeleton for your
+application(s) and it is now time to deploy it using Capistrano. Read about 
+this in the next section.
 
 ### Deploying your applications
 
