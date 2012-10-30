@@ -1,12 +1,12 @@
 Easy Rails server configuration with Locomotive
 ===============================================
 
-This Chef repository lets you easily set up and configure Rails server
+This Chef repository lets you easily set up and configure your own Rails server
 to host single or multiple Ruby on Rails applications using best
 practices from the community.
 
 The configuration is heavily inspired by blog posts and chef recipes
-from [37Signals](http://37signals.com) and other community resources.
+from [37signals](http://37signals.com) and other community resources.
 
 It takes care of automatic installation and configuration of
 the following software on a single server or multiple servers:
@@ -21,8 +21,7 @@ installation with a user that has sudo access.
 You can get such a server on any respactable Virtual Private Server vendor 
 and on Amazon Web Services.
 
-Getting started
-===============
+## Getting started
 
 First, clone this repository to your workstation.
 
@@ -57,8 +56,7 @@ This is because the above capistrano tasks have set up a bare deployment
 skeleton for our application(s) and it is now time to deploy it using
 Capistrano.
 
-Deploying your application
-==========================
+## Deploying your application
 
 The scripts in Getting started set up a bare deployment structure on your
 server that you can use with Capistrano.
