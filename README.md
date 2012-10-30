@@ -15,7 +15,7 @@ on a single server or multiple servers:
 * App deployment with Capistrano
 
 The only requirement is that you have a bare **Ubuntu 12.04 LTS (Precise Pangolin)**
-installation with a user that has sudo access. 
+installation with **a user that has sudo access** and the **Open SSH Server** installed.
 
 ### Installation
 
