@@ -71,6 +71,8 @@ Then, use your own server domain or ip-adress for the server definitions in the
 
 Finally, run:
 
-```cap deploy```
+```sh
+cap deploy
+```
 
 And you are deployed!
