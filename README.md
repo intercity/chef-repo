@@ -17,56 +17,61 @@ on a single server or multiple servers:
 The only requirement is that you have a bare *Ubuntu 12.04 LTS (Precise Pangolin)*
 installation with a user that has sudo access. 
 
-You can get such a server on any respactable Virtual Private Server vendor 
-and on Amazon Web Services.
+### Installation
 
-## Getting started
+Clone the repository onto your own workstation. I am using ```infrastructure``` as
+destination folder as an example.
 
-First, clone this repository to your workstation.
+```sh
+git clone git://github.com/firmhouse/locomotive-chef-repo.git infrastructure
+```
 
-Then, you define information about which Rails applications to run on
-the server by creating a ```config/servers.rb``` file based on the provided
-example in `config/servers.rb.sample`.
+Install capistrano
 
-After booting or installing an Ubuntu 12.04 LTS server, run the following
-command to bootstrap a Ruby 1.9.3 and Chef installation:
+```sh
+gem install capistrano
+```
+
+### Getting started
+
+In the local checkout of this repository, copy `config/servers.rb.sample` to 
+`config/servers.rb` and define your applications and deploy keys in this file.
+
+Bootstrap your configured server(s)
 
 ```sh
 cap chef:bootstrap
 ```
 
-Next, you upload and prepare all required configuration to your server(s) using:
+Upload the Chef cookbooks and node configurations:
 
 ```sh
 cap chef:update
 ```
 
-Awesome. Almost done. Now it's time to actually apply
-the configuration and install all software by running:
+Almost done. It's time to actually install and configure your server:
 
 ```
 cap chef:apply
 ```
 
 After this command runs successfully, you should be able to browse to the
-domain name or ip-address of your server and see a 50x Nginx error message.
+domain name of your server and see a 50x Nginx error message.
 
-This is because the above capistrano tasks have set up a bare deployment
-skeleton for our application(s) and it is now time to deploy it using
-Capistrano.
+This is because running the above commands have set up a bare deployment
+skeleton for your application(s) and it is now time to deploy it using
+Capistrano. Read about this in the next section.
 
-## Deploying your application
+### Deploying your applications
 
 The scripts in Getting started set up a bare deployment structure on your
 server that you can use with Capistrano.
 
-First, copy the ```examples/deploy.rb``` file to ```config/deploy.rb``` in your
-Rails project
+First, copy the ```examples/deploy.rb``` file from this repository into 
+```config/deploy.rb``` in your Capified Rails project and modify it
+so the servers lines point to the server(s) you just set up.
 
-Then, use your own server domain or ip-adress for the server definitions in the
-```deploy.rb``` file.
-
-Finally, run:
+Finally:
 
 ```sh
 cap deploy
