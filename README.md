@@ -14,7 +14,7 @@ on a single server or multiple servers:
 * Unicorn as the Rails application server (with rolling restarts)
 * App deployment with Capistrano
 
-The only requirement is that you have a bare *Ubuntu 12.04 LTS (Precise Pangolin)*
+The only requirement is that you have a bare **Ubuntu 12.04 LTS (Precise Pangolin)**
 installation with a user that has sudo access. 
 
 ### Installation
