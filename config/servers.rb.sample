@@ -5,9 +5,9 @@ server "beta.apphakker.nl", :chef, :attributes => {
       "database_info" => {
         "adapter" => "mysql2",
         "host" => "localhost",
-        "username" => "apphakker",
-        "password" => "apphakker_password",
-        "database" => "apphakker"
+        "username" => "apphakker_production",
+        "password" => "l2B8X+L/IY3mKHGvgtUBuw==",
+        "database" => "apphakker_production"
       },
       "packages" => ["nodejs", "libpq-dev"]
     }
@@ -20,9 +20,9 @@ server "beta.apphakker.nl", :chef, :attributes => {
     }
   },
   "mysql" => {
-    "server_debian_password" => "test",
-    "server_root_password" => "test",
-    "server_repl_password" => "test"
+    "server_debian_password" => "/Z9Hnw1jTOAzwkeZTAp7Gw==",
+    "server_root_password" => "LqXiUAz+i7UuRKB+RKnDtA==",
+    "server_repl_password" => "pHH39VyeqiDTDyFVCMYiHQ=="
   },
   "ssh_deploy_keys" => [
     "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAzhkBf6REh0MTLJko7y8mxmqF+9Cn1CIUblYas+hOgawwwzUAG4zbikKEZrNd+79oyh1qBNZcwMljN0EKHwKgwGpEhxg7EGpRLtqD8ePGl5dOql1hIjP9Q+gw+eBjbpM1uBeWE5QaV0DEMQCVAOEn2Tr18mqNY/MGY9hSFUARGrXcBHERsbCNmEpnopUBpQO9OcgJDcMuO6kPWvCM5QfcU+88aaZq4ECOvw6NZKVP5Ovv+wNTP6SFAcCf0SZEU0ossCBtoI8V5lh+DK9ivxmvRHXbxZBYMY34HSqYZSrw60qzBBu4+Zi71Hq2N0/GwTLRcayxseWjLstnc6Gs7DahpQ== michiel@Michiel-Sikkess-MacBook-Pro.local"
