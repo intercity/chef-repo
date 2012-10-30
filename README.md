@@ -1,15 +1,14 @@
-Easy Rails server configuration with Locomotive
-===============================================
+Set up a Rails server with Locomotive
+=====================================
 
 This Chef repository lets you easily set up and configure your own Rails server
 to host single or multiple Ruby on Rails applications using best
-practices from the community.
+practices from the community. 
 
 The configuration is heavily inspired by blog posts and chef recipes
-from [37signals](http://37signals.com) and other community resources.
-
-It takes care of automatic installation and configuration of
-the following software on a single server or multiple servers:
+from [37signals](http://37signals.com) and other community resources. It takes 
+care of automatic installation and configuration of the following software 
+on a single server or multiple servers:
 
 * Nginx as webserver
 * Unicorn as the Rails application server (with rolling restarts)
