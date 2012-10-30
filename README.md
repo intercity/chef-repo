@@ -26,7 +26,7 @@ First, clone this repository to your workstation.
 
 Then, you define information about which Rails applications to run on
 the server by creating a ```config/servers.rb``` file based on the provided
-example in ```config/servers.rb.sample``.
+example in `config/servers.rb.sample`.
 
 After booting or installing an Ubuntu 12.04 LTS server, run the following
 command to bootstrap a Ruby 1.9.3 and Chef installation:
