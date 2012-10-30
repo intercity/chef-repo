@@ -135,7 +135,6 @@ default['mysql']['tunable']['log_error']                       = nil
 default['mysql']['tunable']['log_queries_not_using_index']     = true
 default['mysql']['tunable']['log_bin_trust_function_creators'] = false
 
-default['mysql']['tunable']['innodb_buffer_pool_size']         = "128M"
 default['mysql']['tunable']['innodb_log_file_size']            = "5M"
 default['mysql']['tunable']['innodb_buffer_pool_size']         = "128M"
 default['mysql']['tunable']['innodb_additional_mem_pool_size'] = "8M"
