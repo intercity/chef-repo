@@ -1,0 +1,33 @@
+{
+  "name": "haproxy",
+  "description": "Installs and configures haproxy",
+  "long_description": "Description\n===========\n\nInstalls haproxy and prepares the configuration location.\n\nRequirements\n============\n\n## Platform\n\n* Ubuntu (10.04+ due to config option change)\n* Debian (6.0+)\n\nAttributes\n==========\n\n* `node['haproxy']['incoming_port']` - sets the port on which haproxy listens\n* `node['haproxy']['member_port']` - the port that member systems will be listening on, default 80\n* `node['haproxy']['enable_admin']` - whether to enable the admin interface. default true. Listens on port 22002.\n* `node['haproxy']['app_server_role']` - used by the `app_lb` recipe to search for a specific role of member systems. Default `webserver`.\n* `node['haproxy']['balance_algorithm']` - sets the load balancing algorithm; defaults to roundrobin.\n* `node['haproxy']['member_max_connections']` - the maxconn value to be set for each app server\n* `node['haproxy']['x_forwarded_for']` - if true, creates an X-Forwarded-For header containing the original client's IP address. This option disables KeepAlive.\n* `node['haproxy']['enable_ssl']` - whether or not to create listeners for ssl, default false\n* `node['haproxy']['ssl_member_port']` - the port that member systems will be listening on for ssl, default 8443\n* `node['haproxy']['ssl_incoming_port']` - sets the port on which haproxy listens for ssl, default 443\n\nUsage\n=====\n\nUse either the default recipe or the `app_lb` recipe.\n\nWhen using the default recipe, modify the haproxy.cfg.erb file with listener(s) for your sites/servers.\n\nThe `app_lb` recipe is designed to be used with the application cookbook, and provides search mechanism to find the appropriate application servers. Set this in a role that includes the haproxy::app_lb recipe. For example,\n\n    name \"load_balancer\"\n    description \"haproxy load balancer\"\n    run_list(\"recipe[haproxy::app_lb]\")\n    override_attributes(\n      \"haproxy\" => {\n        \"app_server_role\" => \"webserver\"\n      }\n    )\n\nThe search uses the node's `chef_environment`. For example, create `environments/production.rb`, then upload it to the server with knife\n\n    % cat environments/production.rb\n    name \"production\"\n    description \"Nodes in the production environment.\"\n    % knife environment from file production.rb\n\nLicense and Author\n==================\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009-2011, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Opscode, Inc.",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "debian": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0"
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "haproxy": "Installs and configures haproxy",
+    "haproxy::app_lb": "Installs and configures haproxy by searching for nodes of a particular role"
+  },
+  "version": "1.0.6"
+}
