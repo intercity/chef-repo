@@ -24,9 +24,9 @@ node[:active_applications].each do |app, app_info|
       username database_info['username']
       password database_info['password']
       database_name app
-      privileges [:all]
       table "*"
       host "localhost"
+      action :grant
     end
 
   end

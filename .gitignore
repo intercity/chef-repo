@@ -1,3 +1,4 @@
 .rake_test_cache
 locomotive.tar.gz
 recipes.tgz
+/config/servers.rb

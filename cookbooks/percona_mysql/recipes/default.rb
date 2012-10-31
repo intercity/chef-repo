@@ -17,12 +17,25 @@
 # limitations under the License.
 #
 
-include_recipe "apt"
+template "/etc/apt/sources.list.d/my_sources.list" do
+  variables :version => node['lsb']['codename']
+  notifies :run, resources(:execute => "apt-get update"), :immediately
+end
 
-apt_repository "percona" do 
+apt_repository "percona" do
   uri "http://repo.percona.com/apt"
-  components ["main"]
   distribution node['lsb']['codename']
-  keyserver "keys.gnupg.net"
+  components ["main"]
+  deb_src true
+  keyserver "hkp://keys.gnupg.net"
   key "1C4CBDCDCD2EFD2A"
+end
+
+chef_gem "mysql" do
+  action :nothing
+end
+
+package "libmysqlclient-dev" do
+  action :install
+  notifies :install, "chef_gem[mysql]", :immediately
 end

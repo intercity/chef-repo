@@ -20,8 +20,6 @@ role_path "/var/chef-solo/roles"
     EOF
 
     put chef_config, "solo.rb"
-
-    run "#{sudo} cp solo.rb /etc/chef-solo/solo.rb"
   end
 
   task :update do
