@@ -32,7 +32,7 @@ Install capistrano
 gem install capistrano
 ```
 
-### Getting started
+### Getting started (Capistrano)
 
 In the local checkout of this repository, copy `config/servers.rb.sample` to 
 `config/servers.rb` and define your applications and deploy keys in this file.
@@ -60,6 +60,36 @@ domain name of your server and see a 50x Nginx error message. This is because
 running the above commands have set up a bare deployment skeleton for your
 application(s) and it is now time to deploy it using Capistrano. Read about 
 this in the next section.
+
+### Testing locally with Vagrant
+
+Add the Ubuntu 12.04 basebox to your Vagrant:
+
+```sh
+vagrant box add presice64 http://files.vagrantup.com/precise64.box
+```
+
+Go into the `vagrant/` folder in your local checkout of this repository and
+copy the `Vagrantfile.sample` file to `Vagrantfile` and set the chef solo
+attributes.
+
+Then run:
+
+```sh
+vagrant up
+```
+
+And the Vagrant server should boot and these recipes should run on your
+Vagrant instance.
+
+If you want to debug something in the cookbooks or modify the node attributes
+you can run:
+
+```sh
+vagrant provision
+```
+
+This will only run the chef recipes instead of re-creating the whole VM.
 
 ### Deploying your applications
 
