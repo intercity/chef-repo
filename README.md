@@ -46,7 +46,7 @@ Install capistrano
 gem install capistrano
 ```
 
-### Getting started (Capistrano)
+### Setting up the server
 
 In the local checkout of this repository, copy `config/servers.rb.sample` to 
 `config/servers.rb` and define your applications and deploy keys in this file.

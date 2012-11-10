@@ -1,3 +1,5 @@
+# No. I am not stupid. Yes. The passwords are fakes.
+
 server "beta.apphakker.nl", :chef, :attributes => {
   "active_applications" => {
     "apphakker" => {
