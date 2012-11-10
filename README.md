@@ -1,18 +1,20 @@
 Setting up a Rails server
 =========================
 
-This Chef repository lets you easily set up and configure your own Rails server
-to host single or multiple Ruby on Rails applications using best
-practices from the community. 
+This Chef repository aims at being the easiest way set up and configure your own Rails server
+to host one or more Ruby on Rails applications using best
+practices from the community. **These recipes do not require a Chef server**
 
 The configuration is heavily inspired by blog posts and chef recipes
-from [37signals](http://37signals.com) and other community resources. It takes 
+from [37signals](http://37signals.com) and the 
+[Opscode Community Cookbooks](http://community.opscode.com). It takes 
 care of automatic installation and configuration of the following software 
 on a single server or multiple servers:
 
 * Nginx as webserver
 * Unicorn as the Rails application server (with rolling restarts)
 * App deployment with Capistrano
+* (optional) Haproxy for routing / load balancing to multiple app servers.
 
 The Chef recipes in this repository are meant to set up servers with a bare
 **Ubuntu 12.04 LTS (Precise Pangolin)** installation and that you have a user
@@ -122,3 +124,8 @@ cap deploy
 ```
 
 And you are deployed!
+
+## Resources and original authors
+
+* Most of the cookbooks that are used in this repository are installed from the [Opscode Community Cookbooks](http://community.opscode.com).
+* The `rails` and `bluepill` configuration is based off the cookbooks by [jsierles](https://github.com/jsierles) at https://github.com/jsierles/chef_cookbooks
