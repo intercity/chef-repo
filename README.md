@@ -14,8 +14,9 @@ on a single server or multiple servers:
 * Unicorn as the Rails application server (with rolling restarts)
 * App deployment with Capistrano
 
-The only requirement is that you have a bare **Ubuntu 12.04 LTS (Precise Pangolin)**
-installation with **a user that has sudo access** and the **Open SSH Server** installed.
+The Chef recipes in this repository are meant to set up servers with a bare
+**Ubuntu 12.04 LTS (Precise Pangolin)** installation and that you have a user
+with sudo access and a SSH Server installed.
 
 ### Installation
 
