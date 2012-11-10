@@ -22,11 +22,11 @@ with sudo access and a SSH Server installed.
 
 ### Installation
 
-Clone the repository onto your own workstation. I am using ```infrastructure``` as
+Clone the repository onto your own workstation. I am using ```firmhouse_chef_repo``` as
 destination folder as an example.
 
 ```sh
-git clone git://github.com/firmhouse/locomotive-chef-repo.git infrastructure
+git clone git://github.com/firmhouse/locomotive-chef-repo.git firmhouse_chef_repo
 ```
 
 Install capistrano
@@ -85,6 +85,10 @@ vagrant up
 And the Vagrant server should boot and these recipes should run on your
 Vagrant instance.
 
+In the default Vagrantfile.sample, we added port local port `8080` to
+forward to port `80` on your Vagrant virtual machine so you can test
+your Rails apps by going to `http://localhost:8080/`.
+
 If you want to debug something in the cookbooks or modify the node attributes
 you can run:
 
@@ -106,6 +110,7 @@ apps look like:
   releases/
   shared/
     config/
+      database.yml
     pids/
     log/
     sockets/
