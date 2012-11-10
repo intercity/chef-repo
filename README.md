@@ -20,6 +20,16 @@ The Chef recipes in this repository are meant to set up servers with a bare
 **Ubuntu 12.04 LTS (Precise Pangolin)** installation and that you have a user
 with sudo access and a SSH Server installed.
 
+## If you need help
+
+The following steps will let you **set up or test your own Rails infrastructure
+in 5 - 10 minutes**. If in any case something doesn't work or you you simply
+need a bit more information. **Please!** [Open an issue](https://github.com/firmhouse/locomotive-chef-repo/issues) or email [michiel@firmhouse.com](mailto:michiel@firmhouse.com).
+
+**I want this to work for me and you.**
+
+## Getting started
+
 ### Installation
 
 Clone the repository onto your own workstation. I am using ```firmhouse_chef_repo``` as
