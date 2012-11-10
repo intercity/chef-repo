@@ -38,5 +38,6 @@ template "/etc/haproxy/haproxy.cfg" do
   owner "root"
   group "root"
   mode 0644
+  variables :app_balancers => node["haproxy"]["app_balancers"], :balance_members => node["haproxy"]["balance_members"]
   notifies :restart, "service[haproxy]"
 end

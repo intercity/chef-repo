@@ -19,7 +19,7 @@
 
 default['haproxy']['incoming_port'] = "80"
 default['haproxy']['member_port'] = "8080"
-default['haproxy']['enable_admin'] = true
+default['haproxy']['enable_admin'] = false
 default['haproxy']['app_server_role'] = "webserver"
 default['haproxy']['balance_algorithm'] = "roundrobin"
 default['haproxy']['member_max_connections'] = "100"

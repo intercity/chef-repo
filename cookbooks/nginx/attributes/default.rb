@@ -68,4 +68,4 @@ default['nginx']['types_hash_bucket_size'] = 64
 
 default['nginx']['disable_access_log'] = false
 default['nginx']['install_method'] = 'package'
-default['nginx']['default_site_enabled'] = true
+default['nginx']['default_site_enabled'] = false

@@ -38,7 +38,7 @@ role_path "/var/chef-solo/roles"
   task :apply do
     servers = find_servers_for_task(current_task)
     servers.each do |cool_server|
-      put(cool_server.options[:attributes].to_json, "/home/#{user}/node.json")
+      put(server_attributes[cool_server.to_s].to_json, "/home/#{user}/node.json", :host => cool_server)
     end
 
     run "#{sudo} chef-solo -j ~/node.json -c ~/solo.rb"
