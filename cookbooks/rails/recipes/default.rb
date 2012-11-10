@@ -36,58 +36,74 @@ end
 
 sudo "deploy" do
   user "deploy"
-  commands ["/usr/local/bin/bluepill"]
+  commands ["#{node[:bluepill][:bin]}"]
   nopasswd true
 end
 
-node[:active_applications].each do |app, app_info|
-  directory "/u/apps/#{app}" do
-    recursive true
-    group "deploy"
-    owner "deploy"
-  end
+if node[:active_applications]
 
-  ['config', 'shared', 'shared/config', 'shared/sockets', 'shared/pids', 'shared/log', 'releases'].each do |dir| 
-    directory "/u/apps/#{app}/#{dir}" do
+  node[:active_applications].each do |app, app_info|
+    directory "/u/apps/#{app}" do
       recursive true
       group "deploy"
       owner "deploy"
     end
-  end
 
-  template "/etc/nginx/sites-available/#{app}.conf" do
-    source "app_nginx.conf.erb"
-    variables :name => app, :domain_names => app_info['domain_names']
-    notifies :reload, resources(:service => "nginx")
-  end
+    ['config', 'shared', 'shared/config', 'shared/sockets', 'shared/pids', 'shared/log', 'releases'].each do |dir| 
+      directory "/u/apps/#{app}/#{dir}" do
+        recursive true
+        group "deploy"
+        owner "deploy"
+      end
+    end
 
-  template "/u/apps/#{app}/config/unicorn.rb" do
-    mode 0644
-    source "app_unicorn.rb.erb"
-    variables :name => app, :number_of_workers => app_info['number_of_workers'] || 2
-  end
+    if app_info['database_info']
 
-  template "#{node[:bluepill][:conf_dir]}/#{app}.pill" do
-    mode 0644
-    source "bluepill_unicorn.rb.erb"
-    variables :name => app
-  end
+      template "/u/apps/#{app}/shared/config/database.yml" do
+        owner "deploy"
+        group "deploy"
+        mode 0600
+        source "app_database.yml.erb"
+        variables :database_info => app_info['database_info']
+      end
 
-  bluepill_service app do
-    action [:enable, :load, :start]
-  end
+    end
 
-  nginx_site "#{app}.conf" do
-    action :enable
-  end
+    template "/etc/nginx/sites-available/#{app}.conf" do
+      source "app_nginx.conf.erb"
+      variables :name => app, :domain_names => app_info['domain_names']
+      notifies :reload, resources(:service => "nginx")
+    end
 
-  logrotate_app "rails-#{app}" do
-    cookbook "logrotate"
-    path ["/u/apps/#{app}/current/log/*.log"]
-    frequency "daily"
-    rotate 14
-    compress true
-    create "644 deploy deploy"
+    template "/u/apps/#{app}/config/unicorn.rb" do
+      mode 0644
+      source "app_unicorn.rb.erb"
+      variables :name => app, :number_of_workers => app_info['number_of_workers'] || 2
+    end
+
+    template "#{node[:bluepill][:conf_dir]}/#{app}.pill" do
+      mode 0644
+      source "bluepill_unicorn.rb.erb"
+      variables :name => app
+    end
+
+    bluepill_service app do
+      action [:enable, :load, :start]
+    end
+
+    nginx_site "#{app}.conf" do
+      action :enable
+    end
+
+    logrotate_app "rails-#{app}" do
+      cookbook "logrotate"
+      path ["/u/apps/#{app}/current/log/*.log"]
+      frequency "daily"
+      rotate 14
+      compress true
+      create "644 deploy deploy"
+    end
+
   end
 
 end
