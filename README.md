@@ -23,8 +23,9 @@ with sudo access and a SSH Server installed.
 ## If you need help
 
 The following steps will let you **set up or test your own Rails infrastructure
-in 5 - 10 minutes**. If in any case something doesn't work or you you simply
-need a bit more information. **Please!** [Open an issue](https://github.com/firmhouse/locomotive-chef-repo/issues) or email [michiel@firmhouse.com](mailto:michiel@firmhouse.com).
+in 5 - 10 minutes**. If something doesn't work or you need more instructions. 
+
+**Please!** [Open an issue](https://github.com/firmhouse/locomotive-chef-repo/issues) or email [michiel@firmhouse.com](mailto:michiel@firmhouse.com).
 
 **I want this to work for me and you.**
 
