@@ -39,8 +39,9 @@ backend <%= app %>
   <% config['members'].each do |name, address| %>
   server <%= name %> <%= address %>:8080 weight 1 maxconn <%= node["haproxy"]["member_max_connections"] %> check
   <% end %>
-
+  
 <% end %>
+
 <% else %>
         
 # Set up application listeners here.

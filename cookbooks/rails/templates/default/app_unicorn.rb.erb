@@ -29,6 +29,9 @@ pid "#{app_path}/tmp/pids/unicorn.pid"
 
 before_exec do |server|
   ENV["BUNDLE_GEMFILE"] = "#{app_path}/Gemfile"
+  <% @app_env.each do |key, value| %>
+  ENV["<%= key %>"] = "<%= value %>"
+  <% end %>
 end
 
 before_fork do |server, worker|

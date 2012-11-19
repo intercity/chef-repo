@@ -49,7 +49,7 @@ if node[:active_applications]
       owner "deploy"
     end
 
-    ['config', 'shared', 'shared/config', 'shared/sockets', 'shared/pids', 'shared/log', 'releases'].each do |dir| 
+    ['config', 'shared', 'shared/config', 'shared/sockets', 'shared/pids', 'shared/log', 'shared/system', 'releases'].each do |dir| 
       directory "/u/apps/#{app}/#{dir}" do
         recursive true
         group "deploy"
@@ -78,7 +78,7 @@ if node[:active_applications]
     template "/u/apps/#{app}/config/unicorn.rb" do
       mode 0644
       source "app_unicorn.rb.erb"
-      variables :name => app, :number_of_workers => app_info['number_of_workers'] || 2
+      variables :app_env => app_info['app_env'] || {}, :name => app, :number_of_workers => app_info['number_of_workers'] || 2
     end
 
     template "#{node[:bluepill][:conf_dir]}/#{app}.pill" do
