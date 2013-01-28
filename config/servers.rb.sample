@@ -2,7 +2,7 @@
 
 server "beta.apphakker.nl", :chef
 
-set :server_attributes => {
+set :server_attributes, {
   "beta.apphakker.nl" => {
     "active_applications" => {
       "apphakker" => {
