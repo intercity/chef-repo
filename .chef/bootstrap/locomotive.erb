@@ -12,7 +12,7 @@ gem update --no-rdoc --no-ri
 gem install ohai --no-rdoc --no-ri --verbose
 gem install chef --no-rdoc --no-ri --verbose <%= bootstrap_version_string %>
 
-mkdir -p /etc/chef 
+mkdir -p /etc/chef
 
 <% if @chef_config[:encrypted_data_bag_secret] -%>
 (
@@ -84,7 +84,7 @@ cat <<'EOP'
       }
     }
   },
-  "run_list": ["recipe[apt]", "recipe[packages]", "recipe[sudo]", "recipe[bluepill]", "recipe[percona_mysql]", "recipe[percona_mysql::server]", "recipe[mysql::ruby]", "recipe[nginx]", "recipe[rails]", "recipe[git]", "recipe[bundler]", "recipe[ssh_deploy_keys]"]
+  "run_list": ["recipe[apt]", "recipe[packages]", "recipe[sudo]", "recipe[bluepill]", "recipe[percona_mysql]", "recipe[percona_mysql::server]", "recipe[mysql::ruby]", "recipe[nginx]", "recipe[ruby_build]", "recipe[rbenv::system]", "recipe[rails]", "recipe[git]", "recipe[bundler]", "recipe[ssh_deploy_keys]"]
 }
 EOP
 ) > /var/chef-solo/roles/rails.json
