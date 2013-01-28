@@ -13,9 +13,6 @@ server {
     proxy_pass http://<%= @name %>;
   }
 
-
-  # passenger_enabled on;
-  # passenger_min_instances 1;
 }
 
 upstream <%= @name %> {
