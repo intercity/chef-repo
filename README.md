@@ -75,6 +75,38 @@ running the above commands have set up a bare deployment skeleton for your
 application(s) and it is now time to deploy it using Capistrano. Read about 
 this in the next section.
 
+### Deploying your applications
+
+The scripts in **Getting started** set up a bare deployment structure on your
+server that you can use with Capistrano. The deployment structure for your
+apps look like:
+
+```
+/u/apps/your_app
+  current/
+  releases/
+  shared/
+    config/
+      database.yml
+    pids/
+    log/
+    sockets/
+  config/
+    unicorn.rb
+```
+
+First, copy the ```examples/deploy.rb``` file from this repository into 
+```config/deploy.rb``` in your Capified Rails project and modify it
+so the servers lines point to the server(s) you just set up.
+
+Finally:
+
+```sh
+cap deploy
+```
+
+And you are deployed!
+
 ### Testing locally with Vagrant
 
 Add the Ubuntu 12.04 basebox to your Vagrant:
@@ -108,38 +140,6 @@ vagrant provision
 ```
 
 This will only run the chef recipes instead of re-creating the whole VM.
-
-### Deploying your applications
-
-The scripts in **Getting started** set up a bare deployment structure on your
-server that you can use with Capistrano. The deployment structure for your
-apps look like:
-
-```
-/u/apps/your_app
-  current/
-  releases/
-  shared/
-    config/
-      database.yml
-    pids/
-    log/
-    sockets/
-  config/
-    unicorn.rb
-```
-
-First, copy the ```examples/deploy.rb``` file from this repository into 
-```config/deploy.rb``` in your Capified Rails project and modify it
-so the servers lines point to the server(s) you just set up.
-
-Finally:
-
-```sh
-cap deploy
-```
-
-And you are deployed!
 
 ## Resources and original authors
 
