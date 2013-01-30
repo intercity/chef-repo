@@ -44,8 +44,8 @@ end
 
 if node[:active_applications]
   node[:active_applications].each do |app, app_info|
-    if app_info['backup_info']
-      template "/home/deploy/Backup/models/#{app}.rb" do
+    if app_info['backup_info'] && app_info['database_info']
+      template "/home/deploy/Backup/models/#{app_info['database_info']['database']}.rb" do
         owner "deploy"
         group "deploy"
         mode 0600
