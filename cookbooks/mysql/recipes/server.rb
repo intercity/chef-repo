@@ -123,7 +123,6 @@ unless platform?(%w{mac_os_x})
                    end
 
   template "#{node['mysql']['conf_dir']}/my.cnf" do
-    not_if { File.exists? "#{node['mysql']['conf_dir']}/my.cnf" }
     source "my.cnf.erb"
     owner "root" unless platform? 'windows'
     group node['mysql']['root_group'] unless platform? 'windows'
