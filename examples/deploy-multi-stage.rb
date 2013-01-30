@@ -31,11 +31,9 @@ set :deploy_to, defer { "/u/apps/#{application}_#{stage}" }
 
 before "deploy:finalize_update" do
   run "rm -f #{release_path}/config/database.yml; ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-  run "rm -f #{release_path}/log; ln -nfs #{shared_path}/log #{release_path}/log"
-  run "mkdir #{release_path}/tmp;"
-  run "ln -nfs #{shared_path}/pids #{release_path}/tmp/pids"
+  run "rm -f #{release_path}/config/config.yml; ln -nfs #{shared_path}/config/config.yml #{release_path}/config/config.yml"
+  run "rm -f #{release_path}/config/s3.yml; ln -nfs #{shared_path}/config/s3.yml #{release_path}/config/s3.yml"
   run "ln -nfs #{shared_path}/sockets #{release_path}/tmp/sockets"
-  run "ln -nfs #{shared_path}/config/unicorn.rb #{release_path}/config/unicorn.rb"
 end
 
 namespace :deploy do
