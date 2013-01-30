@@ -3,6 +3,10 @@ require "bundler/capistrano"
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
+set :whenever_command, "bundle exec whenever"
+set :whenever_identifier, defer { "#{application}_#{stage}" }
+require "whenever/capistrano"
+
 set :application, "apphakker"
 set :repository,  "git@github.com:michiels/apphakker.git"
 
@@ -16,6 +20,8 @@ role :db,  "beta.apphakker.nl", :primary => true # This is where Rails migration
 
 set :user, "deploy"
 set :use_sudo, false
+
+set :deploy_to, defer { "/u/apps/#{application}" }
 
 before "deploy:finalize_update" do
   run "rm -f #{release_path}/config/database.yml; ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
@@ -38,5 +44,11 @@ namespace :deploy do
   end
   task :status do
     run "sudo bluepill #{application} status"
+  end
+end
+
+namespace :backup do
+  task :perform do
+    run "backup perform --trigger #{application}"
   end
 end
