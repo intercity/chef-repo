@@ -1,10 +1,10 @@
 # CHANGELOG for backup
 
-This file is used to list changes made in each version of rails.
+This file is used to list changes made in each version of backup.
 
 ## 0.1.0:
 
-* Initial release of rails
+* Initial release of backup
 
 ---
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.

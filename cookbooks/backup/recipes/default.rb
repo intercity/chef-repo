@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: rails
+# Cookbook Name:: backup
 # Recipe:: default
 #
-# Copyright 2012, Michiel Sikkes
+# Copyright 2013, Alexander Zaytsev
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
