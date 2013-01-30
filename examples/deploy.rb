@@ -40,3 +40,9 @@ namespace :deploy do
     run "sudo bluepill #{application} status"
   end
 end
+
+namespace :backup do
+  task :perform do
+    run "backup perform --trigger #{application}"
+  end
+end
