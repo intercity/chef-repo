@@ -14,6 +14,15 @@ set :server_attributes, {
           "password" => "l2B8X+L/IY3mKHGvgtUBuw==",
           "database" => "apphakker_production"
         },
+        "backup_info" => {
+          "database" => "MySQL", # See https://github.com/meskyanichi/backup/wiki/Databases
+          "compressor" => "Gzip", # See https://github.com/meskyanichi/backup/wiki/Compressors
+          "api_key" => "3zq78b5avp4xvtd", # Dropbox Application API key
+          "api_secret" => "sdfqpz65pvcvqn3",
+          "access_type" => "app_folder",
+          "path" => "/",
+          "keep" => "25"
+        },
         "packages" => ["nodejs", "libpq-dev"]
       }
     },
