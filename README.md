@@ -6,9 +6,9 @@ to host one or more Ruby on Rails applications using best
 practices from the community. **These recipes do not require a Chef server**
 
 The configuration is heavily inspired by blog posts and chef recipes
-from [37signals](http://37signals.com) and the 
-[Opscode Community Cookbooks](http://community.opscode.com). It takes 
-care of automatic installation and configuration of the following software 
+from [37signals](http://37signals.com) and the
+[Opscode Community Cookbooks](http://community.opscode.com). It takes
+care of automatic installation and configuration of the following software
 on a single server or multiple servers:
 
 * Nginx as webserver
@@ -23,7 +23,7 @@ with sudo access and a SSH Server installed.
 ## If you need help
 
 The following steps will let you **set up or test your own Rails infrastructure
-in 5 - 10 minutes**. If something doesn't work or you need more instructions. 
+in 5 - 10 minutes**. If something doesn't work or you need more instructions.
 
 **Please!** [Open an issue](https://github.com/firmhouse/locomotive-chef-repo/issues) or email [michiel@firmhouse.com](mailto:michiel@firmhouse.com).
 
@@ -48,7 +48,7 @@ gem install capistrano
 
 ### Setting up the server
 
-In the local checkout of this repository, copy `config/servers.rb.sample` to 
+In the local checkout of this repository, copy `config/servers.rb.sample` to
 `config/servers.rb` and define your applications and deploy keys in this file.
 
 Bootstrap your configured server(s)
@@ -70,9 +70,9 @@ cap chef:apply
 ```
 
 After this command runs successfully, you should be able to browse to the
-domain name of your server and see a 50x Nginx error message. This is because 
+domain name of your server and see a 50x Nginx error message. This is because
 running the above commands have set up a bare deployment skeleton for your
-application(s) and it is now time to deploy it using Capistrano. Read about 
+application(s) and it is now time to deploy it using Capistrano. Read about
 this in the next section.
 
 ### Deploying your applications
@@ -88,14 +88,13 @@ apps look like:
   shared/
     config/
       database.yml
+      unicorn.rb
     pids/
     log/
     sockets/
-  config/
-    unicorn.rb
 ```
 
-First, copy the ```examples/deploy.rb``` file from this repository into 
+First, copy the ```examples/deploy.rb``` file from this repository into
 ```config/deploy.rb``` in your Capified Rails project and modify it
 so the servers lines point to the server(s) you just set up.
 
