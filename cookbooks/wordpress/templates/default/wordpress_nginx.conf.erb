@@ -4,11 +4,10 @@ upstream <%= @name %> {
 
 server {
         listen   8080; ## listen for ipv4; this line is default and implied
-        listen   [::]:8080 default ipv6only=on; ## listen for ipv6
         root <%= @root %>;
-        index index.php
+        index index.php;
         # Make site accessible from http://localhost/
-        server_name <%= @domain_names %>
+        server_name <%= @domain_names %>;
 
         index index.php;
 

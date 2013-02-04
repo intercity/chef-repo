@@ -121,6 +121,21 @@ cd /u/wordpress/#{app} && tar zxf /tmp/wordpress-3.5.1.tar.gz
 
     end
 
+    bash "setup chroot" do
+      code <<-EOC
+      mkdir -p /u/wordpress/#{app}/etc
+      ln /etc/hosts /u/wordpress/#{app}/etc/hosts
+      ln /etc/localtime /u/wordpress/#{app}/etc/localtime
+      cp /etc/resolv.conf /u/wordpress/#{app}/etc/resolv.conf
+      ln /etc/nsswitch.conf /u/wordpress/#{app}/etc/nsswitch.conf
+      ln /etc/ld.so.cache /u/wordpress/#{app}/etc/ld.so.cache
+      mkdir -p /u/wordpress/#{app}/usr/share
+      cp -r /usr/share/zoneinfo /u/wordpress/#{app}/usr/share
+      mkdir -p /u/wordpress/#{app}/lib/x86_64-linux-gnu
+      cp -r /lib/x86_64-linux-gnu/libnss* /u/wordpress/#{app}/lib/x86_64-linux-gnu
+      EOC
+    end
+
     nginx_site "wordpress_#{app}.conf" do
       action :enable
     end

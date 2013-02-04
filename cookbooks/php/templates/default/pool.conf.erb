@@ -391,4 +391,5 @@ env[TEMP] = /tmp
 php_flag[display_errors] = on
 php_admin_value[error_log] = /tmp/fpm-php.<%= @pool %>.log
 php_admin_flag[log_errors] = on
+php_admin_value[open_basedir] = /u/wordpress/<%= @pool %>/wordpress/wp-content/uploads:/tmp
 ;php_admin_value[memory_limit] = 32M

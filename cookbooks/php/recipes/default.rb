@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+include_recipe "nginx"
+
 package "php5-fpm"
 package "php5-mysql"
 
