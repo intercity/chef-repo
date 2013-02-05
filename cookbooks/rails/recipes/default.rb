@@ -69,6 +69,14 @@ if node[:active_applications]
 
     end
 
+    if app_info['packages'].include?('sphinxsearch')
+      directory "/u/apps/#{app}/shared/sphinx" do
+        recursive true
+        group "deploy"
+        owner "deploy"
+      end
+    end
+
     template "/etc/nginx/sites-available/#{app}.conf" do
       source "app_nginx.conf.erb"
       variables :name => app, :domain_names => app_info['domain_names']
