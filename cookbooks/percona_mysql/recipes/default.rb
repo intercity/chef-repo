@@ -27,7 +27,7 @@ apt_repository "percona" do
   distribution node['lsb']['codename']
   components ["main"]
   deb_src true
-  keyserver "hkp://keys.gnupg.net"
+  keyserver "hkp://pgp.mit.edu"
   key "1C4CBDCDCD2EFD2A"
 end
 
