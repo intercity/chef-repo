@@ -14,9 +14,9 @@ namespace :chef do
     run "#{sudo} mkdir -p /var/chef-solo/roles"
 
     chef_config = <<-EOF
-file_cache_path "/var/chef-solo"
-cookbook_path "/var/chef-solo/cookbooks"
-role_path "/var/chef-solo/roles"
+file_cache_path "/var/chef"
+cookbook_path "/var/chef/cookbooks"
+role_path "/var/chef/roles"
     EOF
 
     put chef_config, "solo.rb"
@@ -25,13 +25,15 @@ role_path "/var/chef-solo/roles"
   task :update do
     system "tar czvf recipes.tgz ./cookbooks"
     upload "recipes.tgz", "recipes.tar.gz"
-    run "#{sudo} rm -rf /var/chef-solo/cookbooks"
-    run "cd /var/chef-solo && #{sudo} tar zxvf ~/recipes.tar.gz"
+    run "#{sudo} rm -rf /var/chef/cookbooks"
+    run "#{sudo} mkdir -p /var/chef"
+    run "cd /var/chef && #{sudo} tar zxvf ~/recipes.tar.gz"
+    run "#{sudo} mkdir -p /var/chef/roles"
 
     Dir["roles/*.rb"].each do |role|
       role_basename = File.basename(role)
       upload role, role_basename
-      run "#{sudo} mv #{role_basename} /var/chef-solo/roles"
+      run "#{sudo} mv #{role_basename} /var/chef/roles"
     end
   end
 
@@ -41,7 +43,7 @@ role_path "/var/chef-solo/roles"
       put(server_attributes[cool_server.to_s].to_json, "/home/#{user}/node.json", :host => cool_server)
     end
 
-    run "#{sudo} chef-solo -j ~/node.json -c ~/solo.rb"
+    run "#{sudo} chef-solo -j ~/node.json"
     run "rm -f ~/node.json"
   end
 
