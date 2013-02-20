@@ -4,14 +4,7 @@ default_run_options[:pty] = true
 namespace :chef do
 
   task :bootstrap do
-    run "#{sudo} aptitude update"
-    run "#{sudo} aptitude install -y ruby1.9.3 build-essential wget"
-    run "#{sudo} gem update --no-rdoc --no-ri"
-    run "#{sudo} gem install ohai --no-rdoc --no-ri --verbose"
-    run "#{sudo} gem install chef --no-rdoc --no-ri --verbose"
-    run "#{sudo} mkdir -p /etc/chef"
-    run "#{sudo} mkdir -p /var/chef-solo"
-    run "#{sudo} mkdir -p /var/chef-solo/roles"
+    run "#{sudo} curl -L https://www.opscode.com/chef/install.sh | bash"
   end
 
   task :update do
