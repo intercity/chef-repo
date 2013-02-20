@@ -20,6 +20,7 @@ default["bluepill"]["logfile"] = "/var/log/bluepill.log"
 default["bluepill"]["pid_dir"] = "/var/run/bluepill"
 default["bluepill"]["state_dir"] = "/var/lib/bluepill"
 default["bluepill"]["group"] = 0
+default["bluepill"]["use_rsyslog"] = false
 
 case platform
 when "arch"

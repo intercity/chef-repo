@@ -1,3 +1,29 @@
+## v2.2.0:
+
+* [COOK-547] - Add `load` action to provider to reload services when
+  template changes.
+
+## v2.1.0:
+
+* [COOK-1295] - The bluepill cookbook does not create the default log file
+* [COOK-1840] - Enable bluepill to log to rsyslog
+
+## v2.0.0:
+
+This version uses platform_family attribute (in the provider), making
+the cookbook incompatible with older versions of Chef/Ohai, hence the
+major version bump.
+
+* [COOK-1644] - Bluepill cookbook fails on Redhat due to missing
+  default or redhat template directory.
+* [COOK-1920] - init script should have a template file named after
+  platform_family instead of using file specificity
+
+## v1.1.2:
+
+* [COOK-1730] - Add ability to specify which version of bluepill to
+  install
+
 ## v1.1.0:
 
 * [COOK-1592] - use mixlib-shellout instead of execute, add test-kitchen
