@@ -17,13 +17,20 @@
 # limitations under the License.
 #
 
-define :logrotate_app, :enable => true, :frequency => "weekly", :template => "logrotate.erb", :cookbook => "logrotate" do
+define :logrotate_app, :enable => true, :frequency => "weekly", :template => "logrotate.erb", :cookbook => "logrotate", :postrotate => nil, :prerotate => nil, :sharedscripts => false do
   include_recipe "logrotate"
 
+  acceptable_options = ['missingok', 'compress', 'delaycompress', 'copytruncate', 'notifempty', 'delaycompress', 'ifempty', 'mailfirst', 'nocompress', 'nocopy', 'nocopytruncate', 'nocreate', 'nodelaycompress', 'nomail', 'nomissingok', 'noolddir', 'nosharedscripts', 'notifempty', 'sharedscripts']
   path = params[:path].respond_to?(:each) ? params[:path] : params[:path].split
-  create = params[:create] ? params[:create] : "644 root adm"
+  options_tmp = params[:options] ||= ["missingok", "compress", "delaycompress", "copytruncate", "notifempty"]
+  options = options_tmp.respond_to?(:each) ? options_tmp : options_tmp.split
 
   if params[:enable]
+
+    invalid_options = options - acceptable_options
+    if invalid_options.size == 1
+        Chef::Application.fatal! "The passed value [#{invalid_options[0]}] is not an acceptable value"
+    end
 
     template "/etc/logrotate.d/#{params[:name]}" do
       source params[:template]
@@ -34,9 +41,14 @@ define :logrotate_app, :enable => true, :frequency => "weekly", :template => "lo
       backup false
       variables(
         :path => path,
-        :create => create,
+        :create => params[:create],
         :frequency => params[:frequency],
-        :rotate => params[:rotate]
+        :size => params[:size],
+        :rotate => params[:rotate],
+        :sharedscripts => params[:sharedscripts],
+        :postrotate => params[:postrotate],
+        :prerotate => params[:prerotate],
+        :options => options
       )
     end
 
