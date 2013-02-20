@@ -12,6 +12,14 @@ namespace :chef do
     run "#{sudo} mkdir -p /etc/chef"
     run "#{sudo} mkdir -p /var/chef-solo"
     run "#{sudo} mkdir -p /var/chef-solo/roles"
+  end
+
+  task :update do
+    system "tar czvf recipes.tgz ./cookbooks"
+    upload "recipes.tgz", "recipes.tar.gz"
+    run "#{sudo} rm -rf /var/chef/cookbooks"
+    run "#{sudo} mkdir -p /var/chef/roles"
+    run "cd /var/chef && #{sudo} tar zxvf ~/recipes.tar.gz"
 
     chef_config = <<-EOF
 file_cache_path "/var/chef"
@@ -20,15 +28,7 @@ role_path "/var/chef/roles"
     EOF
 
     put chef_config, "solo.rb"
-  end
-
-  task :update do
-    system "tar czvf recipes.tgz ./cookbooks"
-    upload "recipes.tgz", "recipes.tar.gz"
-    run "#{sudo} rm -rf /var/chef/cookbooks"
-    run "#{sudo} mkdir -p /var/chef"
-    run "cd /var/chef && #{sudo} tar zxvf ~/recipes.tar.gz"
-    run "#{sudo} mkdir -p /var/chef/roles"
+    run "#{sudo} mv solo.rb /etc/chef/solo.rb"
 
     Dir["roles/*.rb"].each do |role|
       role_basename = File.basename(role)
