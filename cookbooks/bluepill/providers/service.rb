@@ -31,10 +31,10 @@ action :enable do
       to node['bluepill']['bin']
       only_if { ::File.exists?(config_file) }
     end
-    case node['platform']
-    when "centos", "redhat", "freebsd", "amazon", "scientific", "fedora"
+    case node['platform_family']
+    when "rhel", "fedora", "freebsd"
       template "#{node['bluepill']['init_dir']}/bluepill-#{new_resource.service_name}" do
-        source "bluepill_init.erb"
+        source "bluepill_init.#{node['platform_family']}.erb"
         cookbook "bluepill"
         owner "root"
         group node['bluepill']['group']
@@ -58,6 +58,12 @@ action :load do
     shell_out!(load_command)
     new_resource.updated_by_last_action(true)
   end
+end
+
+action :reload do
+  shell_out!(stop_command) if @current_resource.running
+  shell_out!(load_command)
+  new_resource.updated_by_last_action(true)
 end
 
 action :start do
