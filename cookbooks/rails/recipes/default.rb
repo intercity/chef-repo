@@ -30,6 +30,12 @@ user "deploy" do
   supports(:manage_home => true )
 end
 
+template "/home/deploy/.bashrc" do
+  source "bashrc.erb"
+  owner "deploy"
+  group "deploy"
+end
+
 group "deploy" do
   members ['deploy']
 end
@@ -88,7 +94,7 @@ if node[:active_applications]
     end
 
     bluepill_service app do
-      action [:enable, :load, :start]
+      action [:load, :start]
     end
 
     nginx_site "#{app}.conf" do
