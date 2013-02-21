@@ -1,9 +1,11 @@
 #
 # Author:: Bryan W. Berry (<bryan.berry@gmail.com>)
+# Author:: Seth Vargo (<sethvargo@gmail.com>)
 # Cookbook Name:: sudo
 # Provider:: default
 #
 # Copyright 2011, Bryan w. Berry
+# Copyright 2012, Seth Vargo
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,128 +18,118 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-require 'fileutils'
+# This LWRP supports whyrun mode
+def whyrun_supported?
+  true
+end
 
-def check_inputs user, group, foreign_template, foreign_vars
-    # if group, user, and template are nil, throw an exception
-  if user == nil and group == nil and foreign_template == nil
-    Chef::Application.fatal!("You must provide a user, group, or template")
-  elsif user != nil and group != nil and template != nil
-    Chef::Application.fatal!("You cannot specify user, group, and template")
+# Ensure that the inputs are valid (we cannot just use the resource for this)
+def check_inputs(user, group, foreign_template, foreign_vars)
+  # if group, user, and template are nil, throw an exception
+  if user == nil && group == nil && foreign_template == nil
+    Chef::Application.fatal!('You must provide a user, group, or template!')
+  elsif user != nil && group != nil && template != nil
+    Chef::Application.fatal!('You cannot specify user, group, and template!')
   end
 end
 
-def sudo_test tmpl_name
-  cmd = Chef::ShellOut.new(%Q[ visudo -cf #{tmpl_name} ]).run_command
-  unless cmd.exitstatus == 0
-    Chef::Log.debug('sudoers fragment failed validation. Here it is for your viewing pleasure')
-    Chef::Log.debug("\n" + ::File.open(tmpl_name).read + "\n")
-    Chef::Application.fatal!("sudoers template #{tmpl_name} failed parsing validation!")
-  end
-end
+# Validate the given resource (template) by writing it out to a file and then
+# ensuring that file's contents pass `visudo -c`
+def validate_fragment!(resource)
+  file = Tempfile.new('sudoer')
 
-def sudoers_updated?(tmpfile_path, sudoers_file)
-  require 'digest/sha1'
-  sudoers_path = "/etc/sudoers.d/#{sudoers_file}"
+  begin
+    file.write(capture(resource))
 
-  tmpfile_digest = Digest::SHA1.digest(::File.read(tmpfile_path))
-  if ::File.exist? sudoers_path
-    sudoers_file_digest = Digest::SHA1.digest(::File.read(sudoers_path))
-  else
-    # it doesn't already exist, so true
-    return true
-  end
-  tmpfile_digest != sudoers_file_digest ? true : false
-end
-
-def render_sudo_template new_resource
-  ::Dir.mktmpdir do |tmpdir|
-    tmpfile_path = "#{tmpdir}/#{new_resource.name}"
-    tmpl = template tmpfile_path do
-      source new_resource.template
-      mode 0440
-      owner "root"
-      group "root"
-      variables new_resource.variables
-      action :nothing
+    cmd = Chef::ShellOut.new("visudo -cf #{file.path}").run_command
+    unless cmd.exitstatus == 0
+      Chef::Log.error("Fragment validation failed: \n\n")
+      Chef::Log.error(file.read)
+      Chef::Application.fatal!("Template #{file.path} failed fragment validation!")
     end
-    tmpl.run_action(:create)
-    sudo_test tmpfile_path
-    # check if the sudoers file already exists, and only
-    # overwrite if the sudoers file has been changed
-    if sudoers_updated? tmpfile_path, new_resource.name
-      FileUtils.mv tmpfile_path, "/etc/sudoers.d/#{new_resource.name}"
-      new_resource.updated_by_last_action(true)
-    else
-      # resource not updated, do nothing
-      Chef::Log.debug("Sudo resource not updated, doing nothing")
-      FileUtils.rm_f tmpfile_path
-    end
+  ensure
+    file.close
+    file.unlink
   end
 end
 
-def render_sudo_attributes new_resource
-  require 'tempfile'
-  sudo_user = new_resource.user
-  sudo_group = new_resource.group
-  commands = new_resource.commands
-  host = new_resource.host
-  runas = new_resource.runas
-  nopasswd = new_resource.nopasswd
-  sudo_entries = Array.new
-
-  if sudo_group
-    # prepend % to name if group name if it isn't already there
-    if sudo_group !~ /^%.*$/
-      sudo_name = "%#{sudo_group}"
-    else
-      sudo_name = sudo_group
-    end
-  else
-    sudo_name = sudo_user
-  end
-  commands.each do |cmd|
-    entry = ""
-    entry << sudo_name
-    entry << " ALL=(#{runas}) "
-    if nopasswd
-      entry << "NOPASSWD:"
-    end
-    entry << cmd
-    sudo_entries << entry + "\n"
-  end
-
-  tmpfile = Tempfile.new "d"
-  tmpfile_path = tmpfile.path
-  tmpfile.write sudo_entries.join
-  tmpfile.close
-  sudo_test tmpfile_path
-  FileUtils.chmod 0440, tmpfile_path
-
-  if sudoers_updated? tmpfile_path, new_resource.name
-    FileUtils.mv tmpfile_path, "/etc/sudoers.d/#{new_resource.name}"
-    new_resource.updated_by_last_action(true)
-  else
-    # resource not updated, do nothing
-    FileUtils.rm_f tmpfile_path
-  end
-
-end
-
-action :install do
+# Render a single sudoer template. This method has two modes:
+#   1. using the :template option - the user can specify a template
+#      that exists in the local cookbook for writing out the attributes
+#   2. using the built-in template (recommended) - simply pass the
+#      desired variables to the method and the correct template will be
+#      written out for the user
+def render_sudoer
   if new_resource.template
-    Chef::Log.debug "template attribute provided to sudo lwrp, all other attributes ignored" +
-      " except for variables attribute"
-    render_sudo_template new_resource
+    Chef::Log.debug('Template attribute provided, all other attributes ignored.')
+
+    resource = template "/etc/sudoers.d/#{new_resource.name}" do
+      source        new_resource.template
+      owner         'root'
+      group         'root'
+      mode          '0440'
+      variables     new_resource.variables
+      action        :nothing
+    end
   else
-    render_sudo_attributes new_resource
+    sudoer = new_resource.user || "%#{new_resource.group}".squeeze('%')
+
+    resource = template "/etc/sudoers.d/#{new_resource.name}" do
+      source        'sudoer.erb'
+      cookbook      'sudo'
+      owner         'root'
+      group         'root'
+      mode          '0440'
+      variables     :sudoer => sudoer,
+                    :host => new_resource.host,
+                    :runas => new_resource.runas,
+                    :nopasswd => new_resource.nopasswd,
+                    :commands => new_resource.commands
+      action        :nothing
+    end
   end
+
+  # Ensure that, adding this sudoer, would not break sudo
+  validate_fragment!(resource)
+
+  resource.run_action(:create)
+  new_resource.updated_by_last_action(true) if resource.updated_by_last_action?
 end
 
+# Default action - install a single sudoer
+action :install do
+  render_sudoer
+end
+
+# Removes a user from the sudoers group
 action :remove do
-  sudoers_path = "/etc/sudoers.d/#{new_resource.name}"
-  require 'fileutils'
-  FileUtils.rm_f sudoers_path
-  new_resource.updated_by_last_action(true)
+  resource = file "/etc/sudoers.d/#{new_resource.name}" do
+    action :nothing
+  end
+  resource.run_action(:delete)
+  new_resource.updated_by_last_action(true) if resource.updated_by_last_action?
+end
+
+private
+# Capture a template to a string
+def capture(template)
+  context = {}
+  context.merge!(template.variables)
+  context[:node] = node
+
+  eruby = Erubis::Eruby.new(::File.read(template_location(template)))
+  return eruby.evaluate(context)
+end
+
+# Find the template
+def template_location(template)
+  if template.local
+    template.source
+  else
+    context = template.instance_variable_get('@run_context')
+    cookbook = context.cookbook_collection[template.cookbook || template.cookbook_name]
+    cookbook.preferred_filename_on_disk_location(node, :templates, template.source)
+  end
 end
