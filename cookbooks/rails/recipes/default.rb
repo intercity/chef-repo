@@ -94,7 +94,7 @@ if node[:active_applications]
     end
 
     bluepill_service app do
-      action [:load, :start]
+      action [:enable, :load, :start]
     end
 
     nginx_site "#{app}.conf" do
