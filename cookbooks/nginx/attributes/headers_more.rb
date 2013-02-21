@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: nginx
-# Recipe:: authorized_ips
+# Attributes:: headers_more
 #
-# Author:: Jamie Winsor (<jamie@vialstudios.com>)
+# Author:: Lucas Jandrew (<ljandrew@riotgames.com>)
 #
 # Copyright 2012, Riot Games
 #
@@ -17,21 +17,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-node.default['nginx']['remote_ip_var']  = "remote_addr"
-node.default['nginx']['authorized_ips'] = ["127.0.0.1/32"]
-
-template "authorized_ip" do
-  path "#{node['nginx']['dir']}/authorized_ip"
-  source "modules/authorized_ip.erb"
-  owner "root"
-  group "root"
-  mode 00644
-  variables(
-    :remote_ip_var => node['nginx']['remote_ip_var'],
-    :authorized_ips => node['nginx']['authorized_ips']
-  )
-
-  notifies :reload, "service[nginx]"
-end
+default['nginx']['headers_more']['source_url'] = 'https://github.com/agentzh/headers-more-nginx-module/tarball/v0.17'
+default['nginx']['headers_more']['source_checksum'] = '5c556903763c58db0dd01606fdbba5f8'

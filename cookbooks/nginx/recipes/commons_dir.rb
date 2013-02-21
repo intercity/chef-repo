@@ -1,10 +1,9 @@
 #
 # Cookbook Name:: nginx
-# Recipe:: authorized_ips
+# Recipe:: common/dir
+# Author:: AJ Christensen <aj@junglist.gen.nz>
 #
-# Author:: Jamie Winsor (<jamie@vialstudios.com>)
-#
-# Copyright 2012, Riot Games
+# Copyright 2008-2012, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,19 +18,24 @@
 # limitations under the License.
 #
 
-node.default['nginx']['remote_ip_var']  = "remote_addr"
-node.default['nginx']['authorized_ips'] = ["127.0.0.1/32"]
-
-template "authorized_ip" do
-  path "#{node['nginx']['dir']}/authorized_ip"
-  source "modules/authorized_ip.erb"
+directory node['nginx']['dir'] do
   owner "root"
   group "root"
-  mode 00644
-  variables(
-    :remote_ip_var => node['nginx']['remote_ip_var'],
-    :authorized_ips => node['nginx']['authorized_ips']
-  )
+  mode 00755
+  recursive true
+end
 
-  notifies :reload, "service[nginx]"
+directory node['nginx']['log_dir'] do
+  mode 00755
+  owner node['nginx']['user']
+  action :create
+  recursive true
+end
+
+%w(sites-available sites-enabled conf.d).each do |leaf|
+  directory File.join(node['nginx']['dir'], leaf) do
+    owner "root"
+    group "root"
+    mode 00755
+  end
 end
