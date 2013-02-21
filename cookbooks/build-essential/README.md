@@ -8,12 +8,19 @@ with native extensions.
 Requirements
 ============
 
+Chef version 0.10.10+ and Ohai 0.6.12+ are required.
+
 ## Platform
 
 Supported platforms by platform family:
 
-* Linux (debian, rhel, fedora)
+* Linux (fedora redhat centos ubuntu debian amazon scientific)
 * Darwin (`mac_os_x` 10.6+)
+* SmartOs
+
+## Cookbooks
+
+Requires `pkgin` cookbook on SmartOS
 
 Attributes
 ==========
