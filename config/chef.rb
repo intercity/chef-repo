@@ -3,13 +3,10 @@ default_run_options[:pty] = true
 
 namespace :chef do
 
-  task :bootstrap do
-    run "#{sudo} curl -L https://www.opscode.com/chef/install.sh | bash"
-  end
-
   task :update do
     system "tar czvf recipes.tgz ./cookbooks"
     upload "recipes.tgz", "recipes.tar.gz"
+    run "#{sudo} mkdir -p /etc/chef"
     run "#{sudo} rm -rf /var/chef/cookbooks"
     run "#{sudo} mkdir -p /var/chef/roles"
     run "cd /var/chef && #{sudo} tar zxvf ~/recipes.tar.gz"

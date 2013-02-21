@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default["bluepill"]["bin"] = "bluepill"
+default["bluepill"]["bin"] = "#{languages[:ruby][:bin_dir]}/bluepill"
 default["bluepill"]["logfile"] = "/var/log/bluepill.log"
 default["bluepill"]["pid_dir"] = "/var/run/bluepill"
 default["bluepill"]["state_dir"] = "/var/lib/bluepill"
