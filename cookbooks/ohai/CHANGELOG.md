@@ -1,3 +1,18 @@
+## v1.1.8:
+
+* [COOK-1918] - Ohai cookbook to distribute plugins fails on windows
+* [COOK-2096] - Ohai cookbook sets unix-only default path attribute
+
+## v1.1.6:
+
+* [COOK-2057] - distribution from another cookbok fails if ohai
+  attributes are loaded after the other cookbook
+
+## v1.1.4:
+
+* [COOK-1128] - readme update, Replace reference to deprecated chef
+  cookbook with one to chef-client
+
 ## v1.1.2:
 
 * [COOK-1424] - prevent plugin_path growth to infinity

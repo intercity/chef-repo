@@ -2,4 +2,3 @@
 .cache
 .kitchen
 bin
-.Vagrantfile
