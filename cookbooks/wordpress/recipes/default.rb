@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+include_recipe "nginx"
+
 directory "/u/wordpress" do
   recursive true
   group "root"

@@ -11,6 +11,7 @@ if node[:wordpress]
 
       mysql_database app do
         connection(mysql_connection_info)
+        encoding 'UTF8'
       end
 
       mysql_database_user app do
