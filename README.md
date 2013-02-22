@@ -29,6 +29,22 @@ in 5 - 10 minutes**. If something doesn't work or you need more instructions:
 
 ## Getting started
 
+### Server prerequisites
+
+Your server has:
+
+* Ubuntu 12.04 is installed.
+* A user called **locmotive** with *sudo* rights.
+
+If you did not create the locomotive user during the Ubuntu installation process (for
+instance if your VPS vendor generates a passwos for you). Log in as **root** and do
+the following:
+
+```
+adduser locomotive
+adduser locomotive admin
+```
+
 ### Installation
 
 Clone the repository onto your own workstation. I am using ```firmhouse_chef_repo``` as
