@@ -37,8 +37,8 @@ Your server has:
 * A user called **locmotive** with *sudo* rights.
 
 If you did not create the locomotive user during the Ubuntu installation process (for
-instance if your VPS vendor generates a passwos for you). Log in as **root** and do
-the following:
+instance if your VPS vendor generates a passwos for you). Log in to your server as **root**
+and do the following:
 
 ```
 adduser locomotive
