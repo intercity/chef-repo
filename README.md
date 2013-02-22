@@ -34,7 +34,7 @@ in 5 - 10 minutes**. If something doesn't work or you need more instructions:
 Your server has:
 
 * Ubuntu 12.04 is installed.
-* A user called **locmotive** with *sudo* rights.
+* A user called **locomotive** with *sudo* rights.
 
 If you did not create the locomotive user during the Ubuntu installation process (for
 instance if your VPS vendor generates a password for you). Log in to your server as **root**
