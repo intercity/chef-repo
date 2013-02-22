@@ -23,7 +23,8 @@ set :server_attributes, {
           "path" => "/",
           "keep" => "25"
         },
-        "packages" => ["nodejs", "libpq-dev"]
+        "packages" => ["nodejs", "libpq-dev"],
+        "rails_env" => "production"
       }
     },
     "authorization" => {
