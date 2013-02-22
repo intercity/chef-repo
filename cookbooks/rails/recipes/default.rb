@@ -49,6 +49,8 @@ end
 if node[:active_applications]
 
   node[:active_applications].each do |app, app_info|
+    rails_env = app_info['rails_env'] || "production"
+
     directory "/u/apps/#{app}" do
       recursive true
       group "deploy"
@@ -70,7 +72,7 @@ if node[:active_applications]
         group "deploy"
         mode 0600
         source "app_database.yml.erb"
-        variables :database_info => app_info['database_info']
+        variables :database_info => app_info['database_info'], :rails_env => rails_env
       end
 
     end
@@ -98,7 +100,7 @@ if node[:active_applications]
     template "#{node[:bluepill][:conf_dir]}/#{app}.pill" do
       mode 0644
       source "bluepill_unicorn.rb.erb"
-      variables :name => app, :app_env => app_info['app_env']
+      variables :name => app, :app_env => app_info['app_env'], :rails_env => rails_env
     end
 
     bluepill_service app do
