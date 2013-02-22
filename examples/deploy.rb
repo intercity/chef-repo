@@ -21,6 +21,9 @@ before "deploy:finalize_update" do
   run "rm -f #{release_path}/config/database.yml; ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
   run "mkdir -p #{release_path}/tmp"
   run "ln -nfs #{shared_path}/sockets #{release_path}/tmp/sockets"
+
+  # Uncomment this if you are using sphinx with thinking_sphinx
+  # run "rm -rf #{release_path}/db/sphinx; ln -nfs #{shared_path}/sphinx #{release_path}/db/sphinx"
 end
 
 namespace :deploy do
