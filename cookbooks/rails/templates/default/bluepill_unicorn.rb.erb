@@ -1,4 +1,4 @@
-Bluepill.application("<%= @name %>", :log_file => "/var/log/bluepill_<%= @name %>.log") do |app|
+Bluepill.application("<%= @name %>", :log_file => "/u/apps/<%= @name %>/shared/log/bluepill.log") do |app|
   app.working_dir = "/u/apps/<%= @name %>/current"
   <% if @app_env %>
     app.environment = {<%= @app_env.map { |k, v|  "\"#{k}\" => \"#{v}\"" }.join(', ') %> }
@@ -10,7 +10,7 @@ Bluepill.application("<%= @name %>", :log_file => "/var/log/bluepill_<%= @name %
     process.stdout = process.stderr = "/u/apps/<%= @name %>/shared/log/unicorn.log"
     process.pid_file = "/u/apps/<%= @name %>/shared/pids/unicorn.pid"
 
-    process.checks :mem_usage, :every => 10.seconds, :below => 130.megabytes, :times => [3, 5]
+    process.checks :mem_usage, :every => 1.minute, :below => 130.megabytes, :times => [3, 5]
 
     process.uid = "deploy"
     process.gid = "deploy"
@@ -21,7 +21,7 @@ Bluepill.application("<%= @name %>", :log_file => "/var/log/bluepill_<%= @name %
     process.checks :flapping, :times => 2, :within => 30.seconds, :retry_in => 7.seconds
 
     process.monitor_children do |cp|
-      cp.checks :mem_usage, :every => 10.seconds, :below => 130.megabytes, :times => [3, 5]
+      cp.checks :mem_usage, :every => 1.minute, :below => 130.megabytes, :times => [3, 5]
       cp.stop_command = "kill -QUIT {{PID}}"
     end
   end

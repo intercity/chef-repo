@@ -23,11 +23,9 @@ with sudo access and a SSH Server installed.
 ## If you need help
 
 The following steps will let you **set up or test your own Rails infrastructure
-in 5 - 10 minutes**. If something doesn't work or you need more instructions.
+in 5 - 10 minutes**. If something doesn't work or you need more instructions:
 
 **Please!** [Open an issue](https://github.com/firmhouse/locomotive-chef-repo/issues) or email [michiel@firmhouse.com](mailto:michiel@firmhouse.com).
-
-**I want this to work for me and you.**
 
 ## Getting started
 
@@ -51,26 +49,33 @@ gem install capistrano
 In the local checkout of this repository, copy `config/servers.rb.sample` to
 `config/servers.rb` and define your applications and deploy keys in this file.
 
-Bootstrap your configured server(s)
-
 ```sh
-cap chef:bootstrap
+cp config/servers.rb.sample config/servers.rb
 ```
 
-Upload the Chef cookbooks and node configurations:
+and modify.
+
+Bootstrap your configured server with a standard Chef installation. SSH into
+your server and run this command:
+
+```sh
+curl -L https://www.opscode.com/chef/install.sh | sudo bash
+```
+
+Upload the Chef cookbooks and configuration to your server:
 
 ```sh
 cap chef:update
 ```
 
-Almost done. It's time to actually install and configure your server:
+Now it's time to actually install and configure your server:
 
 ```
 cap chef:apply
 ```
 
 After this command runs successfully, you should be able to browse to the
-domain name of your server and see a 50x Nginx error message. This is because
+domain name of your server and see a 503 Nginx error message. This is because
 running the above commands have set up a bare deployment skeleton for your
 application(s) and it is now time to deploy it using Capistrano. Read about
 this in the next section.
@@ -94,51 +99,36 @@ apps look like:
     sockets/
 ```
 
-First, copy the ```examples/deploy.rb``` file from this repository into
-```config/deploy.rb``` in your Capified Rails project and modify it
-so the servers lines point to the server(s) you just set up.
+First, *capify* your application by running the following command in your application:
 
-Finally:
+```sh
+capify .
+```
+
+Then, copy the ```examples/deploy.rb``` file from this repository into
+```config/deploy.rb``` in your Capified Rails project and modify it
+so the servers lines point to the server you just set up.
+
+You will want to uncomment the line about assets in the file `Capfile` in your
+application. This makes sure compilation of the asset pipeline works. Your
+Capfile should look like this:
+
+```ruby
+load 'deploy'
+# Uncomment if you are using Rails' asset pipeline
+load 'deploy/assets'
+load 'config/deploy' # remove this line to skip loading any of the default tasks
+```
+
+Finally, you can run one of the folllowing commands to deploy your application:
 
 ```sh
 cap deploy
+or
+cap deploy:migrations
 ```
 
-And you are deployed!
-
-### Testing locally with Vagrant
-
-Add the Ubuntu 12.04 basebox to your Vagrant:
-
-```sh
-vagrant box add presice64 http://files.vagrantup.com/precise64.box
-```
-
-Go into the `vagrant/` folder in your local checkout of this repository and
-copy the `Vagrantfile.sample` file to `Vagrantfile` and set the chef solo
-attributes.
-
-Then run:
-
-```sh
-vagrant up
-```
-
-And the Vagrant server should boot and these recipes should run on your
-Vagrant instance.
-
-In the default Vagrantfile.sample, we added port local port `8080` to
-forward to port `80` on your Vagrant virtual machine so you can test
-your Rails apps by going to `http://localhost:8080/`.
-
-If you want to debug something in the cookbooks or modify the node attributes
-you can run:
-
-```sh
-vagrant provision
-```
-
-This will only run the chef recipes instead of re-creating the whole VM.
+And you are deployed! Optionally migrations will run if you used the second command.
 
 ## Resources and original authors
 
