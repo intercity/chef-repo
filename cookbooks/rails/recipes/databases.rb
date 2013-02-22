@@ -1,5 +1,7 @@
 include_recipe "database"
 
+gem_package "mysql"
+
 node[:active_applications].each do |app, app_info|
   if app_info['database_info']
 

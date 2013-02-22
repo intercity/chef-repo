@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+include_recipe "apt"
+
 template "/etc/apt/sources.list.d/my_sources.list" do
   variables :version => node['lsb']['codename']
   notifies :run, resources(:execute => "apt-get update"), :immediately
@@ -27,7 +29,7 @@ apt_repository "percona" do
   distribution node['lsb']['codename']
   components ["main"]
   deb_src true
-  keyserver "hkp://keys.gnupg.net"
+  keyserver "hkp://minsky.surfnet.nl"
   key "1C4CBDCDCD2EFD2A"
 end
 

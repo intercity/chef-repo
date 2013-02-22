@@ -30,6 +30,12 @@ user "deploy" do
   supports(:manage_home => true )
 end
 
+template "/home/deploy/.bashrc" do
+  source "bashrc.erb"
+  owner "deploy"
+  group "deploy"
+end
+
 group "deploy" do
   members ['deploy']
 end
