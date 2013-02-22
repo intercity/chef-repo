@@ -36,4 +36,7 @@ namespace :deploy do
   task :status do
     run "sudo bluepill #{application} status"
   end
+  task :schema_load, :roles => :db, :primary => true do
+    run "cd #{current_path} && rake db:schema:load RAILS_ENV=#{rails_env}"
+  end
 end

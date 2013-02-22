@@ -109,6 +109,17 @@ Then, copy the ```examples/deploy.rb``` file from this repository into
 ```config/deploy.rb``` in your Capified Rails project and modify it
 so the servers lines point to the server you just set up.
 
+You will want to uncomment the line about assets in the file `Capfile` in your
+application. This makes sure compilation of the asset pipeline works. Your
+Capfile should look like this:
+
+```ruby
+load 'deploy'
+# Uncomment if you are using Rails' asset pipeline
+load 'deploy/assets'
+load 'config/deploy' # remove this line to skip loading any of the default tasks
+```
+
 Finally, you can run one of the folllowing commands to deploy your application:
 
 ```sh
