@@ -44,6 +44,13 @@ Install capistrano
 gem install capistrano
 ```
 
+And initialize submodules:
+
+```sh
+git submodule init
+git submodule update
+```
+
 ### Setting up the server
 
 In the local checkout of this repository, copy `config/servers.rb.sample` to
