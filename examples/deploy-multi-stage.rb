@@ -32,15 +32,15 @@ end
 
 namespace :deploy do
   task :start do
-    run "sudo bluepill load /etc/bluepill/#{application}.pill"
+    run "sudo bluepill load /etc/bluepill/#{application}_#{stage}.pill"
   end
   task :stop do
-    run "sudo bluepill #{application} stop"
+    run "sudo bluepill #{application}_#{stage} stop"
   end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "sudo bluepill #{application} restart"
+    run "sudo bluepill #{application}_#{stage} restart"
   end
   task :status do
-    run "sudo bluepill #{application} status"
+    run "sudo bluepill #{application}_#{stage} status"
   end
 end
