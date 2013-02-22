@@ -9,6 +9,8 @@ server {
         # Make site accessible from http://localhost/
         server_name <%= @domain_names %>;
 
+        port_in_redirect off;
+
         index index.php;
 
         location = /favicon.ico {
