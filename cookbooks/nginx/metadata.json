@@ -17,12 +17,12 @@
   },
   "dependencies": {
     "build-essential": ">= 0.0.0",
-    "runit": ">= 0.0.0",
-    "bluepill": ">= 0.0.0",
-    "yum": ">= 0.0.0",
-    "ohai": ">= 1.1.0"
+    "ohai": ">= 1.1.4"
   },
   "recommendations": {
+    "bluepill": ">= 0.0.0",
+    "yum": ">= 0.0.0",
+    "runit": "<= 0.16.2"
   },
   "suggestions": {
   },
@@ -237,6 +237,32 @@
 
       ]
     },
+    "nginx/types_hash_max_size": {
+      "display_name": "Nginx Types Hash Max Size",
+      "default": "2048",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "nginx/types_hash_bucket_size": {
+      "display_name": "Nginx Types Hash Bucket Size",
+      "default": "64",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
     "nginx/disable_access_log": {
       "display_name": "Disable Access Log",
       "default": "false",
@@ -270,5 +296,5 @@
     "nginx": "Installs nginx package and sets up configuration with Debian apache style with sites-enabled/sites-available",
     "nginx::source": "Installs nginx from source and sets up configuration with Debian apache style with sites-enabled/sites-available"
   },
-  "version": "1.0.2"
+  "version": "1.3.0"
 }

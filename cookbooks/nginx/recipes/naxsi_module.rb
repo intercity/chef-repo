@@ -23,7 +23,7 @@ cookbook_file "#{node['nginx']['dir']}/naxsi_core.rules" do
   source "naxsi_core.rules"
   owner "root"
   group "root"
-  mode "0644"
+  mode 00644
   notifies :reload, 'service[nginx]'
 end
 
@@ -36,7 +36,7 @@ remote_file naxsi_src_filepath do
   checksum node['nginx']['naxsi']['checksum']
   owner "root"
   group "root"
-  mode 0644
+  mode 00644
 end
 
 bash "extract_naxsi_module" do
@@ -50,4 +50,4 @@ bash "extract_naxsi_module" do
 end
 
 node.run_state['nginx_configure_flags'] =
-  ["--add-module=#{naxsi_extract_path}/naxsi-#{node['nginx']['naxsi']['version']}/naxsi_src"] | node.run_state['nginx_configure_flags']
+  ["--add-module=#{naxsi_extract_path}/naxsi-core-#{node['nginx']['naxsi']['version']}/naxsi_src"] | node.run_state['nginx_configure_flags']

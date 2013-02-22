@@ -8,6 +8,11 @@ Requirements
 
 Bluepill is a pure Ruby service management tool/library, so this cookbook should work on any system. The attributes do set up paths based on FHS locations, see below.
 
+Cookbooks
+---------
+
+Depends on Opscode's `rsyslog` cookbook.
+
 Attributes
 ==========
 
@@ -19,6 +24,8 @@ Default locations for bluepill are in "FHS compliant" locations.
 * `node["bluepill"]["pid_dir"]` - Location of pidfiles, default "/var/run/bluepill"
 * `node["bluepill"]["state_dir"]` - Location of state directory, default "/var/lib/bluepill"
 * `node["bluepill"]["init_dir"]` - Location of init script directory, default selected by platform.
+* `node["bluepill"]["version"]` - Version of bluepill to install, default is latest.
+* `node["bluepill"]["use_rsyslog"]` - Enable configuration and use of rsyslog for bluepill.
 
 Resources/Providers
 ===================
@@ -47,7 +54,7 @@ If the default directory locations in the attributes/default.rb aren't what you 
 
 Example pill template resource and .erb file:
 
-    template "/etc/bluepill/my_app" do
+    template "/etc/bluepill/my_app.pill" do
       source "my_app.pill.erb"
     end
 
@@ -59,6 +66,9 @@ Example pill template resource and .erb file:
     end
 
 See bluepill's documentation for more information on creating pill templates.
+
+Rsyslog
+-------
 
 License and Author
 ==================

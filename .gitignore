@@ -4,3 +4,5 @@ recipes.tgz
 /config/servers.rb
 
 vagrant/.vagrant
+
+config/servers.rb.old.rb
