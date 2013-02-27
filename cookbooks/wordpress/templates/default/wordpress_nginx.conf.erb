@@ -3,7 +3,7 @@ upstream <%= @name %> {
 }
 
 server {
-        listen   8080; ## listen for ipv4; this line is default and implied
+        listen   <%= node['nginx']['port'] || '8080' %>; ## listen for ipv4; this line is default and implied
         root <%= @root %>;
         index index.php;
         # Make site accessible from http://localhost/
