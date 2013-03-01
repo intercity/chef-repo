@@ -96,7 +96,8 @@ cd /u/wordpress/#{app} && tar zxf /tmp/wordpress-3.5.1.tar.gz
       source "wp-config.php.erb"
       variables({
         :database_info => app_info['database_info'],
-        :keys => app_info['keys']
+        :keys => app_info['keys'],
+        :disallow_file_mods => app_info['disallow_file_mods'] || false
       })
       mode "0755"
     end

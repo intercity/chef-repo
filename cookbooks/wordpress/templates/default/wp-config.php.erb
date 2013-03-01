@@ -81,7 +81,9 @@ define('WPLANG', '');
 define('WP_DEBUG', false);
 define('DISABLE_WP_CRON', true);
 
+<% if @disallow_file_mods %>
 define('DISALLOW_FILE_MODS', TRUE);
+<% end %>
 
 /* That's all, stop editing! Happy blogging. */
 

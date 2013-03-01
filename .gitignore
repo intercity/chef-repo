@@ -6,3 +6,5 @@ recipes.tgz
 vagrant/.vagrant
 
 config/servers.rb.old.rb
+
+config/servers_air.rb
