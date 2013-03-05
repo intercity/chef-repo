@@ -60,7 +60,7 @@ if node[:wordpress]
       mode "0775"
     end
 
-    bash 'extract-wordpress' do
+    bash "extract-wordpress-#{app}" do
       code <<-EOC
 cd /u/wordpress/#{app} && tar zxf /tmp/wordpress-3.5.1.tar.gz
       EOC
@@ -78,7 +78,7 @@ cd /u/wordpress/#{app} && tar zxf /tmp/wordpress-3.5.1.tar.gz
         :group => "wp_#{app}",
         :chroot => "/u/wordpress/#{app}"
       })
-      notifies :restart, resources(:service => "php5-fpm")
+      notifies :restart, resources(:service => "php5-fpm"), :immediately
     end
 
     template "/etc/nginx/sites-available/wordpress_#{app}.conf" do
@@ -90,6 +90,11 @@ cd /u/wordpress/#{app} && tar zxf /tmp/wordpress-3.5.1.tar.gz
         :socket => "/u/wordpress/#{app}/fpm.sock"
       })
       notifies :reload, resources(:service => "nginx")
+    end
+
+    nginx_site "wordpress_#{app}.conf" do
+      action :enable
+      timing :immediately
     end
 
     template "/u/wordpress/#{app}/wordpress/wp-config.php" do
@@ -137,10 +142,6 @@ cd /u/wordpress/#{app} && tar zxf /tmp/wordpress-3.5.1.tar.gz
       mkdir -p /u/wordpress/#{app}/lib/x86_64-linux-gnu
       cp -r /lib/x86_64-linux-gnu/libnss* /u/wordpress/#{app}/lib/x86_64-linux-gnu
       EOC
-    end
-
-    nginx_site "wordpress_#{app}.conf" do
-      action :enable
     end
 
   end
