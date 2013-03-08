@@ -17,10 +17,33 @@ if node[:wordpress]
         user "root"
         cwd "/u/wordpress/#{app}/wordpress"
         code <<-EOH
-        #{command}
+        #{command};
         touch CONFIGURED
         EOH
         not_if { File.exist?('CONFIGURED')}
+      end
+
+      if app_info['plugins']
+
+        app_info['plugins'].each do |plugin, url|
+
+          basename = File.basename(url)
+
+          remote_file "/u/wordpress/#{app}/wordpress/wp-content/plugins/#{basename}" do
+            owner "wp_#{app}"
+            group "wp_#{app}"
+            source url
+          end
+
+          bash "extract-plugin-#{app}-#{plugin}" do
+            code <<-EOC
+              cd /u/wordpress/#{app}/wordpress/wp-content/plugins && unzip #{basename}
+            EOC
+            user "wp_#{app}"
+            not_if { File.exist? "/u/wordpress/#{app}/wordpress/wp-content/plugins/#{plugin}" }
+          end
+
+        end
       end
 
       if app_info['default_theme']
@@ -32,6 +55,7 @@ if node[:wordpress]
           connection mysql_connection_info
           sql "update wp_options set option_value=#{default_theme} where option_name in ('stylesheet','template');"
           action :query
+          not_if { File.exist?('')}
         end
       end
     end

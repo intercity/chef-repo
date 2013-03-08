@@ -33,6 +33,7 @@ template "#{node['nginx']['dir']}/sites-available/default" do
   group "root"
   mode 00644
   notifies :reload, 'service[nginx]'
+  action :create_if_missing
 end
 
 nginx_site 'default' do
