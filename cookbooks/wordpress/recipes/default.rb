@@ -133,7 +133,7 @@ cd /u/wordpress/#{app} && tar zxf /tmp/wordpress-3.5.1.tar.gz
       code <<-EOC
       mkdir -p /u/wordpress/#{app}/etc
       mkdir -p /u/wordpress/#{app}/tmp
-      chmod a+x /u/wordpress/#{app}/tmp
+      chmod a+w /u/wordpress/#{app}/tmp
       ln /etc/hosts /u/wordpress/#{app}/etc/hosts
       ln /etc/localtime /u/wordpress/#{app}/etc/localtime
       cp /etc/resolv.conf /u/wordpress/#{app}/etc/resolv.conf
