@@ -18,7 +18,7 @@ if node[:wordpress]
         connection(mysql_connection_info)
         username database_info['username']
         password database_info['password']
-        database_name app
+        database_name database_info['database']
         table "*"
         host "localhost"
         action :grant

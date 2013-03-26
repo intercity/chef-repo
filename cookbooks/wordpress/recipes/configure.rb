@@ -9,12 +9,13 @@ if node[:wordpress]
       admin_password = app_info['admin_password']
       admin_email = app_info['admin_email']
       url = app_info['url']
+      database = app_info['database_info']['database']
 
       command = "curl \"#{url}/wp-admin/install.php?step=2\" -d \"weblog_title=#{weblog_title}&user_login=admin&admin_password=#{admin_password}&admin_password2=#{admin_password}&admin_email=#{admin_email}\""
       log "Running bootstrap #{command}"
 
       bash "configure_wordpress_#{app}" do
-        user "root"
+        user "wp_#{app}"
         cwd "/u/wordpress/#{app}/wordpress"
         code <<-EOH
         #{command};
@@ -37,10 +38,9 @@ if node[:wordpress]
 
           bash "extract-plugin-#{app}-#{plugin}" do
             code <<-EOC
-              cd /u/wordpress/#{app}/wordpress/wp-content/plugins && unzip #{basename}
+              cd /u/wordpress/#{app}/wordpress/wp-content/plugins && unzip -o #{basename}
             EOC
             user "wp_#{app}"
-            not_if { File.exist? "/u/wordpress/#{app}/wordpress/wp-content/plugins/#{plugin}" }
           end
 
         end
@@ -51,7 +51,7 @@ if node[:wordpress]
         default_theme = app_info['default_theme']
 
         log "Setting default theme"
-        mysql_database app do
+        mysql_database database do
           connection mysql_connection_info
           sql "update wp_options set option_value=#{default_theme} where option_name in ('stylesheet','template');"
           action :query
