@@ -16,3 +16,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+if node[:vagrant][:host_entries]
+
+  node[:vagrant][:host_entries].each do |host_entry|
+
+    if host_entry[:point_to_host]
+      address = node[:network][:interfaces][:eth0][:routes].first["via"]
+    else
+      address = host_entry[:address]
+    end
+
+    hostsfile_entry address do
+      hostname host_entry[:hostname] # 'www.themedemo.dev'
+      aliases  host_entry[:aliases] # ['themedemo.dev']
+      action :create
+    end
+
+  end
+
+end
+
+template "/etc/chef/solo.rb" do
+  source "solo.rb.erb"
+end
+
+if node[:vagrant][:local_key]
+  bash "add local key to vagrant" do
+    code <<-EOH
+      echo "#{node[:vagrant][:local_key]}" >> /home/vagrant/.ssh/authorized_keys
+    EOH
+  end
+end
