@@ -22,7 +22,7 @@ package "php5-mysql"
 
 service "php5-fpm" do
   supports :restart => true, :status => true, :reload => true
-  action :nothing
+  action [ :enable ]
 end
 
 directory "/var/run/php5-fpm" do
