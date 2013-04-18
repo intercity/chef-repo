@@ -39,6 +39,17 @@ set :server_attributes, {
       "server_root_password" => "LqXiUAz+i7UuRKB+RKnDtA==",
       "server_repl_password" => "pHH39VyeqiDTDyFVCMYiHQ=="
     },
+    "postgresql" => {
+      "version" => "9.1",
+      "listen_addresses" => "*",
+      "hba" => [
+        { "method" => "trust", "address" => "0.0.0.0/0" },
+        { "method" => "trust", "address" => "::1/0" }
+      ],
+      "password" => {
+        "postgres" => "postgres"
+      }
+    },
     "rbenv" => {
       "user_installs" => [{
         "upgrade" => true,
