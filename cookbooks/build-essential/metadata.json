@@ -24,7 +24,8 @@
   "recommendations": {
   },
   "suggestions": {
-    "pkgin": ">= 0.0.0"
+    "pkgin": ">= 0.0.0",
+    "pkgutil": ">= 0.0.0"
   },
   "conflicting": {
   },
@@ -39,5 +40,5 @@
   "recipes": {
     "build-essential": "Installs packages required for compiling C software from source."
   },
-  "version": "1.3.4"
+  "version": "1.4.0"
 }

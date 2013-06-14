@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: build-essential
-# Recipe:: default
+# Recipe:: suse
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2008-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,8 +17,20 @@
 # limitations under the License.
 #
 
-begin
-  include_recipe "build-essential::#{node['platform_family']}"
-rescue Chef::Exceptions::RecipeNotFound
-  Chef::Log.warn "A build-essential recipe does not exist for the platform_family: #{node['platform_family']}"
+%w{
+  autoconf
+  bison
+  flex
+  gcc
+  gcc-c++
+  kernel-default-devel
+  make
+  m4
+}.each do |pkg|
+
+  r = package pkg do
+    action( node['build_essential']['compiletime'] ? :nothing : :install )
+  end
+  r.run_action(:install) if node['build_essential']['compiletime']
+
 end

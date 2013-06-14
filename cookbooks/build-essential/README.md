@@ -14,13 +14,19 @@ Chef version 0.10.10+ and Ohai 0.6.12+ are required.
 
 Supported platforms by platform family:
 
-* Linux (fedora redhat centos ubuntu debian amazon scientific)
-* Darwin (`mac_os_x` 10.6+)
-* SmartOs
+* debian (debian, ubuntu)
+* fedora
+* mac_os_x (10.6+)
+* rhel (centos, redhat, amazon, scientific)
+* smartos
+* solaris2
 
 ## Cookbooks
 
-Requires `pkgin` cookbook on SmartOS
+This cookbook suggests the following external cookbooks:
+
+* [pkgin](http://community.opscode.com/cookbooks/pkgin) (someara) - SmartOS only
+* [pkgutil](http://community.opscode.com/cookbooks/pkgutil) (marthag) - Solaris 2 only
 
 Attributes
 ==========
@@ -36,7 +42,9 @@ Chef run. Defaults to false, see __Usage__ for more information.
 Recipes
 =======
 
-This cookbook has one recipe, default.
+The main entrypoint for this cookbook is the `default` recipe. This
+recipe includes a platform specific recipe based on the node's platform
+family.
 
 On Linux platforms (see __Platform__ above for a supported list of
 families), packages required to build C source projects are installed.

@@ -1,3 +1,10 @@
+## v1.4.0:
+
+This version splits up the default recipe into recipes included based
+on the node's platform_family.
+
+* [COOK-2505] - backport omnibus builder improvements
+
 ## v1.3.4:
 
 * [COOK-2272] - Complete `platform_family` conversion in build-essential

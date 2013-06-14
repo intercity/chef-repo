@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: build-essential
-# Recipe:: default
+# Recipe:: rhel
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2008-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,8 +17,27 @@
 # limitations under the License.
 #
 
-begin
-  include_recipe "build-essential::#{node['platform_family']}"
-rescue Chef::Exceptions::RecipeNotFound
-  Chef::Log.warn "A build-essential recipe does not exist for the platform_family: #{node['platform_family']}"
+pkgs = %w{
+  autoconf
+  bison
+  flex
+  gcc
+  gcc-c++
+  kernel-devel
+  make
+  m4
+}
+
+# ensure GCC 4 is available on older pre-6 EL
+if node['platform_version'].to_i < 6
+  pkgs.unshift %w{ gcc44 gcc44-c++ }
+end
+
+pkgs.flatten.each do |pkg|
+
+  r = package pkg do
+    action( node['build_essential']['compiletime'] ? :nothing : :install )
+  end
+  r.run_action(:install) if node['build_essential']['compiletime']
+
 end
