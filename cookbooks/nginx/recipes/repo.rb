@@ -1,7 +1,6 @@
-#
 # Cookbook Name:: nginx
-# Recipe:: common/conf
-# Author:: AJ Christensen <aj@junglist.gen.nz>
+# Recipe:: repo
+# Author:: Nick Rycar <nrycar@bluebox.net>
 #
 # Copyright 2008-2012, Opscode, Inc.
 #
@@ -16,25 +15,28 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-template "nginx.conf" do
-  path "#{node['nginx']['dir']}/nginx.conf"
-  source "nginx.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-  notifies :reload, 'service[nginx]'
-end
+case node['platform_family']
+when "rhel","fedora"
+  include_recipe "yum"
 
-template "#{node['nginx']['dir']}/sites-available/default" do
-  source "default-site.erb"
-  owner "root"
-  group "root"
-  mode 00644
-  notifies :reload, 'service[nginx]'
-end
+  yum_key "nginx" do
+    url 'http://nginx.org/keys/nginx_signing.key'
+    action :add
+  end
 
-nginx_site 'default' do
-  enable node['nginx']['default_site_enabled']
+  yum_repository "nginx" do
+    description "Nginx.org Repository"
+    url node['nginx']['upstream_repository']
+  end
+when "debian"
+  include_recipe "apt"
+
+  apt_repository "nginx" do
+    uri node['nginx']['upstream_repository']
+    distribution node['lsb']['codename']
+    components ["nginx"]
+    deb_src true
+    key 'http://nginx.org/keys/nginx_signing.key'
+  end
 end

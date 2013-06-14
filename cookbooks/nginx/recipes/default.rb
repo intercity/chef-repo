@@ -26,7 +26,17 @@ when 'source'
 when 'package'
   case node['platform']
   when 'redhat','centos','scientific','amazon','oracle'
-    include_recipe 'yum::epel'
+    if node['nginx']['repo_source'] == 'epel'
+      include_recipe 'yum::epel'
+    elsif node['nginx']['repo_source'] == 'nginx'
+      include_recipe 'nginx::repo'
+    elsif node['nginx']['repo_source'].nil?
+      log "node['nginx']['repo_source'] was not set, no additional yum repositories will be installed." do
+        level :debug
+      end
+    else
+      raise ArgumentError, "Unknown value '#{node['nginx']['repo_source']}' was passed to the nginx cookbook."
+    end
   end
   package node['nginx']['package_name']
   service 'nginx' do

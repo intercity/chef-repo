@@ -23,6 +23,9 @@ be controlled by an attribute, so it may not be a common "default."
 
 On RHEL family distros, the "yum" cookbook is required for "`recipe[yum::epel]`".
 
+On Ubuntu, when using Nginx.org's stable package, "`recipe[apt]`"
+is required.
+
 Platform
 --------
 
@@ -55,11 +58,24 @@ config file.
 * `node['nginx']['group]` - Group for Nginx.
 * `node['nginx']['binary']` - Path to the Nginx binary.
 * `node['nginx']['init_style']` - How to run Nginx as a service when
-  using `nginx::source`. Values can be "runit", "init" or "bluepill".
-  When using runit or bluepill, those recipes will be included as well
-  and are dependencies of this cookbook. Not used in the `nginx`
-  recipe because the package manager's init script style for the
-  platform is assumed.
+  using `nginx::source`. Values can be "runit", "upstart", "init" or
+  "bluepill".  When using runit or bluepill, those recipes will be
+  included as well and are dependencies of this cookbook.  Recipes
+  are not included for upstart, it is assumed that upstart is built
+  into the platform you are using (ubuntu or el6).  This attribute is
+  not used in the `nginx` recipe because the package manager's init
+  script style for the platform is assumed.  Upstart is never set as
+  a default as this represents a change in behavior, if you are running
+  ubuntu or el6 and want to use upstart, please set this attribute in
+  a role or similar.
+* `node['nginx']['upstart']['foreground']` - Set this to true if you
+  want upstart to run nginx in the foreground, set to false if you
+  want upstart to detach and track the process via pid.
+* `node['nginx']['upstart']['runlevels']` - String of runlevels in the
+  format '2345' which determines which runlevels nginx will start at
+  when entering and stop at when leaving.
+* `node['nginx']['upstart']['respawn_limit']` - Respawn limit in upstart
+  stanza format, count followed by space followed by interval in seconds.
 * `node['nginx']['pid']` - Location of the PID file.
 * `node['nginx']['keepalive']` - Whether to use `keepalive_timeout`,
   any value besides "on" will leave that option out of the config.
@@ -84,6 +100,7 @@ config file.
 * `node['nginx']['disable_access_log']` - set to true to disable the
   general access log, may be useful on high traffic sites.
 * `node['nginx']['default_site_enabled']` - enable the default site
+* `node['nginx']['sendfile']` - Whether to use `sendfile`. Defaults to "on".
 * `node['nginx']['install_method']` - Whether nginx is installed from
   packages or from source.
 * `node['nginx']['types_hash_max_size']` - Used for the
@@ -94,6 +111,10 @@ config file.
   successive read operations) for reading a response from the proxied server.
 * `node['nginx']['client_max_body_size']` - specifies the maximum accepted body
   size of a client request, as indicated by the request header Content-Length.
+* `node['nginx']['repo_source']` - when installed from a package this attribute affects
+  which yum repositories, if any, will be added before installing the nginx package. The
+  default value of 'epel' will use the `yum::epel` recipe, 'nginx' will use the 
+  `nginx::repo` recipe, and setting no value will not add any additional repositories.
 
 ### Attributes for configuring the gzip module
 
@@ -229,10 +250,13 @@ These attributes are used in the `nginx::http_echo_module` recipe.
 Recipes
 =======
 
-This cookbook provides two main recipes for installing Nginx.
+This cookbook provides three main recipes for installing Nginx.
 
 * default.rb: *Use this recipe* if you have a native package for
   Nginx.
+* repo.rb: The developer of Nginx also maintain
+  [stable packages](http://nginx.org/en/download.html) for several
+  platforms.
 * source.rb: *Use this recipe* if you do not have a native package for
   Nginx, or if you want to install a newer version than is available,
   or if you have custom module compilation needs.

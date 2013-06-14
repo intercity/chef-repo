@@ -37,10 +37,15 @@ when "debian","ubuntu"
 when "redhat","centos","scientific","amazon","oracle","fedora"
   default['nginx']['user']       = "nginx"
   default['nginx']['init_style'] = "init"
+  default['nginx']['repo_source'] = "epel"
 else
   default['nginx']['user']       = "www-data"
   default['nginx']['init_style'] = "init"
 end
+
+default['nginx']['upstart']['runlevels'] = '2345'
+default['nginx']['upstart']['respawn_limit'] = nil
+default['nginx']['upstart']['foreground'] = true
 
 default['nginx']['group'] = node['nginx']['user']
 
@@ -72,6 +77,7 @@ default['nginx']['worker_rlimit_nofile'] = nil
 default['nginx']['multi_accept']       = false
 default['nginx']['event']              = nil
 default['nginx']['server_names_hash_bucket_size'] = 64
+default['nginx']['sendfile'] = 'on'
 
 default['nginx']['disable_access_log'] = false
 default['nginx']['install_method'] = 'package'

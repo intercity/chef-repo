@@ -1,7 +1,6 @@
-#
 # Cookbook Name:: nginx
-# Recipe:: common/conf
-# Author:: AJ Christensen <aj@junglist.gen.nz>
+# Recipe:: repo
+# Author:: Nick Rycar <nrycar@bluebox.net>
 #
 # Copyright 2008-2012, Opscode, Inc.
 #
@@ -16,25 +15,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-template "nginx.conf" do
-  path "#{node['nginx']['dir']}/nginx.conf"
-  source "nginx.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-  notifies :reload, 'service[nginx]'
-end
-
-template "#{node['nginx']['dir']}/sites-available/default" do
-  source "default-site.erb"
-  owner "root"
-  group "root"
-  mode 00644
-  notifies :reload, 'service[nginx]'
-end
-
-nginx_site 'default' do
-  enable node['nginx']['default_site_enabled']
+case node['platform_family']
+when 'rhel','fedora'
+  case node['platform']
+  when "centos"
+    # See http://wiki.nginx.org/Install
+    default['nginx']['upstream_repository'] = "http://nginx.org/packages/centos/#{node['platform_version'].to_i}/$basearch/"
+  else
+    default['nginx']['upstream_repository'] = "http://nginx.org/packages/rhel/#{node['platform_version'].to_i}/$basearch/"
+  end
+when 'debian'
+  default['nginx']['upstream_repository'] = "http://nginx.org/packages/#{node['platform']}"
 end
