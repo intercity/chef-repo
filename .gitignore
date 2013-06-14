@@ -8,3 +8,5 @@ vagrant/.vagrant
 config/servers.rb.old.rb
 
 config/servers_air.rb
+
+vagrant/Vagrantfile
