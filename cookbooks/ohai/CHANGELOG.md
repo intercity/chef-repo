@@ -1,3 +1,10 @@
+## v1.1.10:
+
+### Improvement
+
+- [COOK-2286]: OHAI cookbook README does not include implementation
+  example
+
 ## v1.1.8:
 
 * [COOK-1918] - Ohai cookbook to distribute plugins fails on windows
