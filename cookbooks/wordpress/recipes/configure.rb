@@ -4,6 +4,7 @@ include_recipe "wordpress::databases"
 if node[:wordpress]
 
   node[:wordpress].each do |app, app_info|
+
     if app_info['preconfigure'] == true
       weblog_title = app_info['weblog_title']
       admin_password = app_info['admin_password']

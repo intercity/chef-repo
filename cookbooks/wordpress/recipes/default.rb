@@ -60,12 +60,22 @@ if node[:wordpress]
       mode "0775"
     end
 
-    bash "extract-wordpress-#{app}" do
-      code <<-EOC
-cd /u/wordpress/#{app} && tar zxf /tmp/wordpress-3.5.1.tar.gz
-      EOC
-      user "wp_#{app}"
-      not_if { File.exist? "/u/wordpress/#{app}/wordpress/wp-config.php" }
+    if app_info['snapshot']
+      bash "copy-snapshot-to-#{app}" do
+        code <<-EOC
+          cp -r /u/wordpress/#{app_info['snapshot']['name']}/* /u/wordpress/#{app}/
+        EOC
+        user "wp_#{app}"
+      end
+    else
+
+      bash "extract-wordpress-#{app}" do
+        code <<-EOC
+  cd /u/wordpress/#{app} && tar zxf /tmp/wordpress-3.5.1.tar.gz
+        EOC
+        user "wp_#{app}"
+        not_if { File.exist? "/u/wordpress/#{app}/wordpress/wp-config.php" }
+      end
     end
 
     template "/etc/php5/fpm/pool.d/#{app}.conf" do
