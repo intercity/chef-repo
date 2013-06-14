@@ -1,9 +1,9 @@
 #
+# Author:: Takeshi KOMIYA (<i.tkomiya@gmail.com>)
 # Cookbook Name:: yum
-# Attributes:: default
+# Recipe:: remi
 #
-# Copyright 2011, Eric G. Wolfe
-# Copyright 2011, Opscode, Inc.
+# Copyright:: Copyright (c) 2011 Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,15 +16,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-# Example: override.yum.exclude = "kernel* compat-glibc*"
-default['yum']['exclude'] = Array.new
-default['yum']['installonlypkgs'] = Array.new
-default['yum']['ius_release'] = '1.0-11'
-default['yum']['repoforge_release'] = '0.5.2-2'
-default['yum']['proxy'] = ''
-default['yum']['proxy_username'] = ''
-default['yum']['proxy_password'] = ''
-default['yum']['cachedir'] = '/var/cache/yum'
-default['yum']['keepcache'] = 0
+include_recipe "yum::epel"
+
+yum_key node['yum']['remi']['key'] do
+  url  node['yum']['remi']['key_url']
+  action :add
+end
+
+yum_repository "remi" do
+  description "Les RPM de remi pour Enterprise Linux #{node['platform_version']} - $basearch"
+  key node['yum']['remi']['key']
+  mirrorlist node['yum']['remi']['url']
+  failovermethod "priority"
+  includepkgs node['yum']['remi']['includepkgs']
+  exclude node['yum']['remi']['exclude']
+  action :create
+end

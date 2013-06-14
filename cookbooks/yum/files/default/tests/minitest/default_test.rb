@@ -1,9 +1,8 @@
 #
 # Cookbook Name:: yum
-# Attributes:: default
+# Recipe:: default
 #
-# Copyright 2011, Eric G. Wolfe
-# Copyright 2011, Opscode, Inc.
+# Copyright 2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,13 +17,12 @@
 # limitations under the License.
 #
 
-# Example: override.yum.exclude = "kernel* compat-glibc*"
-default['yum']['exclude'] = Array.new
-default['yum']['installonlypkgs'] = Array.new
-default['yum']['ius_release'] = '1.0-11'
-default['yum']['repoforge_release'] = '0.5.2-2'
-default['yum']['proxy'] = ''
-default['yum']['proxy_username'] = ''
-default['yum']['proxy_password'] = ''
-default['yum']['cachedir'] = '/var/cache/yum'
-default['yum']['keepcache'] = 0
+require File.expand_path('../support/helpers', __FILE__)
+
+describe "yum::default" do
+  include Helpers::YumTest
+
+  it "Default recipe does nothing, so default_test does nothing" do
+    skip "Default recipe does nothing so default test does nothing"
+  end
+end

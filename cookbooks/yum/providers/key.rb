@@ -18,6 +18,10 @@
 # limitations under the License.
 #
 
+def whyrun_supported?
+  true
+end
+
 action :add do
   unless ::File.exists?("/etc/pki/rpm-gpg/#{new_resource.key}")
     Chef::Log.info "Adding #{new_resource.key} GPG key to /etc/pki/rpm-gpg/"
@@ -28,7 +32,8 @@ action :add do
       package "gnupg2"
     end
 
-    execute "rpm --import /etc/pki/rpm-gpg/#{new_resource.key}" do
+    execute "import-rpm-gpg-key-#{new_resource.key}" do
+      command "rpm --import /etc/pki/rpm-gpg/#{new_resource.key}"
       action :nothing
       not_if <<-EOH
     function packagenames_for_keyfile() {
@@ -52,11 +57,11 @@ action :add do
     end
 
     #download the file if necessary
-    if new_resource.url
+    unless new_resource.url.nil?
       remote_file "/etc/pki/rpm-gpg/#{new_resource.key}" do
         source new_resource.url
         mode "0644"
-        notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{new_resource.key}"), :immediately
+        notifies :run, "execute[import-rpm-gpg-key-#{new_resource.key}]", :immediately
       end
     end
 

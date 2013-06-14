@@ -19,6 +19,8 @@
 
 include_recipe "yum::epel"
 
+package "epel-release"
+
 major = node['platform_version'].to_i
 ius   = node['yum']['ius_release']
 
@@ -30,7 +32,7 @@ end
 
 rpm_package "ius-release" do
   source "#{Chef::Config[:file_cache_path]}/ius-release-#{ius}.ius.el#{major}.noarch.rpm"
-  only_if {::File.exists?("#{Chef::Config[:file_cache_path]}/ius-release-#{ius}.ius.el#{major}.noarch.rpm")}
+  only_if { ::File.exists?("#{Chef::Config[:file_cache_path]}/ius-release-#{ius}.ius.el#{major}.noarch.rpm") }
   action :nothing
 end
 

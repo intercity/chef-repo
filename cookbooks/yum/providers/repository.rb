@@ -21,11 +21,20 @@
 # note that deletion does not remove GPG keys, either from the repo or
 # /etc/pki/rpm-gpg; this is a design decision.
 
+def whyrun_supported?
+  true
+end
+
 action :add do
   unless ::File.exists?("/etc/yum.repos.d/#{new_resource.repo_name}.repo")
     Chef::Log.info "Adding #{new_resource.repo_name} repository to /etc/yum.repos.d/#{new_resource.repo_name}.repo"
     repo_config
   end
+end
+
+action :create do
+  Chef::Log.info "Adding and updating #{new_resource.repo_name} repository in /etc/yum.repos.d/#{new_resource.repo_name}.repo"
+  repo_config
 end
 
 action :remove do
@@ -43,18 +52,18 @@ action :update do
   # If the repo is already enabled/disabled as per the resource, we don't want to converge the template resource.
   if ::File.exists?("/etc/yum.repos.d/#{new_resource.repo_name}.repo")
     ::File.open("/etc/yum.repos.d/#{new_resource.repo_name}.repo") do |file|
-      repo_name ||= nil 
+      repo_name ||= nil
       file.each_line do |line|
         case line
         when /^\[(\S+)\]/
           repo_name = $1
           repos[repo_name] ||= {}
-        when /^(\S+?)=(.*)$/                                                                                                                                                           
+        when /^(\S+?)=(.*)$/
           param, value = $1, $2
           repos[repo_name][param] = value
         else
-        end 
-      end 
+        end
+      end
     end
   else
     Chef::Log.error "Repo /etc/yum.repos.d/#{new_resource.repo_name}.repo does not exist, you must create it first"
@@ -76,7 +85,8 @@ def repo_config
     yum_key new_resource.key
   end
   #get the metadata
-  execute "yum -q makecache" do
+  execute "yum-makecache" do
+    command "yum -q makecache"
     action :nothing
   end
   #reload internal Chef yum cache
@@ -101,11 +111,14 @@ def repo_config
                 :type => new_resource.type,
                 :failovermethod => new_resource.failovermethod,
                 :bootstrapurl => new_resource.bootstrapurl,
-                :includepkgs => new_resource.includepkgs
+                :includepkgs => new_resource.includepkgs,
+                :exclude => new_resource.exclude,
+                :priority => new_resource.priority,
+                :metadata_expire => new_resource.metadata_expire
               })
     if new_resource.make_cache
-      notifies :run, resources(:execute => "yum -q makecache"), :immediately
-      notifies :create, resources(:ruby_block => "reload-internal-yum-cache"), :immediately
+      notifies :run, "execute[yum-makecache]", :immediately
+      notifies :create, "ruby_block[reload-internal-yum-cache]", :immediately
     end
   end
 end

@@ -3,7 +3,7 @@
 # Cookbook Name:: yum
 # Recipe:: repoforge
 #
-# Copyright:: Copyright (c) 201 Opscode, Inc.
+# Copyright:: Copyright (c) 2012-2013 Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,16 +19,9 @@
 
 include_recipe "yum::epel"
 
-major = node['platform_version'].to_i
-
-if node['kernel']['machine'] == "i686"
-    arch = "i386"
-else
-    arch = node['kernel']['machine']
-end
-
-
-repoforge   = node['yum']['repoforge_release']
+major = platform?("amazon") ? 6 : node['platform_version'].to_i
+arch = (node['kernel']['machine'] == "i686" && major == 5) ? "i386" : node['kernel']['machine']
+repoforge = node['yum']['repoforge_release']
 
 remote_file "#{Chef::Config[:file_cache_path]}/rpmforge-release-#{repoforge}.el#{major}.rf.#{arch}.rpm" do
   source "http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-#{repoforge}.el#{major}.rf.#{arch}.rpm"
@@ -38,7 +31,7 @@ end
 
 rpm_package "rpmforge-release" do
   source "#{Chef::Config[:file_cache_path]}/rpmforge-release-#{repoforge}.el#{major}.rf.#{arch}.rpm"
-  only_if {::File.exists?("#{Chef::Config[:file_cache_path]}/rpmforge-release-#{repoforge}.el#{major}.rf.#{arch}.rpm")}
+  only_if { ::File.exists?("#{Chef::Config[:file_cache_path]}/rpmforge-release-#{repoforge}.el#{major}.rf.#{arch}.rpm") }
   action :install
 end
 
