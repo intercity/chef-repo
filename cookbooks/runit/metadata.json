@@ -1,16 +1,24 @@
 {
   "name": "runit",
   "description": "Installs runit and provides runit_service definition",
-  "long_description": "",
+  "long_description": "Description\n===========\n\nInstalls runit and provides the `runit_service` service resource for\nmanaging processes (services) under runit.\n\nThis cookbook does not use runit to replace system init, nor are there\nplans to do so.\n\nFor more information about runit:\n\n* http://smarden.org/runit/\n\nAbout Runit\n===========\n\nIn brief, Runit is a process supervision suite. It is simple to set\nup, and doesn't require complex shell scripts to be written to start\nprocesses running as system services.\n\nTo manage a process in runit, create a \"service\" directory that\ncontains a \"`run`\" script. In this cookbook we refer to that directory\nas the `sv_dir` (see __Attributes__ and __Resource/Provider__). That\nservice directory is symbolically linked into runit's own service\ndirectory where its `runsvdir` program looks for processes to manage.\nSee the [runit documentation](http://smarden.org/runit/) for detailed\ninformation on runit.\n\nSupervised processes are analogous to services under other systems\nsuch as sysvinit or upstart.\n\nRequirements\n============\n\n## Platform:\n\n* Debian/Ubuntu\n* Gentoo\n* RHEL\n\nAttributes\n==========\n\nSee `attributes/default.rb` for defaults generated per platform.\n\n* `node['runit']['sv_bin']` - Full path to the `sv` binary.\n* `node['runit']['chpst_bin']` - Full path to the `chpst` binary.\n* `node['runit']['service_dir']` - Full path to the default \"services\"\n  directory where enabled services are linked.\n* `node['runit']['sv_dir']` - Full path to the directory where\n  service lives, which gets linked to `service_dir`.\n* `node['runit']['start']` - Command to start the runsvdir service\n* `node['runit']['stop]` - Command to stop the runsvdir service\n* `node['runit']['reload']` - Command to reload the runsvdir service\n\nRecipes\n=======\n\ndefault\n-------\n\nThe default recipe installs runit and starts `runsvdir` to supervise\nthe services in runit's service directory (e.g., `/etc/service`).\n\nOn RHEL family systems, it will build the runit RPM using [Ian Meyer's\nrunit RPM SPEC](https://github.com/imeyer/runit-rpm).\n\nOn Debian family systems, the runit packages are maintained by the\nrunit author, Gerrit Pape, and the recipe will use that for\ninstallation.\n\nOn Gentoo, the runit ebuild package is installed.\n\nResource/Provider\n=================\n\nThis cookbook has a resource, `runit_service`, for managing services\nunder runit. This service subclasses the Chef `service` resource.\n\n**This resource replaces the runit_service definition. See the\nCHANGELOG.md file in this cookbook for breaking change information\nand any actions you may need to take to update cookbooks using\nrunit_service.**\n\n## Actions:\n\n- **enable** - enables the service, creating the required run scripts\n   and symlinks. This is the default action.\n- **start** - starts the service with `sv start`\n- **stop** - stops the service with `sv stop`\n- **disable** - stops the service with `sv down` and removes the service symlink\n- **restart** - restarts the service with `sv restart`\n- **reload** - reloads the service with `sv force-reload`\n- **once** - starts the service with `sv once`.\n- **hup** - sends the `HUP` signal to the service with `sv hup`\n- **cont** - sends the `CONT` signal to the service\n- **term** - sends the `TERM` signal to the service\n- **kill** - sends the `KILL` signal to the service\n- **up** - starts the service with `sv up`\n- **down** - downs the service with `sv down`\n- **usr1** - sends the `USR1` signal to the service with `sv 1`\n- **usr2** - sends the `USR2` signal to the service with `sv 2`\n\nService management actions are taken with runit's \"`sv`\" program.\n\nRead the `sv(8)` [man page](http://smarden.org/runit/sv.8.html) for\nmore information on the `sv` program.\n\n## Parameter Attributes\n\nThe first three parameters, `sv_dir`, `service_dir`, and `sv_bin` will\nattempt to use the corresponding node attributes, and fall back to\nhardcoded default values that match the settings used on Debian\nplatform systems.\n\nMany of these parameters are only used in the `:enable` action.\n\n- **sv_dir** - The base \"service directory\" for the services managed by\n   the resource. By default, this will attempt to use the\n   `node['runit']['sv_dir']` attribute, and falls back to `/etc/sv`.\n- **service_dir** - The directory where services are symlinked to be\n   supervised by `runsvdir`. By default, this will attempt to use the\n   `node['runit']['service_dir']` attribute, and falls back to\n   `/etc/service`.\n- **sv_bin** - The path to the `sv` program binary. This will attempt\n    to use the `node['runit']['sv_bin']` attribute, and falls back to\n    `/usr/bin/sv`.\n- **service_name** - *Name attribute*. The name of the service. This\n   will be used in the directory of the managed service in the\n   `sv_dir` and `service_dir`.\n- **sv_templates** - If true, the `:enable` action will create the\n    service directory with the appropriate templates. Default is\n    `true`. Set this to `false` if the service has a package that\n    provides its own service directory. See __Usage__ examples.\n- **options** - Options passed as variables to templates, for\n   compatibility with legacy runit service definition. Default is an\n   empty hash.\n- **env** - A hash of environment variables with their values as content\n   used in the service's `env` directory. Default is an empty hash.\n- **log** - Whether to start the service's logger with svlogd, requires\n   a template `sv-service_name-log-run.erb` to configure the log's run\n   script. Default is true.\n- **default_logger** - Whether a default `log/run` script should be set\n   up. If true, the default content of the run script will use\n   `svlogd` to write logs to `/var/log/service_name`. Default is false.\n- **cookbook** - A cookbook where templates are located instead of\n   where the resource is used. Applies for all the templates in the\n   `enable` action.\n- **finish** - whether the service has a finish script, requires a\n   template `sv-service_name-finish.erb`\n- **control** - An array of signals to customize control of the service,\n   see [runsv man page](http://smarden.org/runit/runsv.8.html) on how\n   to use this. This requires that each template be created with the\n   name `sv-service_name-signal.erb`.\n- **owner** - user that should own the templates created to enable the\n   service\n- **group** - group that should own the templates created to enable the\n   service\n- **run_template_name** - alternate filename of the run run script to\n   use replacing `service_name`.\n- **log_template_name** - alternate filename of the log run script to\n   use replacing `service_name`.\n- **finish_script_template_name** - alternate filename of the finish\n   script to use, replacing `service_name`.\n- **control_template_names** - a hash of control signals (see *control*\n   above) and their alternate template name(s) replacing\n   `service_name`.\n- **status_command** - The command used to check the status of the\n   service to see if it is enabled/running (if it's running, it's\n   enabled). This hardcodes the location of the sv program to\n   `/usr/bin/sv` due to the aforementioned cookbook load order.\n- **restart_on_update** - Whether the service should be restarted when\n    the run script is updated. Defaults to `true`. Set to `false` if\n    the service shouldn't be restarted when the run script is updated.\n\nUnlike previous versions of the cookbook using the `runit_service`\ndefinition, the `runit_service` resource can be notified. See\n__Usage__ examples below.\n\nUsage\n=====\n\nTo get runit installed on supported platforms, use `recipe[runit]`.\nOnce it is installed, use the `runit_service` resource to set up\nservices to be managed by runit.\n\nIn order to use the `runit_service` resource in your cookbook(s), each\nservice managed will also need to have `sv-service_name-run.erb` and\n`sv-service_name-log-run.erb` templates created. If the `log`\nparameter is false, the log run script isn't created. If the `log`\nparameter is true, and `default_logger` is also true, the log run\nscript will be created with the default content:\n\n    #!/bin/sh\n    exec svlogd -tt /var/log/service_name\n\nExamples\n--------\n\nThese are example use cases of the `runit_service` resource described\nabove. There are others in the `runit_test` cookbook that is included\nin the [git repository](https://github.com/opscode-cookbooks/runit).\n\n**Default Example**\n\nThis example uses all the defaults in the `:enable` action to set up\nthe service.\n\nWe'll set up `chef-client` to run as a service under runit, such as is\ndone in the `chef-client` cookbook. This example will be more simple\nthan in that cookbook. First, create the required run template,\n`chef-client/templates/default/sv-chef-client-run.erb`.\n\n    #!/bin/sh\n    exec 2>&1\n    exec /usr/bin/env chef-client -i 1800 -s 30\n\nThen create the required log/run template,\n`chef-client/templates/default/sv-chef-client-log-run.erb`.\n\n    #!/bin/sh\n    exec svlogd -tt ./main\n\n__Note__ This will cause output of the running process to go to\n`/etc/sv/chef-client/log/main/current`. Some people may not like this,\nsee the following example. This is preserved for compatibility reasons.\n\nFinally, set up the service in the recipe with:\n\n    runit_service \"chef-client\"\n\n**Default Logger Example**\n\nTo use a default logger with svlogd which will log to\n`/var/log/chef-client/current`, instead, use the `default_logger` option.\n\n    runit_service \"chef-client\" do\n      default_logger true\n    end\n\n**No Log Service**\n\nIf there isn't an appendant log service, set `log` to false, and the\nlog/run script won't be created.\n\n    runit_service \"no-svlog\" do\n      log false\n    end\n\n**Finish Script**\n\nTo create a service that has a finish script in its service directory,\nset the `finish` parameter to `true`, and create a\n`sv-finisher-finish.erb` template.\n\n    runit_service \"finisher\" do\n      finish true\n    end\n\nThis will create `/etc/sv/finisher/finish`.\n\n**Alternate service directory**\n\nIf the service directory for the managed service isn't the `sv_dir`\n(`/etc/sv`), then specify it:\n\n    runit_service \"custom_service\" do\n      sv_dir \"/etc/custom_service/runit\"\n    end\n\n**No Service Directory**\n\nIf the service to manage has a package that provides its service\ndirectory, such as `git-daemon` on Debian systems, set `sv_templates`\nto false.\n\n    package \"git-daemon-run\"\n\n    runit_service \"git-daemon\" do\n      sv_templates false\n    end\n\nThis will create the service symlink in `/etc/service`, but it will\nnot manage any templates in the service directory.\n\n**User Controlled Services**\n\nTo set up services controlled by a non-privileged user, we follow the\nrecommended configuration in the\n[runit documentation](http://smarden.org/runit/faq.html#user) (Is it\npossible to allow a user other than root to control a service?).\n\nSuppose the user's name is floyd, and floyd wants to run floyds-app.\nAssuming that the floyd user and group are already managed with Chef,\ncreate a `runsvdir-floyd` runit_service.\n\n    runit_service \"runsvdir-floyd\"\n\nCreate the `sv-runsvdir-floyd-log-run.erb` template, or add `log\nfalse`. Also create the `sv-runsvdir-floyd-run.erb` with the following\ncontent:\n\n    #!/bin/sh\n    exec 2>&1\n    exec chpst -ufloyd runsvdir /home/floyd/service\n\nNext, create the `runit_service` resource for floyd's app:\n\n    runit_service \"floyds-app\" do\n      sv_dir \"/home/floyd/sv\"\n      service_dir \"/home/floyd/service\"\n      owner \"floyd\"\n      group \"floyd\"\n    end\n\nAnd now floyd can manage the service with sv:\n\n    $ id\n    uid=1000(floyd) gid=1001(floyd) groups=1001(floyd)\n    $ sv stop /home/floyd/service/floyds-app/\n    ok: down: /home/floyd/service/floyds-app/: 0s, normally up\n    $ sv start /home/floyd/service/floyds-app/\n    ok: run: /home/floyd/service/floyds-app/: (pid 5287) 0s\n    $ sv status /home/floyd/service/floyds-app/\n    run: /home/floyd/service/floyds-app/: (pid 5287) 13s; run: log: (pid 4691) 726s\n\n**Options**\n\nNext, let's set up memcached under runit with some additional options\nusing the `options` parameter. First, the\n`memcached/templates/default/sv-memcached-run.erb` template:\n\n    #!/bin/sh\n    exec 2>&1\n    exec chpst -u <%= @options[:user] %> /usr/bin/memcached -v -m <%= @options[:memory] %> -p <%= @options[:port] %>\n\nNote that the script uses `chpst` (which comes with runit) to set the\nuser option, then starts memcached on the specified memory and port\n(see below).\n\nThe log/run template,\n`memcached/templates/default/sv-memcached-log-run.erb`:\n\n    #!/bin/sh\n    exec svlogd -tt ./main\n\nFinally, the `runit_service` in our recipe:\n\n    runit_service \"memcached\" do\n      options({\n        :memory => node[:memcached][:memory],\n        :port => node[:memcached][:port],\n        :user => node[:memcached][:user]}.merge(params)\n      )\n    end\n\nThis is where the user, port and memory options used in the run\ntemplate are used.\n\n**Notifying Runit Services**\n\nIn previous versions of this cookbook where the definition was used,\nit created a `service` resource that could be notified. With the\n`runit_service` resource, recipes need to use the full resource name.\nFor example:\n\n    runit_service \"my-service\"\n\n    template \"/etc/my-service.conf\" do\n      notifies :restart, \"runit_service[my-service]\"\n    end\n\nBecause the resource implements actions for various commands that `sv`\ncan send to the service, any of those actions could be used for\nnotification. For example, `chef-client` supports triggering a Chef\nrun with a USR1 signal.\n\n    template \"/tmp/chef-notifier\" do\n      notifies :usr1, \"runit_service[chef-client]\"\n    end\n\nFor older implementations of services that used `runit_service` as a\ndefinition, but may support alternate service styles, use a\nconditional, such as based on an attribute:\n\n    service_to_notify = case node['nginx']['init_style']\n                        when \"runit\"\n                          \"runit_service[nginx]\"\n                        else\n                          \"service[nginx]\"\n                        end\n\n    template \"/etc/nginx/nginx.conf\" do\n      notifies :restart, service_to_notify\n    end\n\n**More Examples**\n\nFor more examples, see the `runit_test` cookbook's `service` recipe in\nthe [git repository](https://github.com/opscode-cookbooks/runit).\n\nTesting\n=======\n\nThis cookbook has tests in the GitHub repository. To run the tests:\n\n    git clone git://github.com/opscode-cookbooks/runit.git\n    cd runit\n    bundle install\n\nThere are two kinds of tests, unit tests and integration tests.\n\n## Unit Tests\n\nThe resource/provider code is unit tested with rspec. To run these\ntests, use rake:\n\n    bundle exec rake spec\n\n## Integration Tests\n\nIntegration tests are setup to run under minitest-chef. They are\nautomatically run under test kitchen.\n\n    bundle exec kitchen test\n\nThis tests the default recipe (\"default\" configuration), and various\nuses of the `runit_service` resource (\"service\" configuration).\n\nLicense and Author\n==================\n\nAuthor:: Adam Jacob <adam@opscode.com>\nAuthor:: Joshua Timberman <joshua@opscode.com>\n\nCopyright:: 2008-2013, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
   "maintainer": "Opscode, Inc.",
   "maintainer_email": "cookbooks@opscode.com",
   "license": "Apache 2.0",
   "platforms": {
     "ubuntu": ">= 0.0.0",
     "debian": ">= 0.0.0",
-    "gentoo": ">= 0.0.0"
+    "gentoo": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "redhat": ">= 0.0.0",
+    "amazon": ">= 0.0.0",
+    "scientific": ">= 0.0.0",
+    "oracle": ">= 0.0.0",
+    "enterpriseenterprise": ">= 0.0.0"
   },
   "dependencies": {
+    "build-essential": ">= 0.0.0",
+    "yum": ">= 0.0.0"
   },
   "recommendations": {
   },
@@ -23,80 +31,11 @@
   "replacing": {
   },
   "attributes": {
-    "runit": {
-      "display_name": "Runit",
-      "description": "Hash of runit attributes",
-      "type": "hash",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "required": "optional",
-      "recipes": [
-
-      ]
-    },
-    "runit/sv_bin": {
-      "display_name": "Runit sv bin",
-      "description": "Location of the sv binary",
-      "default": "/usr/bin/sv",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "type": "string",
-      "required": "optional",
-      "recipes": [
-
-      ]
-    },
-    "runit/chpst_bin": {
-      "display_name": "Runit chpst bin",
-      "description": "Location of the chpst binary",
-      "default": "/usr/bin/chpst",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "type": "string",
-      "required": "optional",
-      "recipes": [
-
-      ]
-    },
-    "runit/service_dir": {
-      "display_name": "Runit service directory",
-      "description": "Symlinks to services managed under runit",
-      "default": "/etc/service",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "type": "string",
-      "required": "optional",
-      "recipes": [
-
-      ]
-    },
-    "runit/sv_dir": {
-      "display_name": "Runit sv directory",
-      "description": "Location of services managed by runit",
-      "default": "/etc/sv",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "type": "string",
-      "required": "optional",
-      "recipes": [
-
-      ]
-    }
   },
   "groupings": {
   },
   "recipes": {
     "runit": "Installs and configures runit"
   },
-  "version": "0.15.0"
+  "version": "1.1.4"
 }
