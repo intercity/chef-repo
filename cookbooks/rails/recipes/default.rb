@@ -77,7 +77,7 @@ if node[:active_applications]
 
     end
 
-    if app_info['packages'].include?('sphinxsearch')
+    if app_info['packages'] && app_info['packages'].include?('sphinxsearch')
       directory "/u/apps/#{app}/shared/sphinx" do
         recursive true
         group "deploy"
