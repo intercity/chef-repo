@@ -1,5 +1,5 @@
 server {
-  listen <%= node['nginx']['port'] || '8080' %>;
+  listen <%= node['nginx']['port'] || '80' %>;
   server_name <%= @domain_names.join(' ') %>;
   root /u/apps/<%= @name %>/current/public;
 
