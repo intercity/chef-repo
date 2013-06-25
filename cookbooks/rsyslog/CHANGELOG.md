@@ -1,3 +1,24 @@
+## v1.6.0:
+
+### New Feature
+
+- [COOK-2831]: enable high precision timestamps
+
+### Bug
+
+- [COOK-2377]: calling node.save has adverse affects on nodes relying
+  on a searched node's ohai attributes
+- [COOK-2521]: rsyslog cookbook incorrectly sets directory ownership
+  to rsyslog user
+- [COOK-2540]: Syslogd needs to be disabled before starting rsyslogd
+  on RHEL 5
+
+### Improvement
+
+- [COOK-2356]: rsyslog service supports status. Service should use it.
+- [COOK-2357]: rsyslog cookbook copies in wrong defaults file on
+  Ubuntu !9.10/10.04
+
 ## v1.5.0:
 
 * [COOK-2141] - Add `$PreserveFQDN` configuration directive

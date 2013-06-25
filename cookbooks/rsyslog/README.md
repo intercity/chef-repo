@@ -3,7 +3,7 @@ Description
 
 Installs and configures rsyslog to replace sysklogd for client and/or
 server use. By default, the service will be configured to log to
-files on local disk. See the __Recipes__ and __Examples__ sections 
+files on local disk. See the __Recipes__ and __Examples__ sections
 for other uses.
 
 **Major Changes in 1.2.0**: See CHANGELOG.md
@@ -51,14 +51,10 @@ See `attributes/default.rb` for default values.
   template statements in `35-server-per-host.conf`. Default value is
   the previous cookbook version's value, to preserve compatibility.
   See __server__ recipe below.
-* `node['rsyslog']['user']` - Specify the user to run and write files as.
-* `node['rsyslog']['group']` - Specify the group to run and write files as.
 * `node['rsyslog']['priv_seperation']` - Whether to use privilege seperation or
    not.
 * `node['rsyslog']['max_message_size']` - Specify the maximum allowed
   message size. Default is 2k.
-* `node['rsyslog']['preserve_fqdn']` - Specify if the full host name
-  will be used. Default is off.
 * `node['rsyslog']['user']` - Who should own the configuration files and directories
 * `node['rsyslog']['group']` - Who should group-own the configuration files
   and directories
@@ -68,6 +64,8 @@ See `attributes/default.rb` for default values.
 * `node['rsyslog']['preserve_fqdn']` - Value of the `$PreserveFQDN`
   configuration directive in `/etc/rsyslog.conf`. Default is 'off' for
   compatibility purposes.
+* `node['rsyslog']['high_precision_timestamps']` -  Enable high precision
+  timestamps, instead of the "old style" format.  Default is 'false'.
 
 Recipes
 =======

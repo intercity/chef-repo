@@ -2,7 +2,7 @@
 # Cookbook Name:: rsyslog
 # Recipe:: client
 #
-# Copyright 2009-2011, Opscode, Inc.
+# Copyright 2009-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ elsif !node['rsyslog']['server']
                    search(:node, node['rsyslog']['server_search']).first['ipaddress'] rescue nil
 
   if rsyslog_server.nil?
-    raise "The rsyslog::client recipe was unable to determine the remote syslog server. Checked both the server_ip attribute and search()"
+    Chef::Application.fatal!("The rsyslog::client recipe was unable to determine the remote syslog server. Checked both the server_ip attribute and search()")
   end
 
   template "/etc/rsyslog.d/49-remote.conf" do
@@ -37,14 +37,11 @@ elsif !node['rsyslog']['server']
       :server => rsyslog_server,
       :protocol => node['rsyslog']['protocol']
     )
-    owner node["rsyslog"]["user"]
-    group node["rsyslog"]["group"]
     mode 0644
     notifies :restart, "service[#{node['rsyslog']['service_name']}]"
   end
 
   file "/etc/rsyslog.d/server.conf" do
-    only_if do ::File.exists?("/etc/rsyslog.d/server.conf") end
     action :delete
     notifies :reload, "service[#{node['rsyslog']['service_name']}]"
   end
