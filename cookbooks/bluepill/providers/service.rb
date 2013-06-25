@@ -48,6 +48,22 @@ action :enable do
       service "bluepill-#{new_resource.service_name}" do
         action [ :enable ]
       end
+    else
+      template "#{node['bluepill']['init_dir']}/bluepill-#{new_resource.service_name}" do
+        source "bluepill_init.fedora.erb"
+        cookbook "bluepill"
+        owner "root"
+        group node['bluepill']['group']
+        mode "0755"
+        variables(
+                  :service_name => new_resource.service_name,
+                  :config_file => config_file
+                  )
+      end
+
+      service "bluepill-#{new_resource.service_name}" do
+        action [ :enable ]
+      end
     end
     new_resource.updated_by_last_action(true)
   end
