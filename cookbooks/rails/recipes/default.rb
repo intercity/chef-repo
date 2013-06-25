@@ -107,6 +107,17 @@ if node[:active_applications]
       action [:enable, :load, :start]
     end
 
+    template "/etc/init/#{app}.conf" do
+      mode 0644
+      source "bluepill_upstart.erb"
+      variables :name => app
+    end
+
+    service "#{app}" do
+      provider Chef::Provider::Service::Upstart
+      action [ :enable ]
+    end
+
     nginx_site "#{app}.conf" do
       action :enable
     end
