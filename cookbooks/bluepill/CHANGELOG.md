@@ -1,3 +1,7 @@
+## v2.2.2:
+
+* [COOK-2507] - stringify language attributes
+
 ## v2.2.0:
 
 * [COOK-547] - Add `load` action to provider to reload services when

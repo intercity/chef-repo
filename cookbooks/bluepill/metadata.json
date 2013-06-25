@@ -27,5 +27,5 @@
   "recipes": {
     "bluepill::default": "Installs bluepill rubygem and set up management directories"
   },
-  "version": "2.2.0"
+  "version": "2.2.2"
 }

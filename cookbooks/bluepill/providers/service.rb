@@ -48,11 +48,6 @@ action :enable do
       service "bluepill-#{new_resource.service_name}" do
         action [ :enable ]
       end
-    when "ubuntu"
-      service "bluepill-#{new_resource.service_name}" do
-        provider Chef::Provider::Service::Upstart
-        action [ :enable ]
-      end
     end
     new_resource.updated_by_last_action(true)
   end
