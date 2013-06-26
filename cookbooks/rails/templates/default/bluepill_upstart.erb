@@ -1,9 +1,11 @@
 description "<%= @name %>"
 
-start on runlevel [2345]
-stop on runlevel [!2345]
+start on (started ssh)
 
-expect daemon
-respawn
+console output
 
-exec su -c "<%= node["bluepill"]["bin"] %> load /etc/bluepill/intercity_development.pill"
+pre-start script
+  <%= node["bluepill"]["bin"] %> load /etc/bluepill/intercity_development.pill
+end script
+
+exec sleep 1
