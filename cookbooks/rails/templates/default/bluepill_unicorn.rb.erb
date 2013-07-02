@@ -1,3 +1,5 @@
+ENV['PATH'] = "/home/deploy/.rbenv/shims:#{ENV['PATH']}"
+
 Bluepill.application("<%= @name %>", :log_file => "/u/apps/<%= @name %>/shared/log/bluepill.log") do |app|
   app.working_dir = "/u/apps/<%= @name %>/current"
   <% if @app_env %>

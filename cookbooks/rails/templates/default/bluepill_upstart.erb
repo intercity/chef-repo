@@ -1,11 +1,9 @@
-description "<%= @name %>"
+description "bluepill for <%= @name %>"
 
 start on (started ssh)
+expect daemon
+respawn
 
-console output
-
-pre-start script
+script
   <%= node["bluepill"]["bin"] %> load /etc/bluepill/intercity_development.pill
 end script
-
-exec sleep 1
