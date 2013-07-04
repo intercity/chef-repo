@@ -15,6 +15,31 @@ server {
 
 }
 
+server {
+  listen 443 ssl;
+
+  ssl_certificate /u/apps/<%= @name %>/shared/config/certificate.crt;
+  ssl_certificate_key /u/apps/<%= @name %>/shared/config/certificate.key;
+
+  server_name <%= @domain_names.join(' ') %>;
+
+  root /u/apps/<%= @name %>/current/public;
+
+  location / {
+    try_files $uri @app;
+  }
+
+  location @app {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_redirect off;
+
+    proxy_pass http://<%= @name %>;
+  }
+
+}
+
 upstream <%= @name %> {
   server unix:/u/apps/<%= @name %>/current/tmp/sockets/unicorn.sock;
 }
