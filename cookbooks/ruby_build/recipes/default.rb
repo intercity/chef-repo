@@ -33,6 +33,12 @@ unless mac_with_no_homebrew
   Array(node['ruby_build']['install_pkgs']).each do |pkg|
     package pkg
   end
+
+  Array(node['ruby_build']['install_git_pkgs']).each do |pkg|
+    package pkg do
+      not_if "git --version >/dev/null"
+    end
+  end
 end
 
 execute "Install ruby-build" do
@@ -49,7 +55,7 @@ directory ::File.dirname(src_path) do
   recursive true
 end
 
-git src_path do
+git src_path do #~FC043 exception to support AWS OpsWorks using an older Chef
   repository  git_url
   reference   git_ref
 
@@ -59,5 +65,5 @@ git src_path do
     action    :sync
   end
 
-  notifies :run, "execute[Install ruby-build]", :immediately
+  notifies :run, resources(:execute => "Install ruby-build"), :immediately
 end

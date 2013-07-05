@@ -20,7 +20,7 @@
 #
 
 # git repository containing the ruby-build framework
-default['ruby_build']['git_url'] = "git://github.com/sstephenson/ruby-build.git"
+default['ruby_build']['git_url'] = "https://github.com/sstephenson/ruby-build.git"
 default['ruby_build']['git_ref'] = "master"
 
 # default base path for a system-wide installed Ruby
@@ -31,17 +31,19 @@ default['ruby_build']['upgrade'] = "none"
 
 case platform
 when "redhat", "centos", "fedora", "amazon", "scientific"
-  node.set['ruby_build']['install_pkgs'] = %w{ tar bash curl git }
+  node.set['ruby_build']['install_pkgs'] = %w{ tar bash curl }
+  node.set['ruby_build']['install_git_pkgs'] = %w{ git }
   node.set['ruby_build']['install_pkgs_cruby'] =
     %w{ gcc-c++ patch readline readline-devel zlib zlib-devel
-        libyaml-devel libffi-devel openssl-devel
+        libffi-devel openssl-devel
         make bzip2 autoconf automake libtool bison
         libxml2 libxml2-devel libxslt libxslt-devel
-        git subversion autoconf }
+        subversion autoconf }
   node.set['ruby_build']['install_pkgs_jruby'] = []
 
 when "debian", "ubuntu"
-  node.set['ruby_build']['install_pkgs'] = %w{ tar bash curl git-core }
+  node.set['ruby_build']['install_pkgs'] = %w{ tar bash curl }
+  node.set['ruby_build']['install_git_pkgs'] = %w{ git-core }
   node.set['ruby_build']['install_pkgs_cruby'] =
     %w{ build-essential bison openssl libreadline6 libreadline6-dev
         zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0
@@ -50,14 +52,16 @@ when "debian", "ubuntu"
   node.set['ruby_build']['install_pkgs_jruby'] = %w{ make g++ }
 
 when "suse"
-  node.set['ruby_build']['install_pkgs'] = %w{ tar bash curl git-core }
+  node.set['ruby_build']['install_pkgs'] = %w{ tar bash curl }
+  node.set['ruby_build']['install_git_pkgs'] = %w{ git-core }
   node.set['ruby_build']['install_pkgs_cruby'] =
     %w{ gcc-c++ patch zlib zlib-devel libffi-devel
-        sqlite3-devel libxml2-devel libxslt-devel git subversion autoconf }
+        sqlite3-devel libxml2-devel libxslt-devel subversion autoconf }
   node.set['ruby_build']['install_pkgs_jruby'] = []
 
 when "mac_os_x"
-  node.set['ruby_build']['install_pkgs'] = %w{ git }
+  node.set['ruby_build']['install_pkgs'] = []
+  node.set['ruby_build']['install_git_pkgs'] = %w{ git-core }
   node.set['ruby_build']['install_pkgs_cruby'] = []
   node.set['ruby_build']['install_pkgs_jruby'] = []
 end
