@@ -15,6 +15,8 @@ server {
 
 }
 
+<% if @enable_ssl %>
+
 server {
   listen 443 ssl;
 
@@ -39,6 +41,8 @@ server {
   }
 
 }
+
+<% end %>
 
 upstream <%= @name %> {
   server unix:/u/apps/<%= @name %>/current/tmp/sockets/unicorn.sock;
