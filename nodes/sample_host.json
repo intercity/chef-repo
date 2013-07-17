@@ -1,0 +1,45 @@
+{
+  "run_list":["role[mysql]","role[rails]"],
+  "authorization": {
+    "sudo": {
+      "users": ["intercity"],
+      "groups": ["admin", "sudo"],
+      "passwordless": true,
+      "include_sudoers_d": true
+    }
+  },
+  "mysql": {
+    "server_debian_password": "<a random password>",
+    "server_root_password": "<a random password>",
+    "server_repl_password": "<a random password>"
+  },
+  "ssh_deploy_keys": [
+    "<the contents of your ~/.ssh/id_rsa.pub file >"
+  ],
+  "active_applications": {
+    "myapp_production": {
+      "rails_env": "production",
+      "packages": ["nodejs"],
+      "database_info": {
+        "adapter": "mysql2",
+        "host": "localhost",
+        "username": "myapp",
+        "password": "myapp_password",
+        "database": "myapp_production",
+        "domain_names": ["myapp.com", "www.myapp.com"]
+      }
+    }
+  },
+  "rbenv": {
+    "user_installs": [
+      {
+        "user": "deploy",
+        "rubies": ["2.0.0-p247"],
+        "global": "2.0.0-p247",
+        "gems": {
+          "2.0.0-p247": [ {"name": "bundler"} ]
+        }
+      }
+    ]
+  }
+}
