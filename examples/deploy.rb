@@ -7,12 +7,10 @@ set :application, "apphakker"
 set :repository,  "git@github.com:michiels/apphakker.git"
 
 set :scm, :git
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 role :web, "beta.apphakker.nl"                          # Your HTTP server, Apache/etc
 role :app, "beta.apphakker.nl"                          # This may be the same as your `Web` server
 role :db,  "beta.apphakker.nl", :primary => true # This is where Rails migrations will run
-# role :db,  "your slave db-server here"
 
 set :user, "deploy"
 set :use_sudo, false
@@ -21,9 +19,6 @@ before "deploy:finalize_update" do
   run "rm -f #{release_path}/config/database.yml; ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
   run "mkdir -p #{release_path}/tmp"
   run "ln -nfs #{shared_path}/sockets #{release_path}/tmp/sockets"
-
-  # Uncomment this if you are using sphinx with thinking_sphinx
-  # run "rm -rf #{release_path}/db/sphinx; ln -nfs #{shared_path}/sphinx #{release_path}/db/sphinx"
 end
 
 namespace :deploy do
