@@ -60,7 +60,7 @@ This command will log in and prepare your server to run the Chef cookbooks.
 bundle exec knife solo prepare <your user>@<your host/ip>
 ```
 
-This command will also create a *json* file with your hostname under the `nodes/`
+This command will also create a **json** file with your hostname under the `nodes/`
 directory. This is the file that is used to specify specific settings per
 server.
 
