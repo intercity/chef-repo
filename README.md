@@ -26,17 +26,7 @@ with sudo access and a SSH Server installed.
 
 Your server has:
 
-* Ubuntu 12.04 is installed.
-* A user called **locomotive** with *sudo* rights.
-
-If you did not create the locomotive user during the Ubuntu installation process (for
-instance if your VPS vendor generates a password for you). Log in to your server as **root**
-and do the following:
-
-```
-adduser locomotive
-adduser locomotive admin
-```
+* Ubuntu 12.04(.1) LTS is installed.
 
 ### Installation
 
