@@ -1,1 +1,0 @@
-set :user, "locomotive" # User on the servers that has sudo access
