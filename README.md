@@ -14,10 +14,9 @@ on a single server or multiple servers:
 * Nginx as webserver
 * Unicorn as the Rails application server (with rolling restarts)
 * App deployment with Capistrano
-* (optional) Haproxy for routing / load balancing to multiple app servers.
 
 The Chef recipes in this repository are meant to set up servers with a bare
-**Ubuntu 12.04 LTS (Precise Pangolin)** installation and that you have a user
+**Ubuntu 12.04(.1) LTS (Precise Pangolin)** installation and that you have a user
 with sudo access and a SSH Server installed.
 
 ## Getting started
@@ -37,58 +36,63 @@ destination folder as an example.
 git clone git://github.com/firmhouse/locomotive-chef-repo.git firmhouse_chef_repo
 ```
 
-Install capistrano
-
-```sh
-gem install capistrano
-```
-
-And initialize submodules:
+And initialize submodules wich whill fetch :
 
 ```sh
 git submodule init
 git submodule update
 ```
 
+Run bundler to install chef and knife solo:
+
+```sh
+bundle
+```
+
 ### Setting up the server
 
-In the local checkout of this repository, copy `config/servers.rb.sample` to
-`config/servers.rb` and define your applications and deploy keys in this file.
+First, bootstrap your server with a Chef client by using the following command
+with the username and password your VPS/server vendor provided:
+
+This command will log in and prepare your server to run the Chef cookbooks.
 
 ```sh
-cp config/servers.rb.sample config/servers.rb
+bundle exec knife solo prepare <your user>@<your host/ip>
 ```
 
-and modify.
+This command will also create a *json* file with your hostname under the `nodes/`
+directory. This is the file that is used to specify specific settings per
+server.
 
-Bootstrap your configured server with a standard Chef installation. SSH into
-your server and run this command:
+First, replace the entire contents of `nodes/your_host.json` with the contents of
+`nodes/sample_host.json`
+
+Then, replace the same configuration values in the json file with your own values.
+You specifically need to modify:
+
+* In the `authorization` section, replace `<your user>` with the user you prepared your server.
+* In the `mysql` section replace the three `<random password>` with your desired MySQL passwords.
+* In the `ssh_deploy_keys` section, copy the contents of your `~/.ssh/id_rsa.pub` file so your workstation is enabled to deploy with Capistrano.
+* In the `active_applications` section, customize the sample `myapp` values with your own Rails application values.
+* In the `rbenv` section, enter the correct Ruby version that your app should use.
+
+When your host configuration file is set up you run:
 
 ```sh
-curl -L https://www.opscode.com/chef/install.sh | sudo bash
-```
-
-Upload the Chef cookbooks and configuration to your server:
-
-```sh
-cap chef:update
-```
-
-Now it's time to actually install and configure your server:
-
-```
-cap chef:apply
+bundle exec knife solo cook <your user>@<your host/ip>
 ```
 
 After this command runs successfully, you should be able to browse to the
-domain name of your server and see a 503 Nginx error message. This is because
-running the above commands have set up a bare deployment skeleton for your
-application(s) and it is now time to deploy it using Capistrano. Read about
-this in the next section.
+domain name of your server and see a 503 Nginx error message. When the
+command does not run succesfully, see if there are any errors in your host
+configuration file, or file an issue on GitHub.
+
+You see the Nginx error message because the above commands set up a bare deployment skeleton for your
+application(s) and it is now time to deploy it using Capistrano. Read about this in the next section.
 
 ### Deploying your applications
 
-The scripts in **Getting started** set up a bare deployment structure on your
+The scripts in **Setting up your server** set up a bare deployment structure on your
 server that you can use with Capistrano. The deployment structure for your
 apps look like:
 
@@ -121,20 +125,17 @@ Capfile should look like this:
 
 ```ruby
 load 'deploy'
-# Uncomment if you are using Rails' asset pipeline
 load 'deploy/assets'
-load 'config/deploy' # remove this line to skip loading any of the default tasks
+load 'config/deploy'
 ```
 
 Finally, you can run one of the folllowing commands to deploy your application:
 
 ```sh
 cap deploy
-or
-cap deploy:migrations
 ```
 
-And you are deployed! Optionally migrations will run if you used the second command.
+And you are deployed!
 
 ## If you need help
 

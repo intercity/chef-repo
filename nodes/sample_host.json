@@ -2,7 +2,7 @@
   "run_list":["role[mysql]","role[rails]"],
   "authorization": {
     "sudo": {
-      "users": ["intercity"],
+      "users": ["<your user>"],
       "groups": ["admin", "sudo"],
       "passwordless": true,
       "include_sudoers_d": true
@@ -14,7 +14,7 @@
     "server_repl_password": "<a random password>"
   },
   "ssh_deploy_keys": [
-    "<the contents of your ~/.ssh/id_rsa.pub file >"
+    "<the contents of your ~/.ssh/id_rsa.pub file>"
   ],
   "active_applications": {
     "myapp_production": {
