@@ -1,5 +1,5 @@
-Setting up a Rails server
-=========================
+Readme
+======
 
 This Chef repository aims at being the easiest way set up and configure your own Rails server
 to host one or more Ruby on Rails applications using best
