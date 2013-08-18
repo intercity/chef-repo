@@ -36,7 +36,7 @@ destination folder as an example.
 git clone git://github.com/firmhouse/locomotive-chef-repo.git firmhouse_chef_repo
 ```
 
-And initialize submodules wich whill fetch :
+And initialize submodules which will fetch:
 
 ```sh
 git submodule init
