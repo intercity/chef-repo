@@ -1,4 +1,4 @@
-ENV['PATH'] = "/home/deploy/.rbenv/shims:#{ENV['PATH']}"
+ENV['PATH'] = "/home/<%= @deploy_user %>/.rbenv/shims:#{ENV['PATH']}"
 
 Bluepill.application("<%= @name %>", :log_file => "/u/apps/<%= @name %>/shared/log/bluepill.log") do |app|
   app.working_dir = "/u/apps/<%= @name %>/current"
@@ -14,8 +14,8 @@ Bluepill.application("<%= @name %>", :log_file => "/u/apps/<%= @name %>/shared/l
 
     process.checks :mem_usage, :every => 1.minute, :below => 130.megabytes, :times => [3, 5]
 
-    process.uid = "deploy"
-    process.gid = "deploy"
+    process.uid = "<%= @deploy_user %>"
+    process.gid = "<%= @deploy_user %>"
 
     process.start_grace_time = 1.minute
     process.restart_grace_time = 1.minute

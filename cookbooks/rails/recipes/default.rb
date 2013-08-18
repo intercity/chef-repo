@@ -46,30 +46,59 @@ sudo "deploy" do
   nopasswd true
 end
 
+if node[:deploy_users]
+  node[:deploy_users].each do |user|
+    user user do
+      comment "Deploy User #{user}"
+      home "/home/#{user}"
+      shell "/bin/bash"
+
+      supports(:manage_home => true )
+    end
+
+    template "/home/#{user}/.bashrc" do
+      source "bashrc.erb"
+      owner "#{user}"
+      group "#{user}"
+    end
+
+    group user do
+      members [user]
+    end
+
+    sudo user do
+      user user
+      commands ["#{node[:bluepill][:bin]}"]
+      nopasswd true
+    end
+  end
+end
+
 if node[:active_applications]
 
   node[:active_applications].each do |app, app_info|
     rails_env = app_info['rails_env'] || "production"
+    deploy_user = app_info['deploy_user'] || "deploy"
 
     directory "/u/apps/#{app}" do
       recursive true
-      group "deploy"
-      owner "deploy"
+      group deploy_user
+      owner deploy_user
     end
 
     ['config', 'shared', 'shared/config', 'shared/sockets', 'shared/pids', 'shared/log', 'shared/system', 'releases'].each do |dir|
       directory "/u/apps/#{app}/#{dir}" do
         recursive true
-        group "deploy"
-        owner "deploy"
+        group deploy_user
+        owner deploy_user
       end
     end
 
     if app_info['database_info']
 
       template "/u/apps/#{app}/shared/config/database.yml" do
-        owner "deploy"
-        group "deploy"
+        owner deploy_user
+        group deploy_user
         mode 0600
         source "app_database.yml.erb"
         variables :database_info => app_info['database_info'], :rails_env => rails_env
@@ -80,8 +109,8 @@ if node[:active_applications]
     if app_info['packages'] && app_info['packages'].include?('sphinxsearch')
       directory "/u/apps/#{app}/shared/sphinx" do
         recursive true
-        group "deploy"
-        owner "deploy"
+        group deploy_user
+        owner deploy_user
       end
     end
 
@@ -94,13 +123,13 @@ if node[:active_applications]
     template "/u/apps/#{app}/shared/config/unicorn.rb" do
       mode 0644
       source "app_unicorn.rb.erb"
-      variables :name => app, :number_of_workers => app_info['number_of_workers'] || 2
+      variables :name => app, :deploy_user => deploy_user, :number_of_workers => app_info['number_of_workers'] || 2
     end
 
     template "#{node[:bluepill][:conf_dir]}/#{app}.pill" do
       mode 0644
       source "bluepill_unicorn.rb.erb"
-      variables :name => app, :app_env => app_info['app_env'], :rails_env => rails_env
+      variables :name => app, :deploy_user => deploy_user, :app_env => app_info['app_env'], :rails_env => rails_env
     end
 
     bluepill_service app do
@@ -128,7 +157,7 @@ if node[:active_applications]
       frequency "daily"
       rotate 14
       compress true
-      create "644 deploy deploy"
+      create "644 #{deploy_user} #{deploy_user}"
     end
 
   end
