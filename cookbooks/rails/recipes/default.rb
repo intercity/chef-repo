@@ -47,27 +47,27 @@ sudo "deploy" do
 end
 
 if node[:deploy_users]
-  node[:deploy_users].each do |user|
-    user user do
-      comment "Deploy User #{user}"
-      home "/home/#{user}"
+  node[:deploy_users].each do |deploy_user|
+    user deploy_user do
+      comment "Deploy User #{deploy_user}"
+      home "/home/#{deploy_user}"
       shell "/bin/bash"
 
       supports(:manage_home => true )
     end
 
-    template "/home/#{user}/.bashrc" do
+    template "/home/#{deploy_user}/.bashrc" do
       source "bashrc.erb"
-      owner "#{user}"
-      group "#{user}"
+      owner "#{deploy_user}"
+      group "#{deploy_user}"
     end
 
-    group user do
-      members [user]
+    group deploy_user do
+      members [deploy_user]
     end
 
-    sudo user do
-      user user
+    sudo deploy_user do
+      user deploy_user
       commands ["#{node[:bluepill][:bin]}"]
       nopasswd true
     end
