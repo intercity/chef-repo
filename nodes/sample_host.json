@@ -20,13 +20,13 @@
     "myapp_production": {
       "rails_env": "production",
       "packages": ["nodejs"],
+      "domain_names": ["myapp.com", "www.myapp.com"],
       "database_info": {
         "adapter": "mysql2",
         "host": "localhost",
         "username": "myapp",
         "password": "myapp_password",
-        "database": "myapp_production",
-        "domain_names": ["myapp.com", "www.myapp.com"]
+        "database": "myapp_production"
       }
     }
   },
