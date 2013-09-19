@@ -13,6 +13,9 @@
     "server_root_password": "<a random password>",
     "server_repl_password": "<a random password>"
   },
+  "deploy_users": [
+    "<add as many users as you want to create to deploy>"
+  ]
   "ssh_deploy_keys": [
     "<the contents of your ~/.ssh/id_rsa.pub file>"
   ],
