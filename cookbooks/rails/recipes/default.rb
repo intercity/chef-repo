@@ -117,17 +117,21 @@ if node[:active_applications]
       end
     end
 
-    if app_info['ssl_info'] && app_info['ssl_info']['crt']
+    if app_info['ssl_info']
       template "/u/apps/#{app}/shared/config/certificate.crt" do
+        owner "deploy"
+        group "deploy"
+        mode 0644
         source "app_cert.crt.erb"
-        variables :ssl_info => app_info['ssl_info']
+        variables :ssl_info=> app_info['ssl_info'], :rails_env => rails_env
       end
-    end
 
-    if app_info['ssl_info'] && app_info['ssl_info']['key']
       template "/u/apps/#{app}/shared/config/certificate.key" do
+        owner "deploy"
+        group "deploy"
+        mode 0644
         source "app_cert.key.erb"
-        variables :ssl_info => app_info['ssl_info']
+        variables :ssl_info=> app_info['ssl_info'], :rails_env => rails_env
       end
     end
 
