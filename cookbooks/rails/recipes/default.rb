@@ -114,9 +114,23 @@ if node[:active_applications]
       end
     end
 
+    if app_info['ssl_info'] && app_info['ssl_info']['crt']
+      template "/u/apps/#{app}/shared/config/certificate.crt" do
+        source "app_cert.crt.erb"
+        variables :ssl_info => app_info['ssl_info']
+      end
+    end
+
+    if app_info['ssl_info'] && app_info['ssl_info']['key']
+      template "/u/apps/#{app}/shared/config/certificate.key" do
+        source "app_cert.key.erb"
+        variables :ssl_info => app_info['ssl_info']
+      end
+    end
+
     template "/etc/nginx/sites-available/#{app}.conf" do
       source "app_nginx.conf.erb"
-      variables :name => app, :domain_names => app_info['domain_names'], :enable_ssl => File.exists?("/u/apps/#{app}/shared/config/certificate.crt")
+      variables :name => app, :domain_names => app_info['domain_names'], :enable_ssl =>  app_info['ssl_info']
       notifies :reload, resources(:service => "nginx")
     end
 
