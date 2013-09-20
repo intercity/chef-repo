@@ -27,8 +27,16 @@
     "<appname>_<stage>": {
       "rails_env": "<stage, eg: production>",
       "packages": ["nodejs"],
+<<<<<<< HEAD
       "domain_names": ["<domain name>", "<domain name>", "<...>"],
       "ruby_version": "2.0.0-p247",
+=======
+      "domain_names": ["myapp.com", "www.myapp.com"],
+      "ssl_info": {
+        "key": "<ssl key>",
+        "crt": "<ssl crt>"
+        },
+>>>>>>> add support for SSL keys and certs in the rails default recipe
       "database_info": {
         "adapter": "mysql2",
         "host": "localhost",
