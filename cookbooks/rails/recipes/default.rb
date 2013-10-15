@@ -120,7 +120,7 @@ if node[:active_applications]
         group "deploy"
         mode 0644
         source "app_cert.crt.erb"
-        variables :ssl_info=> app_info['ssl_info'], :rails_env => rails_env
+        variables :app_crt=> app_info['ssl_info']['crt']
       end
 
       template "/u/apps/#{app}/shared/config/certificate.key" do
@@ -128,7 +128,7 @@ if node[:active_applications]
         group "deploy"
         mode 0644
         source "app_cert.key.erb"
-        variables :ssl_info=> app_info['ssl_info'], :rails_env => rails_env
+        variables :app_key=> app_info['ssl_info']['key']
       end
     end
 
