@@ -17,9 +17,8 @@
 # limitations under the License.
 #
 
-require 'chef/shell_out'
 
-result = Chef::ShellOut.new("pkgutil --pkgs").run_command
+result = Mixlib::ShellOut.new("pkgutil --pkgs").run_command
 osx_gcc_installer_installed = result.stdout.split("\n").include?("com.apple.pkg.gcc4.2Leo")
 developer_tools_cli_installed = result.stdout.split("\n").include?("com.apple.pkg.DeveloperToolsCLI")
 pkg_filename = ::File.basename(node['build_essential']['osx']['gcc_installer_url'])
