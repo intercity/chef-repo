@@ -1,10 +1,8 @@
 #
 # Cookbook Name:: nginx
-# Recipe:: commons
+# Attribute:: rate_limiting
 #
-# Author:: AJ Christensen <aj@junglist.gen.nz>
-#
-# Copyright 2008-2013, Opscode, Inc.
+# Copyright 2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +17,7 @@
 # limitations under the License.
 #
 
-include_recipe 'nginx::commons_dir'
-include_recipe 'nginx::commons_script'
-include_recipe 'nginx::commons_conf'
+default['nginx']['enable_rate_limiting']    = false
+default['nginx']['rate_limiting_zone_name'] = 'default'
+default['nginx']['rate_limiting_backoff']   = '10m'
+default['nginx']['rate_limit']              = '1r/s'

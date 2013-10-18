@@ -1,10 +1,10 @@
 #
 # Cookbook Name:: nginx
-# Recipe:: commons
+# Recipe:: http_perl_module
 #
-# Author:: AJ Christensen <aj@junglist.gen.nz>
+# Author:: Akzhan Abdulin (<akzhan.abdulin@gmail.com>)
 #
-# Copyright 2008-2013, Opscode, Inc.
+# Copyright 2012-2013, REG.RU
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,5 @@
 # limitations under the License.
 #
 
-include_recipe 'nginx::commons_dir'
-include_recipe 'nginx::commons_script'
-include_recipe 'nginx::commons_conf'
+node.run_state['nginx_configure_flags'] =
+  node.run_state['nginx_configure_flags'] | ['--with-http_perl_module']
