@@ -1,7 +1,8 @@
 #
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Cookbook Name:: mysql
+# Attributes:: client
 #
-# Copyright:: Copyright (c) 2011-2013 Opscode, Inc.
+# Copyright 2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,17 +17,6 @@
 # limitations under the License.
 #
 
-module Opscode
-  module Mysql
-    # Opscode Mysql Helpers
-    module Helpers
-      def debian_before_squeeze?
-        (node['platform'] == 'debian') && (node['platform_version'].to_f < 6.0)
-      end
-
-      def ubuntu_before_lucid?
-        (node['platform'] == 'ubuntu') && (node['platform_version'].to_f < 10.0)
-      end
-    end
-  end
-end
+default['mysql']['percona']['apt_key_id'] = 'CD2EFD2A'
+default['mysql']['percona']['apt_uri'] = 'http://repo.percona.com/apt'
+default['mysql']['percona']['apt_keyserver'] = 'keys.gnupg.net'
