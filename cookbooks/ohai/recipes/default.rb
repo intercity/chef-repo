@@ -17,14 +17,17 @@
 # limitations under the License.
 #
 
+reload_ohai = false
+# Add plugin_path from node attributes if missing, and ensure a reload of
+# ohai in that case
 unless Ohai::Config[:plugin_path].include?(node['ohai']['plugin_path'])
-  Ohai::Config[:plugin_path] << node['ohai']['plugin_path']
+  Ohai::Config[:plugin_path] = [node['ohai']['plugin_path'], Ohai::Config[:plugin_path]].flatten.compact
+  reload_ohai ||= true
 end
 Chef::Log.info("ohai plugins will be at: #{node['ohai']['plugin_path']}")
 
 # This is done during the compile phase so new plugins can be used in
 # resources later in the run.
-reload_ohai = false
 node['ohai']['plugins'].each_pair do |source_cookbook, path|
 
   rd = remote_directory node['ohai']['plugin_path'] do
@@ -38,17 +41,14 @@ node['ohai']['plugins'].each_pair do |source_cookbook, path|
 
   rd.run_action(:create)
   reload_ohai ||= rd.updated?
-
 end
 
 resource = ohai 'custom_plugins' do
   action :nothing
 end
 
-# only reload ohai if new plugins were dropped off OR
-# node['ohai']['plugin_path'] does not exists in client.rb
-if reload_ohai ||
-  !(::IO.read(Chef::Config[:config_file]) =~ /Ohai::Config\[:plugin_path\]\s*<<\s*["']#{node['ohai']['plugin_path']}["']/)
-
+# Reload ohai if the client's plugin_path did not contain
+# node['ohai']['plugin_path'], or new plugins were loaded
+if reload_ohai
   resource.run_action(:reload)
 end
