@@ -34,16 +34,19 @@ class Chef
         @action = :enable
         @allowed_actions = [:nothing, :start, :stop, :enable, :disable, :restart, :reload, :status, :once, :hup, :cont, :term, :kill, :up, :down, :usr1, :usr2]
 
-        # sv_bin, sv_dir and service_dir may have been set in the node attributes
+        # sv_bin, sv_dir, service_dir and lsb_init_dir may have been set in the
+        # node attributes
         @sv_bin = runit_node[:sv_bin] || '/usr/bin/sv'
         @sv_dir = runit_node[:sv_dir] || '/etc/sv'
         @service_dir = runit_node[:service_dir] || '/etc/service'
+        @lsb_init_dir = runit_node[:lsb_init_dir] || '/etc/init.d'
 
         @control = []
         @options = {}
         @env = {}
         @log = true
         @cookbook = nil
+        @check = false
         @finish = false
         @owner = nil
         @group = nil
@@ -53,10 +56,19 @@ class Chef
         @restart_on_update = true
         @run_template_name = @service_name
         @log_template_name = @service_name
+        @check_script_template_name = @service_name
         @finish_script_template_name = @service_name
         @control_template_names = {}
         @status_command = "#{@sv_bin} status #{@service_dir}"
         @sv_templates = true
+        @log_size = nil
+        @log_num = nil
+        @log_min = nil
+        @log_timeout = nil
+        @log_processor = nil
+        @log_socket = nil
+        @log_prefix = nil
+        @log_config_append = nil
 
         #
         # Backward Compat Hack
@@ -89,6 +101,10 @@ class Chef
 
       def service_dir(arg=nil)
         set_or_return(:service_dir, arg, :kind_of => [String])
+      end
+
+      def lsb_init_dir(arg=nil)
+        set_or_return(:lsb_init_dir, arg, :kind_of => [String])
       end
 
       def control(arg=nil)
@@ -125,6 +141,10 @@ class Chef
         set_or_return(:finish, arg, :kind_of => [TrueClass, FalseClass])
       end
 
+      def check(arg=nil)
+        set_or_return(:check, arg, :kind_of => [TrueClass, FalseClass])
+      end
+
       def owner(arg=nil)
         set_or_return(:owner, arg, :regex => [Chef::Config[:user_valid_regex]])
       end
@@ -150,6 +170,10 @@ class Chef
         set_or_return(:log_template_name, arg, :kind_of => [String])
       end
 
+      def check_script_template_name(arg=nil)
+        set_or_return(:check_script_template_name, arg, :kind_of => [String])
+      end
+
       def finish_script_template_name(arg=nil)
         set_or_return(:finish_script_template_name, arg, :kind_of => [String])
       end
@@ -172,6 +196,38 @@ class Chef
 
       def sv_templates(arg=nil)
         set_or_return(:sv_templates, arg, :kind_of => [TrueClass, FalseClass])
+      end
+
+      def log_size(arg=nil)
+        set_or_return(:log_size, arg, :kind_of => [Integer])
+      end
+
+      def log_num(arg=nil)
+        set_or_return(:log_num, arg, :kind_of => [Integer])
+      end
+
+      def log_min(arg=nil)
+        set_or_return(:log_min, arg, :kind_of => [Integer])
+      end
+
+      def log_timeout(arg=nil)
+        set_or_return(:log_timeout, arg, :kind_of => [Integer])
+      end
+
+      def log_processor(arg=nil)
+        set_or_return(:log_processor, arg, :kind_of => [String])
+      end
+
+      def log_socket(arg=nil)
+        set_or_return(:log_socket, arg, :kind_of => [String, Hash])
+      end
+
+      def log_prefix(arg=nil)
+        set_or_return(:log_prefix, arg, :kind_of => [String])
+      end
+
+      def log_config_append(arg=nil)
+        set_or_return(:log_config_append, arg, :kind_of => [String])
       end
 
       def runit_attributes_from_node(run_context)
