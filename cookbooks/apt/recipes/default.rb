@@ -2,7 +2,7 @@
 # Cookbook Name:: apt
 # Recipe:: default
 #
-# Copyright 2008-2011, Opscode, Inc.
+# Copyright 2008-2013, Opscode, Inc.
 # Copyright 2009, Bryan McLellan <btm@loftninjas.org>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +17,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+class ::Chef::Recipe
+  include Apt::Helpers
+end
+
+# On systems where apt is not installed, this recipe does not execute
+unless apt_installed?
+  Chef::Log.debug "apt is not installed. Skipping cache update."
+  return
+end
 
 # Run apt-get update to create the stamp file
 execute "apt-get-update" do

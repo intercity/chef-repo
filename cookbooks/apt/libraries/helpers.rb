@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: apt
-# Recipe:: cacher-ng
+# Library:: helpers
 #
-# Copyright 2008-2013, Opscode, Inc.
+# Copyright 2013 Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,27 +17,27 @@
 # limitations under the License.
 #
 
-node.set['apt']['caching_server'] = true
+module Apt
+  module Helpers
+    # Determines if apt is installed on a system.
+    #
+    # @return [Boolean]
+    def apt_installed?
+      !which('apt-get').nil?
+    end
 
-package "apt-cacher-ng" do
-  action :install
-end
+    # Finds a command in $PATH
+    #
+    # @return [String, nil]
+    def which(cmd)
+      paths = (ENV['PATH'].split(::File::PATH_SEPARATOR) + %w(/bin /usr/bin /sbin /usr/sbin))
 
-directory node['apt']['cacher_dir'] do
-  owner "apt-cacher-ng"
-  group "apt-cacher-ng"
-  mode 0755
-end
+      paths.each do |path|
+        possible = File.join(path, cmd)
+        return possible if File.executable?(possible)
+      end
 
-template "/etc/apt-cacher-ng/acng.conf" do
-  source "acng.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-  notifies :restart, "service[apt-cacher-ng]", :immediately
-end
-
-service "apt-cacher-ng" do
-  supports :restart => true, :status => false
-  action [:enable, :start]
+      nil
+    end
+  end
 end
