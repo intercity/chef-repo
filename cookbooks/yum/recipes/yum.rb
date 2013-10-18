@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: yum
-# Recipe:: yum 
+# Recipe:: yum
 #
 # Copyright 2011, Eric G. Wolfe
 # Copyright 2011, Opscode, Inc.
