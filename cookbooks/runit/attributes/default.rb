@@ -24,6 +24,7 @@ when "debian"
   default["runit"]["chpst_bin"] = "/usr/bin/chpst"
   default["runit"]["service_dir"] = "/etc/service"
   default["runit"]["sv_dir"] = "/etc/sv"
+  default["runit"]["lsb_init_dir"] = "/etc/init.d"
   default["runit"]["executable"] = "/sbin/runit"
 
   if node["platform"] == "debian"
@@ -46,21 +47,13 @@ when "rhel"
   default["runit"]["chpst_bin"] = "/sbin/chpst"
   default["runit"]["service_dir"] = "/etc/service"
   default["runit"]["sv_dir"] = "/etc/sv"
+  default["runit"]["lsb_init_dir"] = "/etc/init.d"
   default["runit"]["executable"] = "/sbin/runit"
+  default["runit"]["use_package_from_yum"] = false
 
-  if node["platform_version"].to_i < 6
-
-    default["runit"]["start"] = "/etc/init.d/runit-start start"
-    default["runit"]["stop"] = "/etc/init.d/runit-start stop"
-    default["runit"]["reload"] = "/etc/init.d/runit-start reload"
-
-  else
-
-    default["runit"]["start"] = "/etc/init.d/runit-start start"
-    default["runit"]["stop"] = "/etc/init.d/runit-start stop"
-    default["runit"]["reload"] = "/etc/init.d/runit-start reload"
-
-  end
+  default["runit"]["start"] = "/etc/init.d/runit-start start"
+  default["runit"]["stop"] = "/etc/init.d/runit-start stop"
+  default["runit"]["reload"] = "/etc/init.d/runit-start reload"
 
 when "gentoo"
 
@@ -68,10 +61,10 @@ when "gentoo"
   default["runit"]["chpst_bin"] = "/usr/bin/chpst"
   default["runit"]["service_dir"] = "/var/service"
   default["runit"]["sv_dir"] = "/etc/sv"
+  default["runit"]["lsb_init_dir"] = "/etc/init.d"
   default["runit"]["executable"] = "/sbin/runit"
   default["runit"]["start"] = "/etc/init.d/runit-start start"
   default["runit"]["stop"] = "/etc/init.d/runit-start stop"
   default["runit"]["reload"] = "/etc/init.d/runit-start reload"
 
 end
-
