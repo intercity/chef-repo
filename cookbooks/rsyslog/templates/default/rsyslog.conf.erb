@@ -17,13 +17,15 @@ $PreserveFQDN <%= node['rsyslog']['preserve_fqdn'] %>
 #### MODULES ####
 #################
 
-$ModLoad imuxsock # provides support for local system logging
-$ModLoad imklog   # provides kernel logging support (previously done by rklogd)
-#$ModLoad immark  # provides --MARK-- message capability
+<% if node['rsyslog']['modules'] && !node['rsyslog']['modules'].empty? %>
+  <% [*node['rsyslog']['modules']].each do |mod| %>
+$ModLoad <%= mod %>
+  <% end %>
+<% end %>
 
 <% if node['rsyslog']['server'] -%>
-# Provide <%= @protocol.upcase %> log reception
-<% case @protocol -%>
+# Provide <%= node['rsyslog']['protocol'].upcase %> log reception
+<% case node['rsyslog']['protocol'] -%>
 <% when "tcp" -%>
 $ModLoad imtcp
 $InputTCPServerRun <%= node['rsyslog']['port'] %>
@@ -46,7 +48,7 @@ $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 <% end -%>
 
 # Filter duplicated messages
-$RepeatedMsgReduction on
+$RepeatedMsgReduction <%= node['rsyslog']['repeated_msg_reduction'] %>
 
 #
 # Set temporary directory to buffer syslog queue
@@ -66,6 +68,6 @@ $PrivDropToUser <%= node['rsyslog']['user'] %>
 $PrivDropToGroup <%= node['rsyslog']['group'] %>
 <% end %>
 #
-# Include all config files in /etc/rsyslog.d/
+# Include all config files in <%= node['rsyslog']['config_prefix'] %>/rsyslog.d/
 #
-$IncludeConfig /etc/rsyslog.d/*.conf
+$IncludeConfig <%= node['rsyslog']['config_prefix'] %>/rsyslog.d/*.conf

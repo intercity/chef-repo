@@ -2,7 +2,7 @@
 # Cookbook Name:: rsyslog
 # Recipe:: server
 #
-# Copyright 2009-2011, Opscode, Inc.
+# Copyright 2009-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,29 +17,28 @@
 # limitations under the License.
 #
 
+# Manually set this attribute
 node.set['rsyslog']['server'] = true
 
-include_recipe "rsyslog"
+include_recipe 'rsyslog::default'
 
 directory node['rsyslog']['log_dir'] do
+  owner    'root'
+  group    'root'
+  mode     '0755'
   recursive true
-  mode 0755
 end
 
-template "/etc/rsyslog.d/35-server-per-host.conf" do
-  source "35-server-per-host.conf.erb"
-  backup false
-  variables(
-    :log_dir => node['rsyslog']['log_dir'],
-    :per_host_dir => node['rsyslog']['per_host_dir']
-  )
-  mode 0644
+template "#{node['rsyslog']['config_prefix']}/rsyslog.d/35-server-per-host.conf" do
+  source   '35-server-per-host.conf.erb'
+  owner    'root'
+  group    'root'
+  mode     '0644'
   notifies :restart, "service[#{node['rsyslog']['service_name']}]"
 end
 
-file "/etc/rsyslog.d/remote.conf" do
-  action :delete
-  backup false
+file "#{node['rsyslog']['config_prefix']}/rsyslog.d/remote.conf" do
+  action   :delete
   notifies :reload, "service[#{node['rsyslog']['service_name']}]"
-  only_if do ::File.exists?("/etc/rsyslog.d/remote.conf") end
+  only_if  { ::File.exists?("#{node['rsyslog']['config_prefix']}/rsyslog.d/remote.conf") }
 end
