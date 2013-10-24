@@ -23,81 +23,92 @@ require 'chef/mixin/language'
 
 include Chef::Mixin::ShellOut
 
+def whyrun_supported?
+  true
+end
+
 action :enable do
   config_file = ::File.join(node['bluepill']['conf_dir'],
                             "#{new_resource.service_name}.pill")
   unless @current_resource.enabled
-    link "#{node['bluepill']['init_dir']}/#{new_resource.service_name}" do
-      to node['bluepill']['bin']
-      only_if { ::File.exists?(config_file) }
-    end
-    case node['platform_family']
-    when "rhel", "fedora", "freebsd"
-      template "#{node['bluepill']['init_dir']}/bluepill-#{new_resource.service_name}" do
-        source "bluepill_init.#{node['platform_family']}.erb"
-        cookbook "bluepill"
-        owner "root"
-        group node['bluepill']['group']
-        mode "0755"
-        variables(
-                  :service_name => new_resource.service_name,
-                  :config_file => config_file
-                  )
+    converge_by("enable #{ @new_resource }") do
+      link "#{node['bluepill']['init_dir']}/#{new_resource.service_name}" do
+        to node['bluepill']['bin']
+        only_if { ::File.exists?(config_file) }
       end
+      case node['platform_family']
+      when "rhel", "fedora", "freebsd"
+        template "#{node['bluepill']['init_dir']}/bluepill-#{new_resource.service_name}" do
+          source "bluepill_init.#{node['platform_family']}.erb"
+          cookbook "bluepill"
+          owner "root"
+          group node['bluepill']['group']
+          mode "0755"
+          variables(
+                    :service_name => new_resource.service_name,
+                    :config_file => config_file
+                    )
+        end
 
-      service "bluepill-#{new_resource.service_name}" do
-        action [ :enable ]
+        service "bluepill-#{new_resource.service_name}" do
+          action [ :enable ]
+        end
       end
     end
-    new_resource.updated_by_last_action(true)
   end
 end
 
 action :load do
   unless @current_resource.running
-    shell_out!(load_command)
-    new_resource.updated_by_last_action(true)
+    converge_by("load #{ @new_resource }") do
+      shell_out!(load_command)
+    end
   end
 end
 
 action :reload do
-  shell_out!(stop_command) if @current_resource.running
-  shell_out!(load_command)
-  new_resource.updated_by_last_action(true)
+  converge_by("reload #{ @new_resource }") do
+    shell_out!(stop_command) if @current_resource.running
+    shell_out!(load_command)
+  end
 end
 
 action :start do
   unless @current_resource.running
-    shell_out!(start_command)
-    new_resource.updated_by_last_action(true)
+    converge_by("start #{ @new_resource }") do
+      shell_out!(start_command)
+    end
   end
 end
 
 action :disable do
   if @current_resource.enabled
-    file "#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill" do
-      action :delete
+    converge_by("disable #{ @new_resource }") do
+      file "#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill" do
+        action :delete
+      end
+      link "#{node['bluepill']['init_dir']}/#{new_resource.service_name}" do
+        action :delete
+      end
     end
-    link "#{node['bluepill']['init_dir']}/#{new_resource.service_name}" do
-      action :delete
-    end
-    new_resource.updated_by_last_action(true)
   end
 end
 
 action :stop do
   if @current_resource.running
-    shell_out!(stop_command)
-    new_resource.updated_by_last_action(true)
+    converge_by("stop #{ @new_resource }") do
+      shell_out!(stop_command)
+    end
   end
 end
 
 action :restart do
   if @current_resource.running
-    Chef::Log.debug "Restarting #{new_resource.service_name}"
-    shell_out!(restart_command)
-    new_resource.updated_by_last_action(true)
-    Chef::Log.debug "Restarted #{new_resource.service_name}"
+    converge_by("restart #{ @new_resource }") do
+      Chef::Log.debug "Restarting #{new_resource.service_name}"
+      shell_out!(restart_command)
+      Chef::Log.debug "Restarted #{new_resource.service_name}"
+    end
   end
 end
 

@@ -17,32 +17,41 @@
 # limitations under the License.
 #
 
-include_recipe "rsyslog"
+# Do not run this recipe if the server attribute is set
+return if node['rsyslog']['server']
 
-if !node['rsyslog']['server'] and node['rsyslog']['server_ip'].nil? and Chef::Config[:solo]
-  Chef::Log.fatal("Chef Solo does not support search, therefore it is a requirement of the rsyslog::client recipe that the attribute 'server_ip' is set when using Chef Solo. 'server_ip' is not set.")
-elsif !node['rsyslog']['server']
-  rsyslog_server = node['rsyslog']['server_ip'] ||
-                   search(:node, node['rsyslog']['server_search']).first['ipaddress'] rescue nil
+include_recipe 'rsyslog::default'
 
-  if rsyslog_server.nil?
-    Chef::Application.fatal!("The rsyslog::client recipe was unable to determine the remote syslog server. Checked both the server_ip attribute and search()")
+# On Chef Solo, we use the node['rsyslog']['server_ip'] attribute, and on
+# normal Chef, we leverage the search query.
+if Chef::Config[:solo]
+  if node['rsyslog']['server_ip']
+    rsyslog_servers = Array(node['rsyslog']['server_ip'])
+  else
+    Chef::Application.fatal!("Chef Solo does not support search. You must set node['rsyslog']['server_ip']!")
   end
+else
+  results = search(:node, node['rsyslog']['server_search']).map { |n| n['ipaddress'] }
+  rsyslog_servers = Array(node['rsyslog']['server_ip']) + Array(results)
+end
 
-  template "/etc/rsyslog.d/49-remote.conf" do
-    only_if { node['rsyslog']['remote_logs'] && !rsyslog_server.nil? }
-    source "49-remote.conf.erb"
-    backup false
-    variables(
-      :server => rsyslog_server,
-      :protocol => node['rsyslog']['protocol']
-    )
-    mode 0644
-    notifies :restart, "service[#{node['rsyslog']['service_name']}]"
-  end
+if rsyslog_servers.empty?
+  Chef::Application.fatal!('The rsyslog::client recipe was unable to determine the remote syslog server. Checked both the server_ip attribute and search!')
+end
 
-  file "/etc/rsyslog.d/server.conf" do
-    action :delete
-    notifies :reload, "service[#{node['rsyslog']['service_name']}]"
-  end
+remote_type = node['rsyslog']['use_relp'] ? 'relp' : 'remote'
+
+template "#{node['rsyslog']['config_prefix']}/rsyslog.d/49-remote.conf" do
+  source    "49-#{remote_type}.conf.erb"
+  owner     'root'
+  group     'root'
+  mode      '0644'
+  variables(:servers => rsyslog_servers)
+  notifies  :restart, "service[#{node['rsyslog']['service_name']}]"
+  only_if   { node['rsyslog']['remote_logs'] }
+end
+
+file "#{node['rsyslog']['config_prefix']}/rsyslog.d/server.conf" do
+  action   :delete
+  notifies :reload, "service[#{node['rsyslog']['service_name']}]"
 end

@@ -2,7 +2,7 @@
 # Cookbook Name:: mysql
 # Recipe:: default
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2008-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,35 +17,31 @@
 # limitations under the License.
 #
 
-
-if (node.attribute?('ec2') && ! FileTest.directory?(node['mysql']['ec2_path']))
-
-  service "mysql" do
+if node.attribute?('ec2') && !FileTest.directory?(node['mysql']['ec2_path'])
+  service 'mysql' do
     action :stop
   end
 
-  execute "install-mysql" do
+  execute 'install-mysql' do
     command "mv #{node['mysql']['data_dir']} #{node['mysql']['ec2_path']}"
-    not_if do FileTest.directory?(node['mysql']['ec2_path']) end
+    not_if { FileTest.directory?(node['mysql']['ec2_path']) }
   end
 
   [node['mysql']['ec2_path'], node['mysql']['data_dir']].each do |dir|
     directory dir do
-      owner "mysql"
-      group "mysql"
+      owner 'mysql'
+      group 'mysql'
     end
   end
 
   mount node['mysql']['data_dir'] do
-    device node['mysql']['ec2_path']
-    fstype "none"
-    options "bind,rw"
-    action [:mount, :enable]
+    device   node['mysql']['ec2_path']
+    fstype  'none'
+    options 'bind,rw'
+    action  [:mount, :enable]
   end
 
-  service "mysql" do
+  service 'mysql' do
     action :start
   end
-
 end
-

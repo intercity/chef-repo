@@ -2,7 +2,7 @@
 # Cookbook Name:: mysql
 # Recipe:: client
 #
-# Copyright 2008-2011, Opscode, Inc.
+# Copyright 2008-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 ::Chef::Recipe.send(:include, Opscode::Mysql::Helpers)
 
 case node['platform']
-when "windows"
+when 'windows'
   package_file = node['mysql']['client']['package_file']
   remote_file "#{Chef::Config[:file_cache_path]}/#{package_file}" do
     source node['mysql']['client']['url']
@@ -38,18 +38,16 @@ when "windows"
   def package(*args, &blk)
     windows_package(*args, &blk)
   end
-when "mac_os_x"
-  include_recipe 'homebrew'
+when 'mac_os_x'
+  include_recipe 'homebrew::default'
 end
 
-node['mysql']['client']['packages'].each do |mysql_pack|
-  package mysql_pack do
-    action :install
-  end
+node['mysql']['client']['packages'].each do |name|
+  package name
 end
 
-if platform? 'windows'
-  ruby_block "copy libmysql.dll into ruby path" do
+if platform_family?('windows')
+  ruby_block 'copy libmysql.dll into ruby path' do
     block do
       require 'fileutils'
       FileUtils.cp "#{node['mysql']['client']['lib_dir']}\\libmysql.dll", node['mysql']['client']['ruby_dir']

@@ -2,7 +2,7 @@
 # Cookbook Name:: apt
 # Resource:: repository
 #
-# Copyright 2010-2011, Opscode, Inc.
+# Copyright 2010-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ attribute :uri, :kind_of => String
 attribute :distribution, :kind_of => String
 attribute :components, :kind_of => Array, :default => []
 attribute :arch, :kind_of => String, :default => nil
+attribute :trusted, :kind_of => [ TrueClass, FalseClass ], :default => false
 #whether or not to add the repository as a source repo as well
 attribute :deb_src, :default => false
 attribute :keyserver, :kind_of => String, :default => nil

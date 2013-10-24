@@ -20,6 +20,14 @@ Supported platforms by platform family:
 * rhel (centos, redhat, amazon, scientific)
 * smartos
 * solaris2
+* omnios
+
+**Note for OmniOS**: Currently, OmniOS's Ruby package is built with
+GCC 4.6.3, and the path is hardcoded, as the gcc binaries are not
+installed in the default $PATH. This means that in order to install
+RubyGems into the "system" Ruby, one must install `developer/gcc46`.
+[An issue](https://github.com/omniti-labs/omnios-build/issues/19) is
+open upstream w/ OmniOS to rebuild the Ruby package with GCC 4.7.2.
 
 ## Cookbooks
 
