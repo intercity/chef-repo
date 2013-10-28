@@ -15,7 +15,7 @@
   },
   "deploy_users": [
     "<add as many users as you want to create to deploy>"
-  ]
+  ],
   "ssh_deploy_keys": [
     "<the contents of your ~/.ssh/id_rsa.pub file>"
   ],
@@ -30,6 +30,9 @@
         "username": "myapp",
         "password": "myapp_password",
         "database": "myapp_production"
+      },
+      "config": {
+        "<config key>": "<config value>"
       }
     }
   },

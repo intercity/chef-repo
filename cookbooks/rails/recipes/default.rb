@@ -106,6 +106,18 @@ if node[:active_applications]
 
     end
 
+    if app_info['config']
+
+      template "/u/apps/#{app}/shared/config/application.yml" do
+        owner deploy_user
+        group deploy_user
+        mode 0600
+        source "app_application.yml.erb"
+        variables config: app_info['config']
+      end
+
+    end
+
     if app_info['packages'] && app_info['packages'].include?('sphinxsearch')
       directory "/u/apps/#{app}/shared/sphinx" do
         recursive true
