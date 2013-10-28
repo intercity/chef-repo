@@ -74,7 +74,6 @@ You specifically need to modify:
 * In the `mysql` section replace the three `<random password>` with your desired MySQL passwords.
 * In the `ssh_deploy_keys` section, copy the contents of your `~/.ssh/id_rsa.pub` file so your workstation is enabled to deploy with Capistrano.
 * In the `active_applications` section, customize the sample `myapp` values with your own Rails application values.
-* In the `active_applications\config` subsection, add your [Figaro](https://github.com/laserlemon/figaro) application configuration. All entries will be written out to `shared/config/application.yml`.
 * In the `rbenv` section, enter the correct Ruby version that your app should use.
 
 When your host configuration file is set up you run:
@@ -103,7 +102,6 @@ apps look like:
   releases/
   shared/
     config/
-      application.yml
       database.yml
       unicorn.rb
     pids/

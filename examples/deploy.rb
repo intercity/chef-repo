@@ -17,7 +17,6 @@ set :use_sudo, false
 
 before "deploy:finalize_update" do
   run "rm -f #{release_path}/config/database.yml; ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-  run "rm -f #{release_path}/config/application.yml; ln -nfs #{shared_path}/config/application.yml #{release_path}/config/application.yml"
   run "mkdir -p #{release_path}/tmp"
   run "ln -nfs #{shared_path}/sockets #{release_path}/tmp/sockets"
 end
