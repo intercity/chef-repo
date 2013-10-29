@@ -74,7 +74,7 @@ You specifically need to modify:
 * In the `mysql` section replace the three `<random password>` with your desired MySQL passwords.
 * In the `ssh_deploy_keys` section, copy the contents of your `~/.ssh/id_rsa.pub` file so your workstation is enabled to deploy with Capistrano.
 * In the `active_applications` section, customize the sample `myapp` values with your own Rails application values.
-* In the `active_applications\config` subsection, add your [Figaro](https://github.com/laserlemon/figaro) application configuration. All entries will be written out to `shared/config/application.yml`.
+* In the `active_applications\app\config` subsection, you can use the config builder to generate YAML configuration files.  See *Configuration* below.
 * In the `rbenv` section, enter the correct Ruby version that your app should use.
 
 When your host configuration file is set up you run:
@@ -91,6 +91,66 @@ configuration file, or file an issue on GitHub.
 You see the Nginx error message because the above commands set up a bare deployment skeleton for your
 application(s) and it is now time to deploy it using Capistrano. Read about this in the next section.
 
+#### Application Configuration
+
+It is a common Rails idiom to specify configuration for a Gem using a YAML file.
+The configuration builder seeks to allow you to generate these YAML configuration
+files in a generic manner.
+
+It allows you to generate these files from your chef configuration. Configuration
+files are specified under the `config` node of an active_application.
+
+`config` is a hash of config file paths mapped to the contents of the corresponding
+file. All config paths are relative to `shared/config`. If the path contains
+directories that do not exist, they will be automatically created.
+
+```
+"active_applications" => {
+  "myapp" => {
+    # ...
+    "config" => {
+      "application.yml" => {
+        "SECRET_KEY" => "secret",
+        "production" => {
+          "integer" => 1,
+          "boolean" => true
+          "erb" => "server<%= ENV['SERVER_ID']%>"
+        }
+      },
+      "deeply/nested/file.xml" => {
+        # ...
+      }
+    }
+  }
+```
+
+The first config entry would generate `shared/config/application.yml`:
+
+```
+---
+SECRET_KEY: secret
+production:
+  integer: 1
+  boolean: true
+  erb: server<%= ENV['SERVER_ID']%>
+```
+
+Note that you can even generate a subset of ERB in your YAML file (assuming the
+application reading the config file is able to process it). This will only work
+with value substitutions `<%= ... %>`, however. There is no way to express control flow
+logic with a `<% %>`.
+
+The second snippet would create directories `deeply` and `nested`, if they did
+not exists; and then generate `file.xml` within them.
+
+This should work with many of the popular Rails configuration solutions that
+load the values from a YAML configuration file into `ENV` (i.e. Figaro,
+SettingsLogic, DotEnv, and Rails_Config)
+
+**Deployment Note:** If you are using Capistrano for deployment, read the 
+*Deploying your applications* section below for additional steps for deploying
+these configuration files.
+
 ### Deploying your applications
 
 The scripts in **Setting up your server** set up a bare deployment structure on your
@@ -103,7 +163,6 @@ apps look like:
   releases/
   shared/
     config/
-      application.yml
       database.yml
       unicorn.rb
     pids/
@@ -129,6 +188,17 @@ Capfile should look like this:
 load 'deploy'
 load 'deploy/assets'
 load 'config/deploy'
+```
+
+If you used the *Configuration Builder* to generate YAML configuration files, you
+will need to setup links to all the generated configuration files, so they can
+be accessed from within your application directory. These will be part of the
+`before "deploy:finalize_update"` block.
+
+For example, to link `application.yml`, add the following:
+
+```
+run "rm -f #{release_path}/config/application.yml; ln -nfs #{shared_path}/config/application.yml #{release_path}/config/application.yml"
 ```
 
 Finally, you can run one of the folllowing commands to deploy your application:
