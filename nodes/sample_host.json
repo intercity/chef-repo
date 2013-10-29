@@ -32,7 +32,9 @@
         "database": "myapp_production"
       },
       "config": {
-        "<config key>": "<config value>"
+        "application.yml": {
+          "EXAMPLE": "value"
+        }
       }
     }
   },
