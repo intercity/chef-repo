@@ -1,0 +1,15 @@
+<?php
+class DATABASE_CONFIG {
+
+	var $default = array(
+		'driver' => 'mysql',
+		'persistent' => false,
+		'host' => '<%= @database_info['host'] %>',
+		'login' => '<%= @database_info['username'] %>',
+		'password' => '<%= @database_info['password'] %>',
+		'database' => '<%= @database_info['database'] %>',
+		'prefix' => '',
+		'encoding' => 'utf8'
+	);
+
+}
