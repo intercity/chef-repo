@@ -89,6 +89,13 @@ if node[:active_cakephp_applications]
       end
     end
 
+    template "/u/apps/#{app}/shared/config/bootstrap.php" do
+      owner deploy_user
+      group deploy_user
+      mode 0600
+      source "app_bootstrap.php.erb"
+    end
+
     template "/etc/php5/fpm/pool.d/#{app}.conf" do
       cookbook "php"
       source "pool.conf.erb"
