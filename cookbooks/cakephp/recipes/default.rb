@@ -119,6 +119,13 @@ if node[:active_cakephp_applications]
       action :enable
       timing :immediately
     end
+
+    bash "setup chroot" do
+      code <<-EOC
+      pecl install timezonedb
+      echo 'extension=timezonedb.so' > /etc/php5/conf.d/timezonedb.ini
+      EOC
+    end
   end
 
 end
