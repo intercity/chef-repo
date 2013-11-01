@@ -122,6 +122,8 @@ if node[:active_cakephp_applications]
 
     bash "setup chroot" do
       code <<-EOC
+      mkdir -p /u/wordpress/#{app}/tmp
+      chmod a+w /u/wordpress/#{app}/tmp
       pecl install timezonedb
       echo 'extension=timezonedb.so' > /etc/php5/conf.d/timezonedb.ini
       EOC
