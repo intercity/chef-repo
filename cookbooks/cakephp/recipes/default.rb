@@ -71,7 +71,7 @@ if node[:active_cakephp_applications]
       owner deploy_user
     end
 
-    ['config', 'shared', 'shared/config', 'shared/sockets', 'shared/log', 'shared/system', 'releases'].each do |dir|
+    ['config', 'shared', 'shared/config', 'shared/sockets', 'shared/log', 'shared/system', 'releases', 'tmp'].each do |dir|
       directory "/u/apps/#{app}/#{dir}" do
         recursive true
         group deploy_user
@@ -125,7 +125,6 @@ if node[:active_cakephp_applications]
     bash "setup chroot" do
       code <<-EOC
       mkdir -p /u/apps/#{app}/etc
-      mkdir -p /u/apps/#{app}/tmp
       chmod a+w /u/apps/#{app}/tmp
       ln /etc/hosts /u/apps/#{app}/etc/hosts
       ln /etc/localtime /u/apps/#{app}/etc/localtime
