@@ -86,7 +86,7 @@ if node[:active_cakephp_applications]
         mode 0600
         source "app_database.php.erb"
         variables :database_info => app_info['database_info']
-        not_if do ::File.exists?("/u/apps/#{app}/shared/config/database.php") end
+        action :create_if_missing
       end
     end
 
@@ -95,7 +95,7 @@ if node[:active_cakephp_applications]
       group deploy_user
       mode 0600
       source "app_bootstrap.php.erb"
-      not_if do ::File.exists?("/u/apps/#{app}/shared/config/bootstrap.php") end
+      action :create_if_missing
     end
 
     template "/etc/php5/fpm/pool.d/#{app}.conf" do
