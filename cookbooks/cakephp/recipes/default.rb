@@ -106,7 +106,7 @@ if node[:active_cakephp_applications]
         :listen => "/u/apps/#{app}/shared/sockets/fpm.sock",
         :user => deploy_user,
         :group => deploy_user,
-        :chroot => "/u/apps/#{app}/current"
+        :chroot => "/u/apps/#{app}"
       })
       notifies :reload, resources(:service => "php5-fpm"), :immediately
     end
@@ -126,9 +126,6 @@ if node[:active_cakephp_applications]
       code <<-EOC
       mkdir -p /u/apps/#{app}/tmp
       chmod a+w /u/apps/#{app}/tmp
-      mkdir -p /u/apps/#{app}/current/app/webroot
-      touch /u/apps/#{app}/current/app/webroot/index.php
-      echo '<?php phpinfo(); ?>' > /u/apps/#{app}/current/app/webroot/index.php
       pecl install timezonedb
       echo 'extension=timezonedb.so' > /etc/php5/conf.d/timezonedb.ini
       EOC
