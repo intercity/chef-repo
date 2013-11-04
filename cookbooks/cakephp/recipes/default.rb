@@ -124,8 +124,16 @@ if node[:active_cakephp_applications]
 
     bash "setup chroot" do
       code <<-EOC
+      mkdir -p /u/apps/#{app}/etc
       mkdir -p /u/apps/#{app}/tmp
       chmod a+w /u/apps/#{app}/tmp
+      ln /etc/hosts /u/apps/#{app}/etc/hosts
+      ln /etc/localtime /u/apps/#{app}/etc/localtime
+      cp /etc/resolv.conf /u/apps/#{app}/etc/resolv.conf
+      ln /etc/nsswitch.conf /u/apps/#{app}/etc/nsswitch.conf
+      ln /etc/ld.so.cache /u/apps/#{app}/etc/ld.so.cache
+      mkdir -p /u/apps/#{app}/lib/x86_64-linux-gnu
+      cp -r /lib/x86_64-linux-gnu/libnss* /u/apps/#{app}/lib/x86_64-linux-gnu
       pecl install timezonedb
       echo 'extension=timezonedb.so' > /etc/php5/conf.d/timezonedb.ini
       EOC
