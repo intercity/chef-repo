@@ -395,3 +395,5 @@ php_admin_flag[log_errors] = on
 php_admin_value[open_basedir] = /current:/releases:/shared/config:/tmp
 php_value[include_path] = .:/current:/shared/config:/usr/share/php
 php_admin_value[cgi.fix_pathinfo]=0
+php_value[session.save_handler] = files
+php_value[session.save_path]= /tmp
