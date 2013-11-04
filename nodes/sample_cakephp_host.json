@@ -30,7 +30,7 @@
   "active_cakephp_applications": {
     "myapp_production": {
       "domain_names": ["myapp.com", "www.myapp.com"],
-      "packages": ["php5-cli", "php-pear", "php5-dev"],
+      "packages": ["php5-cli", "php-pear", "php5-dev", "php5-gd"],
       "database_info": {
         "host": "localhost",
         "username": "myapp",

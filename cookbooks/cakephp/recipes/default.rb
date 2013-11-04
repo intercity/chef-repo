@@ -136,6 +136,7 @@ if node[:active_cakephp_applications]
       cp -r /lib/x86_64-linux-gnu/libnss* /u/apps/#{app}/lib/x86_64-linux-gnu
       pecl install timezonedb
       echo 'extension=timezonedb.so' > /etc/php5/conf.d/timezonedb.ini
+      echo 'extension=gd.so' > /etc/php5/conf.d/gd.ini
       EOC
     end
   end
