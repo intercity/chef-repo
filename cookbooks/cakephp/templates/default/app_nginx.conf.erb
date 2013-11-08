@@ -1,0 +1,34 @@
+upstream <%= @name %> {
+  server unix:/u/apps/<%= @name %>/shared/sockets/fpm.sock;
+}
+
+server {
+  listen <%= node['nginx']['port'] || '80' %>;
+  server_name <%= @domain_names.join(' ') %>;
+  root   /u/apps/<%= @name %>/current/app/webroot;
+  index  index.php;
+  
+  access_log /u/apps/<%= @name %>/shared/log/nginx_access.log;
+  error_log /u/apps/<%= @name %>/shared/log/nginx_error.log;
+
+  if (-f $request_filename) { 
+    break; 
+  }     
+  if (!-f $request_filename) {
+    rewrite ^/(.+)$ /index.php?url=$1 last;
+    break;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.php?$uri&$args;
+  }
+
+  location ~ \.php$ {
+    try_files $uri =404;
+    include fastcgi_params;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME current/app/webroot$fastcgi_script_name;
+    fastcgi_intercept_errors on;
+    fastcgi_pass <%= @name %>;
+  }
+}
