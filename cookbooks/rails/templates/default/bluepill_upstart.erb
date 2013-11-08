@@ -5,5 +5,5 @@ expect daemon
 respawn
 
 script
-  <%= node["bluepill"]["bin"] %> load /etc/bluepill/intercity_development.pill
+  <%= node["bluepill"]["bin"] %> load /etc/bluepill/<%= @name %>.pill
 end script
