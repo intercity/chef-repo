@@ -41,3 +41,11 @@ template "/etc/php5/fpm/pool.d/www.conf" do
   })
   notifies :restart, resources(:service => "php5-fpm"), :immediately
 end
+
+bash "setup extensions" do
+  code <<-EOC
+  pecl install timezonedb
+  echo 'extension=timezonedb.so' > /etc/php5/conf.d/timezonedb.ini
+  echo 'extension=gd.so' > /etc/php5/conf.d/gd.ini
+  EOC
+end
