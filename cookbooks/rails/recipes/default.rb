@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+require 'yaml'
+
 include_recipe "sudo"
 include_recipe "nginx"
 include_recipe "bluepill"
@@ -102,6 +104,31 @@ if node[:active_applications]
         mode 0600
         source "app_database.yml.erb"
         variables :database_info => app_info['database_info'], :rails_env => rails_env
+      end
+
+    end
+
+    if app_info['config']
+
+      app_info['config'].each do |config_file, config|
+
+        # Ensure config subdirectories exist
+        directory File.dirname("/u/apps/#{app}/shared/config/#{config_file}") do
+          recursive true
+          owner deploy_user
+          group deploy_user
+          action :create
+        end
+
+        file "/u/apps/#{app}/shared/config/#{config_file}" do
+          owner deploy_user
+          group deploy_user
+          mode 0600
+          content convert_mash(config).to_yaml unless config.empty?
+          backup false
+          action :create
+        end
+
       end
 
     end

@@ -30,6 +30,11 @@
         "username": "myapp",
         "password": "myapp_password",
         "database": "myapp_production"
+      },
+      "config": {
+        "application.yml": {
+          "EXAMPLE": "value"
+        }
       }
     }
   },
