@@ -7,8 +7,8 @@ set :rbenv_ruby, '2.0.0-p353'
 ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
 # set :deploy_to, '/var/www/my_app'
-set :deploy_to, '/u/apps/#{fetch(:application)}_#{fetch(:stage)}'
-set :bluepill_id, "#{fetch(:application)}_#{fetch(:stage)}"
+set :deploy_to, '/u/apps/myapp_production'
+set :bluepill_id, "myapp_production"
 
 set :scm, :git
 
