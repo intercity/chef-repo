@@ -20,6 +20,7 @@
     "<the contents of your ~/.ssh/id_rsa.pub file>"
   ],
   "active_applications": {
+	//naming your app is recommended to follow this format: <appname>_<stage>
     "myapp_production": {
       "rails_env": "production",
       "packages": ["nodejs"],
