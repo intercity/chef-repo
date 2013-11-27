@@ -2,6 +2,7 @@
 locomotive.tar.gz
 recipes.tgz
 /config/servers.rb
+bin/
 
 vagrant/.vagrant
 
