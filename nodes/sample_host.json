@@ -1,5 +1,5 @@
 {
-  "run_list":["role[mysql]","role[rails]"],
+  "run_list":["role[mysql]","role[nodejs]","role[rails]"],
   "authorization": {
     "sudo": {
       "users": ["<your user>"],
@@ -22,7 +22,7 @@
   "active_applications": {
     "myapp_production": {
       "rails_env": "production",
-      "packages": ["nodejs"],
+      "packages": [],
       "domain_names": ["myapp.com", "www.myapp.com"],
       "database_info": {
         "adapter": "mysql2",
