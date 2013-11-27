@@ -1,28 +1,26 @@
-#require 'config/recipes/bluepill.rb'
-
 set :application, 'myApp'
-set :repo_url, 'git@aliencom.beanstalkapp.com:/aliencom/captest.git'
+set :repo_url, 'git@aliencom.beanstalkapp.com:/aliencom/my_app.git'
 
 set :rbenv_type, :user # or :system, depends on your rbenv setup
 set :rbenv_ruby, '2.0.0-p353'
 
 ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
+# set :deploy_to, '/var/www/my_app'
 set :deploy_to, '/u/apps/#{fetch(:application)}_#{fetch(:stage)}'
+set :bluepill_id, "#{fetch(:application)}_#{fetch(:stage)}"
 
 set :scm, :git
 
-set :format, :pretty
+# set :format, :pretty
 # set :log_level, :debug
-set :pty, true
+# set :pty, true
 
 set :linked_files, %w{config/database.yml}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 # set :keep_releases, 5
-
-set :bluepill_id, "#{fetch(:application)}_#{fetch(:stage)}"
 
 namespace :deploy do
 
