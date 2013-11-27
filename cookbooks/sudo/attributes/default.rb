@@ -2,7 +2,7 @@
 # Cookbook Name:: sudo
 # Attribute File:: default
 #
-# Copyright 2008-2011, Opscode, Inc.
+# Copyright 2008-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,3 +23,10 @@ default['authorization']['sudo']['passwordless']      = false
 default['authorization']['sudo']['include_sudoers_d'] = false
 default['authorization']['sudo']['agent_forwarding']  = false
 default['authorization']['sudo']['sudoers_defaults']  = ['!lecture,tty_tickets,!fqdn']
+
+case node['platform_family']
+when 'smartos'
+  default['authorization']['sudo']['prefix'] = '/opt/local/etc'
+else
+  default['authorization']['sudo']['prefix'] = '/etc'
+end

@@ -1,12 +1,16 @@
-Chef sudo cookbook
-==================
+sudo cookbook
+=============
+[![Build Status](https://secure.travis-ci.org/opscode-cookbooks/sudo.png?branch=master)](http://travis-ci.org/opscode-cookbooks/sudo)
+
 The Chef `sudo` cookbook installs the `sudo` package and configures the `/etc/sudoers` file.
 
 It also exposes an LWRP for adding and managing sudoers.
 
+
 Requirements
 ------------
 The platform has a package named `sudo` and the `sudoers` file is `/etc/sudoers`.
+
 
 Attributes
 ----------
@@ -16,6 +20,7 @@ Attributes
 - `node['authorization']['sudo']['include_sudoers_d']` - include and manager `/etc/sudoers.d` (default: `false`)
 - `node['authorization']['sudo']['agent_forwarding']` - preserve `SSH_AUTH_SOCK` when sudoing (default: `false`)
 - `node['authorization']['sudo']['sudoers_defaults']` - Array of `Defaults` entries to configure in `/etc/sudoers`
+
 
 Usage
 -----
@@ -131,7 +136,7 @@ end
 ```
 
 ```ruby
-sudo 'tomcat'
+sudo 'tomcat' do
   template    'my_tomcat.erb' # local cookbook template
   variables   :cmds => ['/etc/init.d/tomcat restart']
 end
@@ -165,10 +170,10 @@ In either case, the following file would be generated in `/etc/sudoers.d/tomcat`
       <td>current resource name</td>
     </tr>
     <tr>
-      <td>user</td>
-      <td>user to provide sudo privileges to</td>
-      <td><tt>tomcat</tt></td>
-      <td></td>
+      <td>commands</td>
+      <td>array of commands this sudoer can execute</td>
+      <td><tt>['/etc/init.d/tomcat restart']</tt></td>
+      <td><tt>['ALL']</tt></td>
     </tr>
     <tr>
       <td>group</td>
@@ -178,21 +183,27 @@ case it is not already</td>
       <td></td>
     </tr>
     <tr>
-      <td>commands</td>
-      <td>array of commands this sudoer can execute</td>
-      <td><tt>['/etc/init.d/tomcat restart']</tt></td>
-      <td><tt>['ALL']</tt></td>
-    </tr>
-    <tr>
       <td>nopasswd</td>
       <td>supply a password to invoke sudo</td>
       <td><tt>true</tt></td>
       <td><tt>false</tt></td>
     </tr>
     <tr>
+      <td>runas</td>
+      <td>User the command(s) can be run as</td>
+      <td><tt>root</tt></td>
+      <td><tt>ALL</tt></td>
+    </tr>
+    <tr>
       <td>template</td>
       <td>the erb template to render instead of the default</td>
       <td><tt>restart-tomcat.erb</tt></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>user</td>
+      <td>user to provide sudo privileges to</td>
+      <td><tt>tomcat</tt></td>
       <td></td>
     </tr>
     <tr>
@@ -207,6 +218,39 @@ case it is not already</td>
 **If you use the template attribute, all other attributes will be ignored except for the variables attribute.**
 
 
+Development
+-----------
+This section details "quick development" steps. For a detailed explanation, see [[Contributing.md]].
+
+1. Clone this repository from GitHub:
+
+        $ git clone git@github.com:opscode-cookbooks/sudo.git
+
+2. Create a git branch
+
+        $ git checkout -b my_bug_fix
+
+3. Install dependencies:
+
+        $ bundle install
+
+4. Make your changes/patches/fixes, committing appropiately
+5. **Write tests**
+6. Run the tests:
+    - `bundle exec foodcritic -f any .`
+    - `bundle exec rspec`
+    - `bundle exec rubocop`
+    - `bundle exec kitchen test`
+
+    In detail:
+    - Foodcritic will catch any Chef-specific style errors
+    - RSpec will run the unit tests
+    - Rubocop will check for Ruby-specific style errors
+    - Test Kitchen will run and converge the recipes
+
+
+
+
 License and Authors
 -------------------
 - Author:: Bryan W. Berry <bryan.berry@gmail.com>
@@ -214,6 +258,7 @@ License and Authors
 - Author:: Seth Chisamore <schisamo@opscode.com>
 - Author:: Seth Vargo <sethvargo@gmail.com>
 
+```text
 Copyright 2009-2012, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -227,3 +272,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+```

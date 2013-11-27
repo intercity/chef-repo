@@ -2,7 +2,7 @@
 # Cookbook Name:: sudo
 # Recipe:: default
 #
-# Copyright 2008-2011, Opscode, Inc.
+# Copyright 2008-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,38 +17,36 @@
 # limitations under the License.
 #
 
-package 'sudo' do
-  action :install
-end
+prefix = node['authorization']['sudo']['prefix']
+
+package 'sudo'
 
 if node['authorization']['sudo']['include_sudoers_d']
-  directory '/etc/sudoers.d' do
-    mode        '0755'
-    owner       'root'
-    group       'root'
-    action      :create
+  directory "#{prefix}/sudoers.d" do
+    mode    '0755'
+    owner   'root'
+    group   'root'
   end
 
-  cookbook_file '/etc/sudoers.d/README' do
-    source      'README'
-    mode        '0440'
-    owner       'root'
-    group       'root'
-    action      :create
+  cookbook_file "#{prefix}/sudoers.d/README" do
+    source  'README'
+    mode    '0440'
+    owner   'root'
+    group   'root'
   end
 end
 
-template '/etc/sudoers' do
+template "#{prefix}/sudoers" do
   source 'sudoers.erb'
-  mode '0440'
-  owner 'root'
-  group platform?('freebsd') ? 'wheel' : 'root'
+  mode   '0440'
+  owner  'root'
+  group  platform?('freebsd') ? 'wheel' : 'root'
   variables(
-    :sudoers_groups => node['authorization']['sudo']['groups'],
-    :sudoers_users => node['authorization']['sudo']['users'],
-    :passwordless => node['authorization']['sudo']['passwordless'],
+    :sudoers_groups    => node['authorization']['sudo']['groups'],
+    :sudoers_users     => node['authorization']['sudo']['users'],
+    :passwordless      => node['authorization']['sudo']['passwordless'],
     :include_sudoers_d => node['authorization']['sudo']['include_sudoers_d'],
-    :agent_forwarding => node['authorization']['sudo']['agent_forwarding'],
-    :sudoers_defaults => node['authorization']['sudo']['sudoers_defaults']
+    :agent_forwarding  => node['authorization']['sudo']['agent_forwarding'],
+    :sudoers_defaults  => node['authorization']['sudo']['sudoers_defaults']
   )
 end

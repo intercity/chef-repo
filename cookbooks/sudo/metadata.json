@@ -1,5 +1,6 @@
 {
   "name": "sudo",
+  "version": "2.2.2",
   "description": "Installs sudo and configures /etc/sudoers",
   "long_description": "",
   "maintainer": "Opscode, Inc.",
@@ -29,90 +30,41 @@
     "authorization": {
       "display_name": "Authorization",
       "description": "Hash of Authorization attributes",
-      "type": "hash",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "required": "optional",
-      "recipes": [
-
-      ]
+      "type": "hash"
     },
     "authorization/sudo": {
       "display_name": "Authorization Sudoers",
       "description": "Hash of Authorization/Sudo attributes",
-      "type": "hash",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "required": "optional",
-      "recipes": [
-
-      ]
+      "type": "hash"
     },
     "authorization/sudo/users": {
       "display_name": "Sudo Users",
       "description": "Users who are allowed sudo ALL",
       "type": "array",
-      "default": "",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "required": "optional",
-      "recipes": [
-
-      ]
+      "default": ""
     },
     "authorization/sudo/groups": {
       "display_name": "Sudo Groups",
       "description": "Groups who are allowed sudo ALL",
       "type": "array",
-      "default": "",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "required": "optional",
-      "recipes": [
-
-      ]
+      "default": ""
     },
     "authorization/sudo/passwordless": {
       "display_name": "Passwordless Sudo",
       "description": "",
       "type": "string",
-      "default": "false",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "required": "optional",
-      "recipes": [
-
-      ]
+      "default": "false"
     },
     "authorization/sudo/include_sudoers_d": {
       "display_name": "Include sudoers.d",
       "description": "Whether to create the sudoers.d includedir",
       "type": "string",
-      "default": "false",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "required": "optional",
-      "recipes": [
-
-      ]
+      "default": "false"
     }
   },
   "groupings": {
   },
   "recipes": {
     "sudo": "Installs sudo and configures /etc/sudoers"
-  },
-  "version": "2.0.4"
+  }
 }
