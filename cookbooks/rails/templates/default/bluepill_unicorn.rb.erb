@@ -10,7 +10,7 @@ Bluepill.application("<%= @name %>", :log_file => "/u/apps/<%= @name %>/shared/l
     process.stop_command = "kill -QUIT {{PID}}"
     process.restart_command = "kill -USR2 {{PID}}"
     process.stdout = process.stderr = "/u/apps/<%= @name %>/shared/log/unicorn.log"
-    process.pid_file = "/u/apps/<%= @name %>/shared/temp/pids/unicorn.pid"
+    process.pid_file = "/u/apps/<%= @name %>/shared/tmp/pids/unicorn.pid"
 
     process.checks :mem_usage, :every => 1.minute, :below => 130.megabytes, :times => [3, 5]
 
