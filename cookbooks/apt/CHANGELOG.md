@@ -3,6 +3,15 @@ apt Cookbook CHANGELOG
 This file is used to list changes made in each version of the apt cookbook.
 
 
+v2.3.0
+------
+### Bug
+- **[COOK-3812](https://tickets.opscode.com/browse/COOK-3812)** - Add a way to bypass the apt existence check
+
+### Improvement
+- **[COOK-3567](https://tickets.opscode.com/browse/COOK-3567)** - Allow users to bypass apt-cache via attributes
+
+
 v2.2.1
 ------
 ### Improvement

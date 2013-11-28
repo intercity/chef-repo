@@ -36,6 +36,35 @@ This recipe also sets up a local cache directory for preseeding packages.
 ### cacher-client
 Configures the node to use the `apt-cacher-ng` server as a client.
 
+#### Bypassing the cache
+Occasionally you may come across repositories that do not play nicely when the node is using an `apt-cacher-ng` server. You can configure `cacher-client` to bypass the server and connect directly to the repository with the `cache_bypass` attribute.
+
+To do this, you need to override the `cache_bypass` attribute with an array of repositories, with each array key as the repository URL and value as the protocol to use:
+
+```json
+{
+    ...,
+    'apt': {
+        ...,
+        'cache_bypass': {
+            URL: PROTOCOL
+        }
+    }
+}
+```
+
+For example, to prevent caching and directly connect to the repository at `download.oracle.com` via http:
+
+```json
+{
+    'apt': {
+        'cache_bypass': {
+            'download.oracle.com': 'http'
+        }
+    }
+}
+```
+
 ### cacher-ng
 Installs the `apt-cacher-ng` package and service so the system can provide APT caching. You can check the usage report at http://{hostname}:3142/acng-report.html.
 
@@ -50,6 +79,7 @@ Attributes
 * `['apt']['cacher_dir']` - directory used by cacher-ng service, default is '/var/cache/apt-cacher-ng'
 * `['apt']['cacher-client']['restrict_environment']` - restrict your node to using the `apt-cacher-ng` server in your Environment, default is 'false'
 * `['apt']['compiletime']` - force the `cacher-client` recipe to run before other recipes. It forces apt to use the proxy before other recipes run. Useful if your nodes have limited access to public apt repositories. This is overridden if the `cacher-ng` recipe is in your run list. Default is 'false'
+* `['apt']['cache_bypass']` - array of URLs to bypass the cache. Accepts the URL and protocol to  fetch directly from the remote repository and not attempt to cache
 
 Libraries
 ---------

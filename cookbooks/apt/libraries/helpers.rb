@@ -41,3 +41,7 @@ module Apt
     end
   end
 end
+
+Chef::Recipe.send(:include, ::Apt::Helpers)
+Chef::Resource.send(:include, ::Apt::Helpers)
+Chef::Provider.send(:include, ::Apt::Helpers)

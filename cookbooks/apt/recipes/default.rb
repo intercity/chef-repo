@@ -18,20 +18,19 @@
 # limitations under the License.
 #
 
-class ::Chef::Recipe
-  include Apt::Helpers
-end
-
-# On systems where apt is not installed, this recipe does not execute
+# On systems where apt is not installed, the resources in this recipe are not
+# executed. However, they _must_ still be present in the resource collection
+# or other cookbooks which notify these resources will fail on non-apt-enabled
+# systems.
 unless apt_installed?
-  Chef::Log.debug "apt is not installed. Skipping cache update."
-  return
+  Chef::Log.debug "apt is not installed. Apt-specific resources will not be executed."
 end
 
 # Run apt-get update to create the stamp file
 execute "apt-get-update" do
   command "apt-get update"
   ignore_failure true
+  only_if { apt_installed? }
   not_if do ::File.exists?('/var/lib/apt/periodic/update-success-stamp') end
 end
 
@@ -39,30 +38,35 @@ end
 execute "apt-get update" do
   command "apt-get update"
   ignore_failure true
+  only_if { apt_installed? }
   action :nothing
 end
 
 # Automatically remove packages that are no longer needed for dependencies
 execute "apt-get autoremove" do
   command "apt-get -y autoremove"
+  only_if { apt_installed? }
   action :nothing
 end
 
 # Automatically remove .deb files for packages no longer on your system
 execute "apt-get autoclean" do
   command "apt-get -y autoclean"
+  only_if { apt_installed? }
   action :nothing
 end
 
 # provides /var/lib/apt/periodic/update-success-stamp on apt-get update
 package "update-notifier-common" do
   notifies :run, 'execute[apt-get-update]', :immediately
+  only_if { apt_installed? }
 end
 
 execute "apt-get-update-periodic" do
   command "apt-get update"
   ignore_failure true
   only_if do
+    apt_installed? &&
     ::File.exists?('/var/lib/apt/periodic/update-success-stamp') &&
     ::File.mtime('/var/lib/apt/periodic/update-success-stamp') < Time.now - 86400
   end
@@ -74,5 +78,6 @@ end
     group "root"
     mode  00755
     action :create
+    only_if { apt_installed? }
   end
 end
