@@ -20,6 +20,10 @@
 include_recipe "sudo"
 include_recipe "nginx"
 include_recipe "bluepill"
+
+include_recipe "rbenv::default"
+include_recipe "rbenv::ruby_build"
+
 include_recipe "rails::dependencies"
 
 user "deploy" do
@@ -79,6 +83,12 @@ if node[:active_applications]
   node[:active_applications].each do |app, app_info|
     rails_env = app_info['rails_env'] || "production"
     deploy_user = app_info['deploy_user'] || "deploy"
+
+    rbenv_ruby app_info['ruby_version']
+
+    rbenv_gem "bundler" do
+      ruby_version app_info['ruby_version']
+    end
 
     directory "/u/apps/#{app}" do
       recursive true
