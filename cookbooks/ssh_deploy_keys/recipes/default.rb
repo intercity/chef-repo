@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-if node[:deploy_users]
+if node[:deploy_users] && node[:ssh_deploy_keys]
   node[:deploy_users].each do |deploy_user|
     directory "/home/#{deploy_user}/.ssh" do
       mode 0700
