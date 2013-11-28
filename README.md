@@ -29,14 +29,13 @@ Your server has:
 
 ### Installation
 
-Clone the repository onto your own workstation. I am using ```firmhouse_chef_repo``` as
-destination folder as an example.
+Clone the repository onto your own workstation.
 
 ```sh
-git clone git://github.com/firmhouse/locomotive-chef-repo.git firmhouse_chef_repo
+git clone git://github.com/intercity/chef-repo.git chef_repo
 ```
 
-And initialize submodules which will fetch:
+And initialize submodules:
 
 ```sh
 git submodule init
@@ -53,8 +52,6 @@ bundle
 
 First, bootstrap your server with a Chef client by using the following command
 with the username and password your VPS/server vendor provided:
-
-This command will log in and prepare your server to run the Chef cookbooks.
 
 ```sh
 bundle exec knife solo prepare <your user>@<your host/ip>
