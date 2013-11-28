@@ -43,14 +43,16 @@ template "/home/deploy/Backup/config.rb" do
 end
 
 if node[:active_applications]
-  node[:active_applications].each do |app, app_info|
-    if app_info['backup_info'] && app_info['database_info']
-      template "/home/deploy/Backup/models/#{app_info['database_info']['database']}.rb" do
-        owner "deploy"
-        group "deploy"
-        mode 0600
-        source "model.rb.erb"
-        variables :backup_info => app_info['backup_info'], :database_info => app_info['database_info']
+  node[:active_applications].each do |application|
+    application.each do |app, app_info|
+      if app_info['backup_info'] && app_info['database_info']
+        template "/home/deploy/Backup/models/#{app_info['database_info']['database']}.rb" do
+          owner "deploy"
+          group "deploy"
+          mode 0600
+          source "model.rb.erb"
+          variables :backup_info => app_info['backup_info'], :database_info => app_info['database_info']
+        end
       end
     end
   end

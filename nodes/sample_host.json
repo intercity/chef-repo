@@ -24,6 +24,10 @@
       "rails_env": "production",
       "packages": ["nodejs"],
       "domain_names": ["myapp.com", "www.myapp.com"],
+      "ssl_info": {
+        "key": "<ssl key>",
+        "crt": "<ssl crt>"
+        },
       "database_info": {
         "adapter": "mysql2",
         "host": "localhost",
