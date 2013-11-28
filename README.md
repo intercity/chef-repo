@@ -25,7 +25,7 @@ with sudo access and a SSH Server installed.
 
 Your server has:
 
-* Ubuntu 12.04(.1) LTS is installed.
+* Ubuntu 12.04 LTS or a later minor version. The latest is Ubuntu 12.04.3 LTS.
 
 ### Installation
 
