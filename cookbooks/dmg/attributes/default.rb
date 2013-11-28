@@ -1,4 +1,4 @@
-#
+# Encoding: utf-8
 # Cookbook Name:: dmg
 # Attributes:: default
 #
@@ -16,5 +16,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-default[:dmg][:base_dir] = "/Applications"
-default[:dmg][:cache_dir] = Chef::Config[:file_cache_path]
+default['dmg']['base_dir'] = '/Applications'
+default['dmg']['cache_dir'] = Chef::Config[:file_cache_path]
