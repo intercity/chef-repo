@@ -99,6 +99,9 @@ Many of these parameters are only used in the `:enable` action.
 - **service_name** - *Name attribute*. The name of the service. This
    will be used in the directory of the managed service in the
    `sv_dir` and `service_dir`.
+- **sv_timeout** - Override the default `sv` timeout of 7 seconds.
+- **sv_verbose** - Whether to enable `sv` verbose mode. Default is
+   `false`.
 - **sv_templates** - If true, the `:enable` action will create the
     service directory with the appropriate templates. Default is
     `true`. Set this to `false` if the service has a package that

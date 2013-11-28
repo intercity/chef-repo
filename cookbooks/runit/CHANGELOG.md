@@ -3,6 +3,11 @@ runit Cookbook CHANGELOG
 This file is used to list changes made in each version of the runit cookbook.
 
 
+v1.4.0
+------
+[COOK-3560] Allow the user to configure runit's timeout (-w) and verbose (-v) settings
+
+
 v1.3.0
 ------
 ### Improvement

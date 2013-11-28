@@ -172,34 +172,34 @@ class Chef
         end
 
         def disable_service
-          shell_out("#{new_resource.sv_bin} down #{service_dir_name}")
+          shell_out("#{new_resource.sv_bin} #{sv_args}down #{service_dir_name}")
           Chef::Log.debug("#{new_resource} down")
           FileUtils.rm(service_dir_name)
           Chef::Log.debug("#{new_resource} service symlink removed")
         end
 
         def start_service
-          shell_out!("#{new_resource.sv_bin} start #{service_dir_name}")
+          shell_out!("#{new_resource.sv_bin} #{sv_args}start #{service_dir_name}")
         end
 
         def stop_service
-          shell_out!("#{new_resource.sv_bin} stop #{service_dir_name}")
+          shell_out!("#{new_resource.sv_bin} #{sv_args}stop #{service_dir_name}")
         end
 
         def restart_service
-          shell_out!("#{new_resource.sv_bin} restart #{service_dir_name}")
+          shell_out!("#{new_resource.sv_bin} #{sv_args}restart #{service_dir_name}")
         end
 
         def restart_log_service
-          shell_out!("#{new_resource.sv_bin} restart #{service_dir_name}/log")
+          shell_out!("#{new_resource.sv_bin} #{sv_args}restart #{service_dir_name}/log")
         end
 
         def reload_service
-          shell_out!("#{new_resource.sv_bin} force-reload #{service_dir_name}")
+          shell_out!("#{new_resource.sv_bin} #{sv_args}force-reload #{service_dir_name}")
         end
 
         def reload_log_service
-          shell_out!("#{new_resource.sv_bin} force-reload #{service_dir_name}/log")
+          shell_out!("#{new_resource.sv_bin} #{sv_args}force-reload #{service_dir_name}/log")
         end
 
         #
@@ -241,19 +241,19 @@ class Chef
         def runit_send_signal(signal, friendly_name=nil)
           friendly_name ||= signal
           converge_by("send #{friendly_name} to #{new_resource}") do
-            shell_out!("#{new_resource.sv_bin} #{signal} #{service_dir_name}")
+            shell_out!("#{new_resource.sv_bin} #{sv_args}#{signal} #{service_dir_name}")
             Chef::Log.info("#{new_resource} sent #{friendly_name}")
             new_resource.updated_by_last_action(true)
           end
         end
 
         def running?
-          cmd = shell_out("#{new_resource.sv_bin} status #{new_resource.service_name}")
+          cmd = shell_out("#{new_resource.sv_bin} #{sv_args}status #{new_resource.service_name}")
           (cmd.stdout =~ /^run:/ && cmd.exitstatus == 0)
         end
 
         def log_running?
-          cmd = shell_out("#{new_resource.sv_bin} status #{new_resource.service_name}/log")
+          cmd = shell_out("#{new_resource.sv_bin} #{sv_args}status #{new_resource.service_name}/log")
           (cmd.stdout =~ /^run:/ && cmd.exitstatus == 0)
         end
 
@@ -267,6 +267,13 @@ class Chef
 
         def sv_dir_name
           ::File.join(new_resource.sv_dir, new_resource.service_name)
+        end
+
+        def sv_args
+          sv_args = ''
+          sv_args += "-w '#{new_resource.sv_timeout}' " unless new_resource.sv_timeout.nil?
+          sv_args += '-v ' if new_resource.sv_verbose
+          sv_args
         end
 
         def service_dir_name
