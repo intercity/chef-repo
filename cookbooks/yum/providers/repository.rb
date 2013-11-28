@@ -68,7 +68,7 @@ action :update do
   else
     Chef::Log.error "Repo /etc/yum.repos.d/#{new_resource.repo_name}.repo does not exist, you must create it first"
   end
-  if repos[new_resource.repo_name]['enabled'].to_i != new_resource.enabled
+  if !repos.has_key?(new_resource.repo_name) || repos[new_resource.repo_name]['enabled'].to_i != new_resource.enabled
     Chef::Log.info "Updating #{new_resource.repo_name} repository in /etc/yum.repos.d/#{new_resource.repo_name}.repo (setting enabled=#{new_resource.enabled})"
     repo_config
   else
@@ -117,7 +117,10 @@ def repo_config
                 :exclude => new_resource.exclude,
                 :priority => new_resource.priority,
                 :metadata_expire => new_resource.metadata_expire,
-                :type => new_resource.type
+                :type => new_resource.type,
+                :proxy => new_resource.proxy,
+                :proxy_username => new_resource.proxy_username,
+                :proxy_password => new_resource.proxy_password
               })
     if new_resource.make_cache
       notifies :run, "execute[yum-makecache-#{new_resource.repo_name}]", :immediately

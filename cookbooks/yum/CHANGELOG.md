@@ -3,6 +3,18 @@ yum Cookbook CHANGELOG
 This file is used to list changes made in each version of the yum cookbook.
 
 
+v2.4.2
+------
+[COOK-3275] LWRP repository.rb :add method fails to create yum repo in
+some cases which causes :update to fail Amazon rhel
+
+
+v2.4.0
+------
+### Improvement
+- [COOK-3025] - Allow per-repo proxy definitions
+
+
 v2.3.4
 ------
 ### Improvement

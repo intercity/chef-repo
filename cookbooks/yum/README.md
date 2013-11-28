@@ -167,6 +167,9 @@ This LWRP provides an easy way to manage additional YUM repositories. GPG keys c
   makecache` will not be ran
 - metadata_expire: Optional, Default is nil (or not applied)
 - type: Optional, Default is nil (or not applied)
+- proxy: Optional, per-repository proxy URL; ; if set to '_none_' then it disables any global proxy setting for this repository
+- proxy_username: Optional, proxy username for this repository
+- proxy_password: Optional, proxy password for this repository
 
 *Note*: When using both url (to set baseurl) and mirrorlist, it is probably a good idea to also install the fastestmirror plugin, and use failovermethod "priority".
 

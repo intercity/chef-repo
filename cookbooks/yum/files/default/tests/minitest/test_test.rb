@@ -63,4 +63,14 @@ describe "yum::test" do
       file('/etc/yum.repos.d/zenoss-create.repo').must_match %r[baseurl=http://dev.zenoss.com/yum/stable/]
     end
   end
+
+  describe "cook-3025" do
+    it 'doesnt add proxy statements to repositories if not specified' do
+      file('/etc/yum.repos.d/epel.repo').wont_match %r[^proxy=]
+    end
+
+    it 'does configure a proxy in repositories where it is specified' do
+      file('/etc/yum.repos.d/cook-3025.repo').must_match %r[^proxy=http://proxy.invalid:1234/path$]
+    end
+  end
 end
