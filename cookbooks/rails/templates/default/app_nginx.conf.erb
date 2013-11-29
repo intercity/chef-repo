@@ -1,7 +1,7 @@
 server {
   listen <%= node['nginx']['port'] || '80' %>;
   server_name <%= @domain_names.join(' ') %>;
-  root /u/apps/<%= @name %>/current/public;
+  root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
 
   try_files $uri/index.html $uri.html $uri @app;
 
@@ -20,12 +20,12 @@ server {
 server {
   listen 443 ssl;
 
-  ssl_certificate /u/apps/<%= @name %>/shared/config/certificate.crt;
-  ssl_certificate_key /u/apps/<%= @name %>/shared/config/certificate.key;
+  ssl_certificate <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.crt;
+  ssl_certificate_key <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.key;
 
   server_name <%= @domain_names.join(' ') %>;
 
-  root /u/apps/<%= @name %>/current/public;
+  root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
 
   location / {
     try_files $uri @app;
@@ -45,5 +45,5 @@ server {
 <% end %>
 
 upstream <%= @name %> {
-  server unix:/u/apps/<%= @name %>/current/tmp/sockets/unicorn.sock;
+  server unix:<%= node['rails']['applications_root'] %>/<%= @name %>/current/tmp/sockets/unicorn.sock;
 }

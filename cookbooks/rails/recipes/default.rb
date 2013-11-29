@@ -66,6 +66,8 @@ if node[:deploy_users]
   end
 end
 
+applications_root = node[:rails][:applications_root]
+
 if node[:active_applications]
 
   node[:active_applications].each do |app, app_info|
@@ -78,14 +80,14 @@ if node[:active_applications]
       ruby_version app_info['ruby_version']
     end
 
-    directory "/u/apps/#{app}" do
+    directory "#{applications_root}/#{app}" do
       recursive true
       group deploy_user
       owner deploy_user
     end
 
     ['config', 'shared', 'shared/config', 'shared/sockets', 'shared/pids', 'shared/log', 'shared/system', 'releases'].each do |dir|
-      directory "/u/apps/#{app}/#{dir}" do
+      directory "#{applications_root}/#{app}/#{dir}" do
         recursive true
         group deploy_user
         owner deploy_user
@@ -94,7 +96,7 @@ if node[:active_applications]
 
     if app_info['database_info']
 
-      template "/u/apps/#{app}/shared/config/database.yml" do
+      template "#{applications_root}/#{app}/shared/config/database.yml" do
         owner deploy_user
         group deploy_user
         mode 0600
@@ -104,21 +106,13 @@ if node[:active_applications]
 
     end
 
-    if app_info['packages'] && app_info['packages'].include?('sphinxsearch')
-      directory "/u/apps/#{app}/shared/sphinx" do
-        recursive true
-        group deploy_user
-        owner deploy_user
-      end
-    end
-
     template "/etc/nginx/sites-available/#{app}.conf" do
       source "app_nginx.conf.erb"
       variables :name => app, :domain_names => app_info['domain_names'], :enable_ssl => File.exists?("/u/apps/#{app}/shared/config/certificate.crt")
       notifies :reload, resources(:service => "nginx")
     end
 
-    template "/u/apps/#{app}/shared/config/unicorn.rb" do
+    template "#{applications_root}/#{app}/shared/config/unicorn.rb" do
       mode 0644
       source "app_unicorn.rb.erb"
       variables :name => app, :deploy_user => deploy_user, :number_of_workers => app_info['number_of_workers'] || 2

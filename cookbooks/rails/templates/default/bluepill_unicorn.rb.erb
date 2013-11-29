@@ -1,16 +1,14 @@
-ENV['PATH'] = "/home/<%= @deploy_user %>/.rbenv/shims:#{ENV['PATH']}"
-
 Bluepill.application("<%= @name %>", :log_file => "/u/apps/<%= @name %>/shared/log/bluepill.log") do |app|
-  app.working_dir = "/u/apps/<%= @name %>/current"
+  app.working_dir = "<%= node['rails']['applications_root'] %>/<%= @name %>/current"
   <% if @app_env %>
     app.environment = {<%= @app_env.map { |k, v|  "\"#{k}\" => \"#{v}\"" }.join(', ') %> }
   <% end %>
   app.process("<%= @name %>") do |process|
-    process.start_command = "/usr/bin/env RAILS_ENV=<%= @rails_env %> bundle exec unicorn /u/apps/<%= @name %>/current/config.ru -Dc /u/apps/<%= @name %>/shared/config/unicorn.rb -E <%= @rails_env %>"
+    process.start_command = "/usr/bin/env RAILS_ENV=<%= @rails_env %> bundle exec unicorn <%= node['rails']['applications_root'] %>/<%= @name %>/current/config.ru -Dc /u/apps/<%= @name %>/shared/config/unicorn.rb -E <%= @rails_env %>"
     process.stop_command = "kill -QUIT {{PID}}"
     process.restart_command = "kill -USR2 {{PID}}"
-    process.stdout = process.stderr = "/u/apps/<%= @name %>/shared/log/unicorn.log"
-    process.pid_file = "/u/apps/<%= @name %>/shared/pids/unicorn.pid"
+    process.stdout = process.stderr = "<%= node['rails']['applications_root'] %>/<%= @name %>/shared/log/unicorn.log"
+    process.pid_file = "<%= node['rails']['applications_root'] %>/<%= @name %>/shared/pids/unicorn.pid"
 
     process.checks :mem_usage, :every => 1.minute, :below => 130.megabytes, :times => [3, 5]
 

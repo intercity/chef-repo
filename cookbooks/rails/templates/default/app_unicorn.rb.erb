@@ -3,13 +3,13 @@
 # ------------------------------------------------------------------------------
 
 # Set your full path to application.
-app_path = "/u/apps/<%= @name %>/current"
+app_path = "<%= node['rails']['applications_root'] %>/<%= @name %>/current"
 
 # Set unicorn options
 worker_processes <%= @number_of_workers || 2 %>
 preload_app true
 timeout 30
-listen "/u/apps/<%= @name %>/current/tmp/sockets/unicorn.sock", :backlog => 2048
+listen "<%= node['rails']['applications_root'] %>/<%= @name %>/current/tmp/sockets/unicorn.sock", :backlog => 2048
 
 # Spawn unicorn master worker for user apps (group: apps)
 user '<%= @deploy_user %>', '<%= @deploy_user %>'

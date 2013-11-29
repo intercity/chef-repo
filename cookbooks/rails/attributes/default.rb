@@ -1,0 +1,1 @@
+default['rails']['applications_root'] = '/u/apps'
