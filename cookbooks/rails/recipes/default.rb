@@ -73,6 +73,8 @@ if node[:active_applications]
   node[:active_applications].each do |app, app_info|
     rails_env = app_info['rails_env'] || "production"
     deploy_user = app_info['deploy_user'] || "deploy"
+    app_env = app_info['app_env'] || {}
+    app_env['RAILS_ENV'] = rails_env
 
     rbenv_ruby app_info['ruby_version']
 
@@ -121,7 +123,7 @@ if node[:active_applications]
     template "#{node[:bluepill][:conf_dir]}/#{app}.pill" do
       mode 0644
       source "bluepill_unicorn.rb.erb"
-      variables :name => app, :deploy_user => deploy_user, :app_env => app_info['app_env'], :rails_env => rails_env
+      variables :name => app, :deploy_user => deploy_user, :app_env => app_env, :rails_env => rails_env
     end
 
     bluepill_service app do
