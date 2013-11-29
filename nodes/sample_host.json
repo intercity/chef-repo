@@ -9,7 +9,7 @@
   "authorization": {
     "sudo": {
       "include_sudoers_d": true,
-      "users": ["<enter your administrative user>"],
+      "users": ["<your sudo user>"],
       "passwordless": true,
       "sudoers_defaults": [
         "env_reset",
@@ -17,7 +17,6 @@
       ]
     }
   },
-  "deploy_users": ["deploy"],
   "ssh_deploy_keys": [
     "<enter the contents of an id_rsa.pub here>"
   ],
@@ -25,20 +24,21 @@
     "server_tokens": "off" // This ensures that nginx doesn't pass on version information to attackers.
   },
   "active_applications": {
-    "myapp_production": {
-      "rails_env": "production",
+    "<appname>_<stage>": {
+      "rails_env": "<stage, eg: production>",
       "packages": ["nodejs"],
-      "domain_names": ["myapp.com", "www.myapp.com"],
+      "domain_names": ["<domain name>", "<domain name>", "<...>"],
       "ruby_version": "2.0.0-p247",
       "database_info": {
         "adapter": "mysql2",
         "host": "localhost",
-        "username": "myapp_prod",
+        "username": "<db username, max 10 characters>",
         "password": "<enter a random password>",
-        "database": "myapp_production"
+        "database": "<appname>_<stage>"
       }
     }
   },
+  "deploy_users": ["deploy"],
   "rbenv": {
     "group_users": ["deploy"]
   }
