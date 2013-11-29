@@ -39,11 +39,6 @@ sudo "deploy" do
   nopasswd true
 end
 
-include_recipe "rbenv::default"
-include_recipe "rbenv::ruby_build"
-
-include_recipe "rails::dependencies"
-
 if node[:deploy_users]
   node[:deploy_users].each do |deploy_user|
     user deploy_user do
@@ -65,6 +60,11 @@ if node[:deploy_users]
     end
   end
 end
+
+include_recipe "rbenv::default"
+include_recipe "rbenv::ruby_build"
+
+include_recipe "rails::dependencies"
 
 applications_root = node[:rails][:applications_root]
 
