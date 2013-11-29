@@ -1,48 +1,45 @@
 {
   "run_list":["role[mysql]","role[rails]"],
+  "mysql": {
+    "server_debian_password": "<enter a random password>",
+    "server_root_password": "<enter a random password>",
+    "server_repl_password": "<enter a random password>",
+    "bind_address": "127.0.0.1" // Only make MySQL available to localhost
+  },
   "authorization": {
     "sudo": {
-      "users": ["<your user>"],
-      "groups": ["admin", "sudo"],
+      "include_sudoers_d": true,
+      "users": ["<enter your administrative user>"],
       "passwordless": true,
-      "include_sudoers_d": true
+      "sudoers_defaults": [
+        "env_reset",
+        "secure_path=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\""
+      ]
     }
   },
-  "mysql": {
-    "server_debian_password": "<a random password>",
-    "server_root_password": "<a random password>",
-    "server_repl_password": "<a random password>"
-  },
-  "deploy_users": [
-    "<add as many users as you want to create to deploy>"
-  ],
+  "deploy_users": ["deploy"],
   "ssh_deploy_keys": [
-    "<the contents of your ~/.ssh/id_rsa.pub file>"
+    "<enter the contents of an id_rsa.pub here>"
   ],
+  "nginx": {
+    "server_tokens": "off" // This ensures that nginx doesn't pass on version information to attackers.
+  },
   "active_applications": {
     "myapp_production": {
       "rails_env": "production",
       "packages": ["nodejs"],
       "domain_names": ["myapp.com", "www.myapp.com"],
+      "ruby_version": "2.0.0-p247",
       "database_info": {
         "adapter": "mysql2",
         "host": "localhost",
-        "username": "myapp",
-        "password": "myapp_password",
+        "username": "myapp_prod",
+        "password": "<enter a random password>",
         "database": "myapp_production"
       }
     }
   },
   "rbenv": {
-    "user_installs": [
-      {
-        "user": "deploy",
-        "rubies": ["2.0.0-p247"],
-        "global": "2.0.0-p247",
-        "gems": {
-          "2.0.0-p247": [ {"name": "bundler"} ]
-        }
-      }
-    ]
+    "group_users": ["deploy"]
   }
 }
