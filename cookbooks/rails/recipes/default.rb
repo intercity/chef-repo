@@ -21,11 +21,6 @@ include_recipe "sudo"
 include_recipe "nginx"
 include_recipe "bluepill"
 
-include_recipe "rbenv::default"
-include_recipe "rbenv::ruby_build"
-
-include_recipe "rails::dependencies"
-
 user "deploy" do
   comment "Deploy User"
   home "/home/deploy"
@@ -43,6 +38,11 @@ sudo "deploy" do
   commands ["#{node[:bluepill][:bin]}"]
   nopasswd true
 end
+
+include_recipe "rbenv::default"
+include_recipe "rbenv::ruby_build"
+
+include_recipe "rails::dependencies"
 
 if node[:deploy_users]
   node[:deploy_users].each do |deploy_user|
