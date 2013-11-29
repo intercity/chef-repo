@@ -108,7 +108,7 @@ if node[:active_applications]
 
     template "/etc/nginx/sites-available/#{app}.conf" do
       source "app_nginx.conf.erb"
-      variables :name => app, :domain_names => app_info['domain_names'], :enable_ssl => File.exists?("/u/apps/#{app}/shared/config/certificate.crt")
+      variables :name => app, :domain_names => app_info['domain_names'], :enable_ssl => File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt")
       notifies :reload, resources(:service => "nginx")
     end
 
@@ -145,7 +145,7 @@ if node[:active_applications]
 
     logrotate_app "rails-#{app}" do
       cookbook "logrotate"
-      path ["/u/apps/#{app}/current/log/*.log"]
+      path ["#{applications_root}/#{app}/current/log/*.log"]
       frequency "daily"
       rotate 14
       compress true
