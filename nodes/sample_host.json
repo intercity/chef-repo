@@ -25,6 +25,7 @@
     "server_tokens": "off" // This ensures that nginx doesn't pass on version information to attackers.
   },
   "active_applications": {
+	//naming your app is recommended to follow this format: <appname>_<stage>
     "myapp_production": {
       "rails_env": "production",
       "packages": ["nodejs"],
