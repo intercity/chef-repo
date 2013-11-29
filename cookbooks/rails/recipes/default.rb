@@ -34,12 +34,6 @@ user "deploy" do
   supports(:manage_home => true )
 end
 
-template "/home/deploy/.bashrc" do
-  source "bashrc.erb"
-  owner "deploy"
-  group "deploy"
-end
-
 group "deploy" do
   members ['deploy']
 end
@@ -58,12 +52,6 @@ if node[:deploy_users]
       shell "/bin/bash"
 
       supports(:manage_home => true )
-    end
-
-    template "/home/#{deploy_user}/.bashrc" do
-      source "bashrc.erb"
-      owner "#{deploy_user}"
-      group "#{deploy_user}"
     end
 
     group deploy_user do
