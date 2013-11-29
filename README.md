@@ -142,7 +142,7 @@ cap deploy
 
 to deploy your application!
 
-## If you need help
+## Getting help
 
 The following steps will let you **set up or test your own Rails infrastructure
 in 5 - 10 minutes**. If something doesn't work or you need more instructions:
