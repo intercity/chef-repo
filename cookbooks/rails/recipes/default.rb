@@ -108,15 +108,6 @@ if node[:active_applications]
 
     end
 
-    
-    if app_info['packages'] && app_info['packages'].include?('sphinxsearch')
-      directory "/u/apps/#{app}/shared/sphinx" do
-        recursive true
-        group deploy_user
-        owner deploy_user
-      end
-    end
-
     if app_info['ssl_info']
       template "/u/apps/#{app}/shared/config/certificate.crt" do
         owner "deploy"
