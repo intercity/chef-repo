@@ -25,7 +25,7 @@ or sudo access.
 
 Your server has:
 
-* Ubuntu 12.04 LTS or a later minor version. The latest is Ubuntu 12.04.3 LTS.
+* A version of Ubuntu 12.04 LTS. The latest version is Ubuntu 12.04.3 LTS.
 
 ### Installation
 
