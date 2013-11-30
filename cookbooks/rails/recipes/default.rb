@@ -108,6 +108,24 @@ if node[:active_applications]
 
     end
 
+    if app_info['ssl_info']
+      template "/u/apps/#{app}/shared/config/certificate.crt" do
+        owner "deploy"
+        group "deploy"
+        mode 0644
+        source "app_cert.crt.erb"
+        variables :app_crt=> app_info['ssl_info']['crt']
+      end
+
+      template "/u/apps/#{app}/shared/config/certificate.key" do
+        owner "deploy"
+        group "deploy"
+        mode 0644
+        source "app_cert.key.erb"
+        variables :app_key=> app_info['ssl_info']['key']
+      end
+    end
+
     template "/etc/nginx/sites-available/#{app}.conf" do
       source "app_nginx.conf.erb"
       variables :name => app, :domain_names => app_info['domain_names'], :enable_ssl => File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt")
