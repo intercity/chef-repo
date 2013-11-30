@@ -21,6 +21,8 @@ or sudo access.
 
 ## Getting started
 
+The following paragraphs will guide you to set up your own server to host Ruby on Rails applications. **Note:** There's also a great guide on the website for [using these recipes with Digital Ocean](http://www.intercityup.com/guides/rails-chef-digitalocean).
+
 ### Server prerequisites
 
 Your server has:
