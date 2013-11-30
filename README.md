@@ -35,17 +35,10 @@ Clone the repository onto your own workstation.
 git clone git://github.com/intercity/chef-repo.git chef_repo
 ```
 
-And initialize submodules:
+Run bundle to install chef and knife-solo:
 
 ```sh
-git submodule init
-git submodule update
-```
-
-Run bundler to install chef and knife solo:
-
-```sh
-bundle
+bundle install
 ```
 
 ### Setting up the server
@@ -61,18 +54,11 @@ your host json file.
 
 In the file, replace the samples between `< >` with the values for your server and applications.
 
-* In the `authorization` section, replace `<your sudo user>` with the user you prepared your server.
-* In the `mysql` section replace the three `<enter a random password>` with your desired MySQL passwords.
-* In the `ssh_deploy_keys` section, copy the contents of your `~/.ssh/id_rsa.pub` file so your workstation is enabled to deploy with Capistrano.
-* In the `active_applications` section, customize the values with your own Rails application values.
-
-When your host configuration file is set up you run:
+Then, install everything to run Rails apps on your server with the next command. You might need to enter your password a couple of times.
 
 ```sh
 bundle exec knife solo cook <your user>@<your host/ip>
 ```
-
-This uploads the chef repository and runs the Chef client that automatically installs your server.
 
 ### Deploying your applications
 
