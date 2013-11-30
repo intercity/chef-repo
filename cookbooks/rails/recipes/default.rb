@@ -109,7 +109,7 @@ if node[:active_applications]
     end
 
     if app_info['ssl_info']
-      template "/u/apps/#{app}/shared/config/certificate.crt" do
+      template "#{applications_root}/#{app}/shared/config/certificate.crt" do
         owner "deploy"
         group "deploy"
         mode 0644
@@ -117,7 +117,7 @@ if node[:active_applications]
         variables :app_crt=> app_info['ssl_info']['crt']
       end
 
-      template "/u/apps/#{app}/shared/config/certificate.key" do
+      template "#{applications_root}/#{app}/shared/config/certificate.key" do
         owner "deploy"
         group "deploy"
         mode 0644
