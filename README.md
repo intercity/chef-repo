@@ -20,7 +20,7 @@ on a single server or multiple servers:
 * Multiple apps on one server
 * Database creation
 * Easy SSL configuration
-* Capistrano
+* Deployment with Capistrano
 
 ## Getting started
 
