@@ -3,21 +3,24 @@ Readme
 
 This Chef repository aims at being the easiest way set up and configure your own Rails server
 to host one or more Ruby on Rails applications using best
-practices from the community. **These recipes do not require a Chef server**
+practices from our community.
 
 The configuration is heavily inspired by blog posts and chef recipes
 from [37signals](http://37signals.com) and the
-[Opscode Community Cookbooks](http://community.opscode.com). It takes
-care of automatic installation and configuration of the following software
+[Opscode Community Cookbooks](http://community.opscode.com).
+
+## Features
+
+Takes care of automatic installation and configuration of the following software
 on a single server or multiple servers:
 
-* Nginx as webserver
-* Unicorn as the Rails application server (with rolling restarts)
-* App deployment with Capistrano
-
-The Chef recipes in this repository are meant to set up servers with a bare
-**Ubuntu 12.04(.x) LTS (Precise Pangolin)** installation and that you have root
-or sudo access.
+* nginx webserver
+* Unicorn for running Ruby on Rails
+* Zero-downtime deploys
+* Multiple apps on one server
+* Database creation
+* Easy SSL configuration
+* Capistrano
 
 ## Getting started
 
