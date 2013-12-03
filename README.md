@@ -67,8 +67,12 @@ bundle exec knife solo cook <your user>@<your host/ip>
 
 ### Deploying your applications
 
+Applications are deployed using capistrano. You can find a sample application to be deployed using these recipes here: [https://github.com/intercity/intercity_sample_app](https://github.com/intercity/intercity_sample_app). 
+
 The two commands in the previous section prepare your apps to be deployed with
-Capistrano. The folder structure for each app on your server looks like:
+Capistrano. 
+
+The folder structure for each app on your server looks like:
 
 ```
 /u/apps/your_app
@@ -95,10 +99,16 @@ Add the `intercity` gem to your `Gemfile`:
 gem 'intercity'
 ```
 
+Run, bundle to install your gems
+
+```
+bundle
+```
+
 Run
 
 ```sh
-capify .
+bundle exec capify .
 ```
 
 to generate the Capistrano configuration files.
@@ -117,18 +127,19 @@ load 'deploy/assets'
 load 'config/deploy'
 ```
 
-Open `config/deploy.rb` and set the `application` and `repository` settings.
+(You can view it here in our sample repo: [Capfile](https://github.com/intercity/intercity_sample_app/blob/master/Capfile))
 
+Open `config/deploy.rb` and set the `application` and `repository` settings. (Check it here in the sample repo [deploy.rb](https://github.com/intercity/intercity_sample_app/blob/master/config/deploy.rb) )
 Run
 
 ```sh
-cap deploy:check
+bundle exec cap deploy:check
 ```
 
 to see if everything is set up. And then
 
 ```sh
-cap deploy
+bundle exec cap deploy
 ```
 
 to deploy your application!
