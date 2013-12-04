@@ -4,7 +4,7 @@ Awesome that you want to contribute! We really love it if people help us out!
 
 ## How to contribute
 
-Fork it and then clone it like any other project on github. Checkout a new branch and
+In short, fork it and clone it like any other project on github. Checkout a new branch and
 send us a PR.
 
 ## Adding cookbooks
@@ -49,7 +49,7 @@ vagrant up
 ```
 
 It will probably nag that it can't connect to the machine, but that's good cause we have a plain ubuntu install, and we don't have
-chef or the vagrant gues additions installed. You should be able to ``vagrant ssh`` into it anyway, you can test that now if you want.
+chef or the vagrant guest additions installed. You should be able to ``vagrant ssh`` into it anyway, you can test that now if you want.
 
 When it works, back out of the vagrant directory.
 
@@ -57,13 +57,14 @@ When it works, back out of the vagrant directory.
 cd ..
 ```
 
-The prepare your machine using:
+Then it's time to prepare your vagrant machine for working with chef. So let's bootstrap chef using this command:
 
 ```
 bundle exec knife solo prepare intercity@localhost -p 2222 -P intercity
 ```
 
 When that's done you'll get a `nodes/localhost.json` file back. You can edit your runlist and add your data there in order to test it. 
+Check the sample [nodes/sample_host.json](nodes/sample_host.json) if you need inspiration.
 
 Then finally run 
 
