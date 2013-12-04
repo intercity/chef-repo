@@ -62,4 +62,19 @@ Backup::Model.new(:<%= @database_info['database'] %>, 'Backups for <%= @database
   #
   compress_with <%= @backup_info['compressor'] %>
 
+  <% if @backup_info['gpg'] %>
+  ##
+  # Encryption
+  #
+  encrypt_with GPG do |encryption|
+    encryption.keys = {}
+    <% @backup_info['gpg'].each do |email, key| %>
+      encryption.keys['<%= email %>'] = <<-KEY
+        <%= key %>
+      KEY
+    <% end %>
+    encryption.recipients = <%= @backup_info['gpg'].keys.inspect %>
+  end
+  <% end %>
+
 end
