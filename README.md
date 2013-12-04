@@ -67,6 +67,14 @@ bundle exec knife solo cook <your user>@<your host/ip>
 
 ### Deploying your applications
 
+In short you need to do the following:
+
+- Ensure you have a rbenv .ruby-version in your application, specifying the version to use.
+- Add `intercity` gem to your gemfile.
+- Generate the `unicorn` binstub so that bluepill can start your application.
+
+So let's get started.
+
 The two commands in the previous section prepare your apps to be deployed with
 Capistrano. The folder structure for each app on your server looks like:
 
@@ -83,25 +91,34 @@ Capistrano. The folder structure for each app on your server looks like:
     sockets/
 ```
 
-To deploy your application:
+Ensure that you are having a `.ruby-version` in your application, if you have not you
+can set it using rbenv like this:
+
+```ruby
+rbenv local <YOUR-RUBY-VERSION>
+``
 
 Add the `intercity` gem to your `Gemfile`:
 
 ```ruby
-# Your Gemfile
-
 # other gems..
 
 gem 'intercity'
 ```
 
-Run
+Generate the `unicorn` binstub so we can start unicorn:
+
+```ruby
+bundle binstubs unicorn
+```
+
+This will create a `bin/unicorn` binstub that you need to check in into your repository:
+
+Then generate the capistrano deployment files by using this command:
 
 ```sh
 capify .
 ```
-
-to generate the Capistrano configuration files.
 
 Uncomment the
 
