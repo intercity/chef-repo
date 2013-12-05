@@ -100,7 +100,7 @@ can set it using rbenv like this:
 
 ```ruby
 rbenv local <YOUR-RUBY-VERSION>
-``
+```
 
 Add the `intercity` gem to your `Gemfile`:
 
