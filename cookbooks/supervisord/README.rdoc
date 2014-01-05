@@ -1,0 +1,18 @@
+= DESCRIPTION:
+
+Installs supervisor daemon, provides a resource+provider to specify supervised programs.
+
+= REQUIREMENTS:
+
+= ATTRIBUTES:
+
+None
+
+= USAGE:
+
+See recipes/example.rb
+
+= AUTHORS:
+
+* Maciej Pasternacki
+* Dan Crosta

@@ -1,0 +1,31 @@
+{
+  "name": "supervisord",
+  "description": "Installs/Configures supervisord",
+  "long_description": "= DESCRIPTION:\n\nInstalls supervisor daemon, provides a resource+provider to specify supervised programs.\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\nNone\n\n= USAGE:\n\nSee recipes/example.rb\n\n= AUTHORS:\n\n* Maciej Pasternacki\n* Dan Crosta\n",
+  "maintainer": "Maciej Pasternacki",
+  "maintainer_email": "maciej@pasternacki.net",
+  "license": "WTFPL",
+  "platforms": {
+    "ubuntu": ">= 0.0.0",
+    "debian": ">= 6.0"
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.1.0"
+}

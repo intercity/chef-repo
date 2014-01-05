@@ -1,0 +1,13 @@
+[program:<%= @program.name %>]
+command = <%= @program.command %>
+<% if not @program.autostart.nil? %>autostart = <%= @program.autostart %><% end %>
+<% if not @program.startsecs.nil? %>startsecs = <% @program.startsecs %><% end %>
+<% if not @program.user.nil? %>user = <%= @program.user %><% end %>
+<% if not @program.directory.nil? %>directory = <%= @program.directory %><% end %>
+
+<% if not @program.stdout_logfile.nil? %>stdout_logfile = <%= @program.stdout_logfile %><% end %>
+<% if not @program.stdout_logfile_maxbytes.nil? %>stdout_logfile_maxbytes = <%= @program.stdout_logfile_maxbytes %><% end %>
+<% if not @program.stderr_logfile.nil? %>stderr_logfile = <%= @program.stderr_logfile %><% end %>
+<% if not @program.stderr_logfile_maxbytes.nil? %>stderr_logfile_maxbytes = <%= @program.stderr_logfile_maxbytes %><% end %>
+
+<% if not @program.stopsignal.nil? %>stopsignal = <%= @program.stopsignal %><% end %>
