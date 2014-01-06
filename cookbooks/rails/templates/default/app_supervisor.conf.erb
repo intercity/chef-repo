@@ -1,0 +1,3 @@
+[program:rails-<%= @name %>]
+command = /bin/bash --login -c 'unicornherder <%= node['rails']['applications_root'] %>/<%= @name %>/current/bin/unicorn <%= node['rails']['applications_root'] %>/<%= @name %>'
+user = deploy
