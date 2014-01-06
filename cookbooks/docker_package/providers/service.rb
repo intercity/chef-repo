@@ -41,10 +41,13 @@ action :start do
   when 'RUNNING'
     Chef::Log.debug "#{ new_resource } is already started."
   else
-    converge_by("Starting #{ new_resource }") do
-      result = supervisorctl('start')
-      if !result.match(/#{new_resource.name}: started$/)
-        raise "Supervisor service #{new_resource.service_name} was unable to be started: #{result}"
+    Chef::Log.debug "Not starting for packaging."
+    if false
+      converge_by("Starting #{ new_resource }") do
+        result = supervisorctl('start')
+        if !result.match(/#{new_resource.name}: started$/)
+          raise "Supervisor service #{new_resource.service_name} was unable to be started: #{result}"
+        end
       end
     end
   end
@@ -83,7 +86,7 @@ end
 action :reload do
   case current_resource.state
   when 'UNAVAILABLE'
-    raise "Supervisor service #{new_resource.name} cannot be restarted because it does not exist"
+    raise "Supervisor service #{new_resource.service_name} cannot be restarted because it does not exist"
   else
     converge_by("Reloading #{ new_resource }") do
       result = supervisorctl('reread')
@@ -128,9 +131,6 @@ end
 
 def cmd_line_args
   name = new_resource.service_name
-  if new_resource.numprocs > 1
-    name += ':*'
-  end
   name
 end
 
