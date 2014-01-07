@@ -19,6 +19,9 @@
 
 include_recipe "sudo"
 include_recipe "nginx"
+include_recipe "python"
+
+python_pip "unicornherder"
 
 user "deploy" do
   comment "Deploy User"

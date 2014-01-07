@@ -45,5 +45,5 @@ server {
 <% end %>
 
 upstream <%= @name %> {
-  server unix:<%= node['rails']['applications_root'] %>/<%= @name %>/current/tmp/sockets/unicorn.sock;
+  server unix:<%= node['rails']['applications_root'] %>/<%= @name %>/shared/sockets/unicorn.sock;
 }
