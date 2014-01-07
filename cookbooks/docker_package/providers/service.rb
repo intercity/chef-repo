@@ -86,7 +86,12 @@ action :reload do
     raise "Supervisor service #{new_resource.service_name} cannot be restarted because it does not exist"
   else
     converge_by("Reloading #{ new_resource }") do
-      result = supervisorctl('reread')
+      cmd = "supervisorctl status #{new_resource.service_name} | sed -n '/RUNNING/s/.*pid \([[:digit:]]\+\).*/\1/p'"
+      result = Mixlib::ShellOut.new(cmd).run_command
+      pid = result.stdout.rstrip
+
+      hup_cmd = "kill -HUP #{pid}"
+      Mixlib::ShellOut.new(cmd).run_command
     end
   end
 end
