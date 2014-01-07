@@ -1,0 +1,58 @@
+{
+  "description": "Docker image for Intercity",
+  "builders": [
+    {
+      "type": "docker",
+      "image": "ubuntu:12.04",
+      "export_path": "intercity-{{timestamp}}.tar"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "echo \"deb http://archive.ubuntu.com/ubuntu precise main universe\" > /etc/apt/sources.list",
+        "export DEBIAN_FRONTEND=noninteractive",
+        "mkdir -p /var/run/sshd",
+        "apt-get update -y",
+        "apt-get upgrade -y",
+        "apt-get install -y curl wget openssh-server vim"
+      ]
+    },
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["/intercity-chef-repo/cookbooks"],
+      "roles_path": "/intercity-chef-repo/roles",
+      "run_list": ["role[docker]", "role[rails]"],
+      "prevent_sudo": true,
+      "json": {
+        "mysql": {
+          "server_debian_password": "server_debian_password",
+          "server_root_password": "server_root_password",
+          "server_repl_password": "server_repl_password",
+          "bind_address": "0.0.0.0"
+        },
+        "nginx": {
+          "daemon_disable": true,
+          "server_tokens": "off"
+        },
+        "docker_package": {
+          "state": "building"
+        },
+        "deploy_users": ["deploy"],
+        "rbenv": {
+          "group_users": ["deploy"]
+        }
+      }
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "echo \"root:root\" | chpasswd",
+        "apt-get autoremove -y",
+        "apt-get clean -y",
+        "rm -f /var/log/supervisor/*"
+      ]
+    }
+  ]
+}
