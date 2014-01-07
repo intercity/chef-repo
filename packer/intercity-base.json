@@ -36,9 +36,6 @@
           "daemon_disable": true,
           "server_tokens": "off"
         },
-        "docker_package": {
-          "state": "building"
-        },
         "deploy_users": ["deploy"],
         "rbenv": {
           "group_users": ["deploy"]
