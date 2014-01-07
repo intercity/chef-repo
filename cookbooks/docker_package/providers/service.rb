@@ -41,8 +41,7 @@ action :start do
   when 'RUNNING'
     Chef::Log.debug "#{ new_resource } is already started."
   else
-    Chef::Log.debug "Not starting for packaging."
-    if false
+    if node['docker_package']['state'] != 'building'
       converge_by("Starting #{ new_resource }") do
         result = supervisorctl('start')
         if !result.match(/#{new_resource.name}: started$/)
@@ -74,10 +73,12 @@ action :restart do
   when 'UNAVAILABLE'
     raise "Supervisor service #{new_resource.name} cannot be restarted because it does not exist"
   else
-    converge_by("Restarting #{ new_resource }") do
-      result = supervisorctl('restart')
-      if !result.match(/^#{new_resource.name}: started$/)
-        raise "Supervisor service #{new_resource.name} was unable to be started: #{result}"
+    if node['docker_package']['state'] != 'building'
+      converge_by("Restarting #{ new_resource }") do
+        result = supervisorctl('restart')
+        if !result.match(/^#{new_resource.name}: started$/)
+          raise "Supervisor service #{new_resource.name} was unable to be started: #{result}"
+        end
       end
     end
   end
