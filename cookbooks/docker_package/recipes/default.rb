@@ -7,32 +7,27 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# include_recipe "rbenv::default"
-# include_recipe "rbenv::ruby_build"
-# include_recipe "rbenv::rbenv_vars"
+include_recipe "rbenv::default"
+include_recipe "rbenv::ruby_build"
+include_recipe "rbenv::rbenv_vars"
 
-#ruby_versions = ['2.1.0', '2.0.0-p353', '1.9.3-p484']
-# ruby_versions = ['2.1.0']
+# ruby_versions = ['2.1.0', '2.0.0-p353', '1.9.3-p484']
+ruby_versions = ['2.0.0-p247']
 
-# ruby_versions.each do |ruby_version|
+ruby_versions.each do |ruby_version|
 
-#   rbenv_ruby ruby_version
+  rbenv_ruby ruby_version
 
-#   rbenv_gem "bundler" do
-#     ruby_version ruby_version
-#   end
+  rbenv_gem "bundler" do
+    ruby_version ruby_version
+  end
 
-# end
+end
 
 Chef::Platform.set :platform => :ubuntu, :resource => :service, :provider => Chef::Provider::DockerPackageService
 
-apt_repository "universe" do
-  uri "http://archive.ubuntu.com/ubuntu"
-  distribution "precise"
-  components ["universe"]
-end
-
 package "supervisor"
+package "cron"
 
 template "/etc/supervisor/conf.d/ssh.conf" do
   owner 'root'

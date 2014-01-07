@@ -41,12 +41,10 @@ action :start do
   when 'RUNNING'
     Chef::Log.debug "#{ new_resource } is already started."
   else
-    if node['docker_package']['state'] != 'building'
-      converge_by("Starting #{ new_resource }") do
-        result = supervisorctl('start')
-        if !result.match(/#{new_resource.name}: started$/)
-          raise "Supervisor service #{new_resource.service_name} was unable to be started: #{result}"
-        end
+    converge_by("Starting #{ new_resource }") do
+      result = supervisorctl('start')
+      if !result.match(/#{new_resource.name}: started$/)
+        raise "Supervisor service #{new_resource.service_name} was unable to be started: #{result}"
       end
     end
   end
@@ -97,7 +95,6 @@ end
 
 def enable_service
   execute "supervisorctl update" do
-    action :nothing
     user "root"
   end
 
