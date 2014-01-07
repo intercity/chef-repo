@@ -7,11 +7,24 @@
 # All rights reserved - Do Not Redistribute
 #
 
+user "deploy" do
+  comment "Deploy User"
+  home "/home/deploy"
+  shell "/bin/bash"
+
+  supports(:manage_home => true )
+end
+
+group "deploy" do
+  members ['deploy']
+end
+
 include_recipe "rbenv::default"
 include_recipe "rbenv::ruby_build"
 include_recipe "rbenv::rbenv_vars"
 
 # ruby_versions = ['2.1.0', '2.0.0-p353', '1.9.3-p484']
+
 ruby_versions = ['2.0.0-p247']
 
 ruby_versions.each do |ruby_version|
