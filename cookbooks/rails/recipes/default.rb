@@ -128,7 +128,7 @@ if node[:active_applications]
 
     template "/etc/supervisor/conf.d/rails-#{app}.conf" do
       source "app_supervisor.conf.erb"
-      variables name: app
+      variables name: app, rails_env: rails_env
     end
 
     execute "supervisorctl update"
