@@ -16,12 +16,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+#
 
 include_recipe "sudo"
-include_recipe "nginx"
 include_recipe "python"
+include_recipe "nginx"
 
-python_pip "unicornherder"
+# Todo:
+# - put apt_repository before installing nginx
+# - install the apt-https-fetcher-package-thingy (see passenger docs)
+# - build variables to support passenger enterprise
+# - when on enterprise, enable rolling restarts
+
+apt_repository "passenger" do
+  uri "https://oss-binaries.phusionpassenger.com/apt/passenger"
+  distribution "precise"
+  components ["main"]
+end
+
+template "/etc/nginx/conf.d/passenger.conf" do
+  source "passenger.conf.erb"
+  owner 'root'
+  group 'root'
+  mode '0600'
+  notifies :restart, "service[nginx]"
+end
+
+package "passenger"
 
 user "deploy" do
   comment "Deploy User"

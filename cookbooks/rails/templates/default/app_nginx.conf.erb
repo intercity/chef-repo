@@ -3,15 +3,8 @@ server {
   server_name <%= @domain_names.join(' ') %>;
   root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
 
-  try_files $uri/index.html $uri.html $uri @app;
-
-  location @app {
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header Host $http_host;
-    proxy_redirect off;
-
-    proxy_pass http://<%= @name %>;
-  }
+  passenger_enabled on;
+  passenger_ruby /opt/rbenv/shims/ruby;
 
 }
 
@@ -43,7 +36,3 @@ server {
 }
 
 <% end %>
-
-upstream <%= @name %> {
-  server unix:<%= node['rails']['applications_root'] %>/<%= @name %>/shared/sockets/unicorn.sock;
-}
