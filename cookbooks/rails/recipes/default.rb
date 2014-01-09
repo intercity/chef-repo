@@ -26,6 +26,10 @@ apt_repository "passenger" do
   keyserver "keyserver.ubuntu.com"
 end
 
+include_recipe "sudo"
+include_recipe "python"
+include_recipe "nginx"
+
 template "/etc/nginx/conf.d/passenger.conf" do
   source "passenger.conf.erb"
   owner 'root'
@@ -33,10 +37,6 @@ template "/etc/nginx/conf.d/passenger.conf" do
   mode '0600'
   notifies :restart, "service[nginx]"
 end
-
-include_recipe "sudo"
-include_recipe "python"
-include_recipe "nginx"
 
 # Todo:
 # - put apt_repository before installing nginx
