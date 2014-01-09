@@ -23,7 +23,7 @@ apt_repository "passenger" do
   distribution "precise"
   components ["main"]
   key "561F9B9CAC40B2F7"
-  key_server "keyserver.ubuntu.com"
+  keyserver "keyserver.ubuntu.com"
 end
 
 template "/etc/nginx/conf.d/passenger.conf" do
