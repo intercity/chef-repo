@@ -17,6 +17,22 @@
 # limitations under the License.
 #
 #
+#
+apt_repository "passenger" do
+  uri "https://oss-binaries.phusionpassenger.com/apt/passenger"
+  distribution "precise"
+  components ["main"]
+  key "561F9B9CAC40B2F7"
+  key_server "keyserver.ubuntu.com"
+end
+
+template "/etc/nginx/conf.d/passenger.conf" do
+  source "passenger.conf.erb"
+  owner 'root'
+  group 'root'
+  mode '0600'
+  notifies :restart, "service[nginx]"
+end
 
 include_recipe "sudo"
 include_recipe "python"
@@ -27,20 +43,6 @@ include_recipe "nginx"
 # - install the apt-https-fetcher-package-thingy (see passenger docs)
 # - build variables to support passenger enterprise
 # - when on enterprise, enable rolling restarts
-
-apt_repository "passenger" do
-  uri "https://oss-binaries.phusionpassenger.com/apt/passenger"
-  distribution "precise"
-  components ["main"]
-end
-
-template "/etc/nginx/conf.d/passenger.conf" do
-  source "passenger.conf.erb"
-  owner 'root'
-  group 'root'
-  mode '0600'
-  notifies :restart, "service[nginx]"
-end
 
 package "passenger"
 
