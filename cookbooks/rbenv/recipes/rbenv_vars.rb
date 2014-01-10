@@ -23,10 +23,14 @@ include_recipe "git"
 
 plugin_path = "#{node[:rbenv][:root]}/plugins/rbenv-vars"
 
-git plugin_path do
-  repository node[:rbenv_vars][:git_repository]
-  reference  node[:rbenv_vars][:git_revision]
-  action :sync
-  user node[:rbenv][:user]
-  group node[:rbenv][:group]
+with_home_for_user(node[:rbenv][:user]) do
+
+  git plugin_path do
+    repository node[:rbenv_vars][:git_repository]
+    reference  node[:rbenv_vars][:git_revision]
+    action :sync
+    user node[:rbenv][:user]
+    group node[:rbenv][:group]
+  end
+
 end

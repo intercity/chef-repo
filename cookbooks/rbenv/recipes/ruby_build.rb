@@ -21,10 +21,14 @@
 
 include_recipe "git"
 
-git node[:ruby_build][:prefix] do
-  repository node[:ruby_build][:git_repository]
-  reference node[:ruby_build][:git_revision]
-  action :sync
-  user node[:rbenv][:user]
-  group node[:rbenv][:group]
+with_home_for_user(node[:rbenv][:user]) do
+
+  git node[:ruby_build][:prefix] do
+    repository node[:ruby_build][:git_repository]
+    reference node[:ruby_build][:git_revision]
+    action :sync
+    user node[:rbenv][:user]
+    group node[:rbenv][:group]
+  end
+
 end
