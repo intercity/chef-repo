@@ -38,6 +38,8 @@ when "redhat", "centos", "amazon", "oracle"
   package "openssl-devel"
   package "zlib-devel"
   package "readline-devel"
+  package "libxml2-devel"
+  package "libxslt-devel"
 when "ubuntu", "debian"
   package "libc6-dev"
   package "automake"
@@ -80,22 +82,28 @@ user node[:rbenv][:user] do
   shell "/bin/bash"
   group node[:rbenv][:group]
   supports :manage_home => node[:rbenv][:manage_home]
+  home node[:rbenv][:user_home]
 end
 
 directory node[:rbenv][:root] do
   owner node[:rbenv][:user]
   group node[:rbenv][:group]
-  mode "0775"
+  mode "2775"
+  recursive true
 end
 
-git node[:rbenv][:root] do
-  repository node[:rbenv][:git_repository]
-  reference node[:rbenv][:git_revision]
-  user node[:rbenv][:user]
-  group node[:rbenv][:group]
-  action :sync
+with_home_for_user(node[:rbenv][:user]) do
 
-  notifies :create, "template[/etc/profile.d/rbenv.sh]", :immediately
+  git node[:rbenv][:root] do
+    repository node[:rbenv][:git_repository]
+    reference node[:rbenv][:git_revision]
+    user node[:rbenv][:user]
+    group node[:rbenv][:group]
+    action :sync
+
+    notifies :create, "template[/etc/profile.d/rbenv.sh]", :immediately
+  end
+
 end
 
 template "/etc/profile.d/rbenv.sh" do
@@ -125,7 +133,7 @@ end
   directory "#{node[:rbenv][:root]}/#{dir_name}" do
     owner node[:rbenv][:user]
     group node[:rbenv][:group]
-    mode "0775"
+    mode "2775"
     action [:create]
   end
 end

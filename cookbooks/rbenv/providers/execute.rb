@@ -31,7 +31,7 @@ action :run do
     returns     new_resource.returns
     timeout     new_resource.timeout
     user        new_resource.user
-    umask       new_resource.user
+    umask       new_resource.umask
   end
 
   new_resource.updated_by_last_action(true)

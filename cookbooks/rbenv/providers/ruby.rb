@@ -37,6 +37,17 @@ action :install do
 
     Chef::Log.debug("rbenv_ruby[#{new_resource.name}] build time was #{(Time.now - start_time)/60.0} minutes.")
 
+    chmod_options = {
+      user: node[:rbenv][:user],
+      group: node[:rbenv][:group],
+      cwd: rbenv_root_path
+    }
+
+    unless Chef::Platform.windows?
+      shell_out("chmod -R 0775 versions/#{new_resource.name}", chmod_options)
+      shell_out("find versions/#{new_resource.name} -type d -exec chmod +s {} \\;", chmod_options)
+    end
+
     new_resource.updated_by_last_action(true)
   end
 

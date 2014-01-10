@@ -9,6 +9,7 @@ Installs and manages your versions of Ruby and Gems in Chef with rbenv and ruby_
 
 * Chef 10
 * Centos / Redhat / Fedora / Ubuntu / Debian
+* Ruby >= 1.9
 
 # Usage
 
