@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: rails
+# Cookbook Name:: rails::passenger
 # Recipe:: default
 #
 # Copyright 2012, Michiel Sikkes
