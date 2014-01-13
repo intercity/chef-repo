@@ -10,6 +10,5 @@ config/servers.rb.old.rb
 
 config/servers_air.rb
 
-vagrant/Vagrantfile
 nodes/*.json
 !nodes/sample_host.json
