@@ -12,7 +12,7 @@
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "30s",
-      "shutdown_command": "echo 'packer' | sudo -S shutdown -P now"
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now"
     }
   ],
   "provisioners": [
@@ -25,14 +25,14 @@
         "apt-get update -y",
         "apt-get upgrade -y",
         "apt-get install -y curl wget openssh-server vim ruby1.9.3"
-      ]
+      ],
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     },
     {
       "type": "chef-solo",
-      "cookbook_paths": ["cookbooks"],
-      "roles_path": "roles",
+      "cookbook_paths": ["../cookbooks"],
+      "roles_path": "../roles",
       "run_list": ["role[rails]", "role[mysql]"],
-      "prevent_sudo": true,
       "json": {
         "mysql": {
           "server_debian_password": "server_debian_password",
@@ -57,7 +57,8 @@
         "apt-get clean -y",
         "rm -f /var/log/supervisor/*",
         "rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
-      ]
+      ],
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     }
   ]
 }
