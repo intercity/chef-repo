@@ -87,7 +87,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "../cookbooks"
     chef.roles_path = "../roles"
-    chef.add_role "rails"
+    chef.add_role "rails_passenger"
     chef.add_role "mysql"
 
     chef.log_level = :info
