@@ -1,0 +1,26 @@
+server {
+  listen <%= node['nginx']['port'] || '80' %>;
+  server_name <%= @domain_names.join(' ') %>;
+  root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
+
+  passenger_enabled on;
+
+}
+
+<% if @enable_ssl %>
+
+server {
+  listen 443 ssl;
+
+  ssl_certificate <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.crt;
+  ssl_certificate_key <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.key;
+
+  passenger_enabled on;
+
+  server_name <%= @domain_names.join(' ') %>;
+
+  root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public
+
+}
+
+<% end %>

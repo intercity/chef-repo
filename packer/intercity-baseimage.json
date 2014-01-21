@@ -1,0 +1,64 @@
+{
+  "description": "Intercity Base Image",
+  "builders": [
+    {
+      "type": "docker",
+      "image": "ubuntu:12.04",
+      "export_path": "intercity-baseimage-{{timestamp}}.tar"
+    },
+    {
+      "type": "virtualbox-ovf",
+      "source_path": "/Users/michiel/.vagrant.d/boxes/precise64/virtualbox/box.ovf",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "30s",
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "echo \"deb http://archive.ubuntu.com/ubuntu precise main universe\" > /etc/apt/sources.list",
+        "export DEBIAN_FRONTEND=noninteractive",
+        "mkdir -p /var/run/sshd",
+        "apt-get update -y",
+        "apt-get upgrade -y",
+        "apt-get install -y curl wget openssh-server vim ruby1.9.3"
+      ],
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    },
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["../cookbooks"],
+      "roles_path": "../roles",
+      "run_list": ["role[rails]", "role[mysql]"],
+      "json": {
+        "mysql": {
+          "server_debian_password": "server_debian_password",
+          "server_root_password": "server_root_password",
+          "server_repl_password": "server_repl_password",
+          "bind_address": "127.0.0.1"
+        },
+        "nginx": {
+          "server_tokens": "off"
+        },
+        "deploy_users": ["deploy"],
+        "rbenv": {
+          "group_users": ["deploy"]
+        }
+      }
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "echo \"root:root\" | chpasswd",
+        "apt-get autoremove -y",
+        "apt-get clean -y",
+        "rm -f /var/log/supervisor/*",
+        "rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
+      ],
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    }
+  ]
+}
