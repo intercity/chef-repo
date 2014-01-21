@@ -100,6 +100,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "deploy_users" => [
         "deploy"
       ],
+      "authorization" => {
+        "sudo" => {
+          "passwordless" => true,
+          "include_sudoers_d" => true,
+          "users" => ["vagrant"],
+          "sudoers_default" => [
+            'env_reset',
+            'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
+          ],
+        }
+      },
       "mysql" => {
         "server_debian_password" => "a",
         "server_repl_password" => "a",
