@@ -1,5 +1,5 @@
 {
-  "run_list":["role[mysql]","role[rails]"],
+  "run_list":["role[mysql]","role[rails_passenger]"],
   "mysql": {
     "server_debian_password": "<enter a random password>",
     "server_root_password": "<enter a random password>",
@@ -20,9 +20,6 @@
   "ssh_deploy_keys": [
     "<enter the contents of an id_rsa.pub here>"
   ],
-  "nginx": {
-    "server_tokens": "off" // This ensures that nginx doesn't pass on version information to attackers.
-  },
   "active_applications": {
     "<appname>_<stage>": {
       "rails_env": "<stage, eg: production>",
