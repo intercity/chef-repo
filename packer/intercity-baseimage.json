@@ -39,13 +39,6 @@
           "server_root_password": "server_root_password",
           "server_repl_password": "server_repl_password",
           "bind_address": "127.0.0.1"
-        },
-        "nginx": {
-          "server_tokens": "off"
-        },
-        "deploy_users": ["deploy"],
-        "rbenv": {
-          "group_users": ["deploy"]
         }
       }
     },
