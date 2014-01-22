@@ -8,13 +8,7 @@
   },
   "authorization": {
     "sudo": {
-      "include_sudoers_d": true,
       "users": ["<your sudo user>"],
-      "passwordless": true,
-      "sudoers_defaults": [
-        "env_reset",
-        "secure_path=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\""
-      ]
     }
   },
   "ssh_deploy_keys": [
@@ -38,9 +32,5 @@
         "database": "<appname>_<stage>"
       }
     }
-  },
-  "deploy_users": ["deploy"],
-  "rbenv": {
-    "group_users": ["deploy"]
   }
 }

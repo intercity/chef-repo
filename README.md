@@ -18,7 +18,7 @@ on a single server or multiple servers:
 * Unicorn for running Ruby on Rails
 * Zero-downtime deploys
 * Multiple apps on one server
-* Database creation
+* Database creation and password generation
 * Easy SSL configuration
 * Deployment with Capistrano
 
@@ -40,7 +40,7 @@ Clone the repository onto your own workstation.
 git clone git://github.com/intercity/chef-repo.git chef_repo
 ```
 
-Run bundle to install chef and knife-solo:
+Run bundle:
 
 ```sh
 bundle install
@@ -48,13 +48,13 @@ bundle install
 
 ### Setting up the server
 
-Prepare the server with `knife solo`. This installs Chef.
+Prepare the server with `knife solo`. This installs Chef on the server.
 
 ```sh
 bundle exec knife solo prepare <your user>@<your host/ip>
 ```
 
-This will create `nodes/<your host/ip>.json`. Copy the contents from `nodes/sample_host.json` into
+This will create `nodes/<your server>.json`. Copy the contents from `nodes/sample_host.json` into
 your host json file.
 
 In the file, replace the samples between `< >` with the values for your server and applications.
@@ -67,7 +67,7 @@ bundle exec knife solo cook <your user>@<your host/ip>
 
 ### Deploying your applications
 
-Applications are deployed using capistrano. You can find a sample application to be deployed using these recipes here: [https://github.com/intercity/intercity_sample_app](https://github.com/intercity/intercity_sample_app). 
+Applications are deployed using capistrano. You can find a sample application to be deployed using these recipes here: [https://github.com/intercity/intercity_sample_app](https://github.com/intercity/intercity_sample_app).
 
 In short you need to do the following:
 
@@ -78,7 +78,7 @@ In short you need to do the following:
 So let's get started.
 
 The two commands in the previous section prepare your apps to be deployed with
-Capistrano. 
+Capistrano.
 
 The folder structure for each app on your server looks like:
 

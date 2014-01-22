@@ -96,13 +96,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.json = {
       "authorization" => {
         "sudo" => {
-          "passwordless" => true,
-          "include_sudoers_d" => true,
-          "users" => ["vagrant"],
-          "sudoers_default" => [
-            'env_reset',
-            'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
-          ],
+          "users" => ["vagrant"]
         }
       },
       "mysql" => {
