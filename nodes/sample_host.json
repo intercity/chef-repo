@@ -1,10 +1,9 @@
 {
-  "run_list":["role[mysql]","role[rails_passenger]"],
+  "run_list":["role[mysql]","role[rails]"],
   "mysql": {
     "server_debian_password": "<enter a random password>",
     "server_root_password": "<enter a random password>",
-    "server_repl_password": "<enter a random password>",
-    "bind_address": "127.0.0.1" // Only make MySQL available to localhost
+    "server_repl_password": "<enter a random password>"
   },
   "authorization": {
     "sudo": {
