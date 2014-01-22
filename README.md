@@ -120,7 +120,7 @@ bundle
 Generate the `unicorn` binstub so you can start Unicorn on your server and commit it.
 
 ```ruby
-bundle binstubs unicorn
+bundle binstub unicorn
 git commit -am 'Added Unicorn'
 git push
 ```
