@@ -185,17 +185,31 @@ end
 after "deploy:restart", "deploy:cleanup"
 ```
 
+Run this command to check if everything is set up correctly on your server and in your Capistrano configuration:
+
 ```sh
 bundle exec cap deploy:check
 ```
 
-to see if everything is set up. And then
+Then run this command for your first deploy:
+
+```sh
+bundle exec cap deploy:cold
+```
+
+This will deploy your app, run your database migrations and start Unicorn. For subsequent deploys, use:
 
 ```sh
 bundle exec cap deploy
 ```
 
-to deploy your application!
+or
+
+```sh
+bundle exec cap deploy:migrations
+```
+
+if you made changes to your database schema.
 
 ## Getting help
 
