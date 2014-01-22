@@ -37,8 +37,7 @@
         "mysql": {
           "server_debian_password": "server_debian_password",
           "server_root_password": "server_root_password",
-          "server_repl_password": "server_repl_password",
-          "bind_address": "127.0.0.1"
+          "server_repl_password": "server_repl_password"
         }
       }
     },
