@@ -173,7 +173,7 @@ end
 namespace :deploy do
 
   task :start do
-    run "#{current_path}/bin/unicorn -Dc #{shared_path}/config/unicorn.rb -E #{rails_env} current_path}/config.ru"
+    run "#{current_path}/bin/unicorn -Dc #{shared_path}/config/unicorn.rb -E #{rails_env} #{current_path}/config.ru"
   end
 
   task :restart do
