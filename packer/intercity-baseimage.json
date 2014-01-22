@@ -17,22 +17,10 @@
   ],
   "provisioners": [
     {
-      "type": "shell",
-      "inline": [
-        "echo \"deb http://archive.ubuntu.com/ubuntu precise main universe\" > /etc/apt/sources.list",
-        "export DEBIAN_FRONTEND=noninteractive",
-        "mkdir -p /var/run/sshd",
-        "apt-get update -y",
-        "apt-get upgrade -y",
-        "apt-get install -y curl wget openssh-server vim ruby1.9.3"
-      ],
-      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    },
-    {
       "type": "chef-solo",
       "cookbook_paths": ["../cookbooks"],
       "roles_path": "../roles",
-      "run_list": ["role[rails]", "role[mysql]"],
+      "run_list": ["role[rails_passenger]", "role[mysql]"],
       "json": {
         "mysql": {
           "server_debian_password": "server_debian_password",
@@ -40,17 +28,6 @@
           "server_repl_password": "server_repl_password"
         }
       }
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "echo \"root:root\" | chpasswd",
-        "apt-get autoremove -y",
-        "apt-get clean -y",
-        "rm -f /var/log/supervisor/*",
-        "rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
-      ],
-      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     }
   ]
 }
