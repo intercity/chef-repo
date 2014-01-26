@@ -7,7 +7,7 @@
   },
   "authorization": {
     "sudo": {
-      "users": ["<your sudo user>"],
+      "users": ["<your sudo user>"]
     }
   },
   "ssh_deploy_keys": [
