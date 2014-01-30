@@ -19,7 +19,7 @@ server {
 
   server_name <%= @domain_names.join(' ') %>;
 
-  root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public
+  root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
 
 }
 
