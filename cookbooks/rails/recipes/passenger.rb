@@ -122,7 +122,7 @@ if node[:active_applications]
 
     template "/etc/nginx/sites-available/#{app}.conf" do
       source "app_passenger_nginx.conf.erb"
-      variables :name => app, :domain_names => app_info['domain_names'], :enable_ssl => app_info.has_key?('ssl_info') || app_info['enable_ssl']
+      variables :name => app, :domain_names => app_info['domain_names'], :enable_ssl => File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt")
       notifies :reload, resources(:service => "nginx")
     end
 
