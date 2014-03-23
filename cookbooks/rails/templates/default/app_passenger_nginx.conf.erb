@@ -4,6 +4,7 @@ server {
   root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
 
   passenger_enabled on;
+  passenger_app_env <%= @rails_env %>;
 
 }
 
@@ -16,6 +17,7 @@ server {
   ssl_certificate_key <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.key;
 
   passenger_enabled on;
+  passenger_app_env <%= @rails_env %>;
 
   server_name <%= @domain_names.join(' ') %>;
 
