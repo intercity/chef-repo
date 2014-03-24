@@ -109,7 +109,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           ruby_version: "2.1.0",
           domain_names: ["localhost"],
           packages: ["nodejs"],
-          rails_environment: "staging",
+          rails_env: "staging",
           "database_info" => {
             adapter: "mysql2",
             username: "a",
