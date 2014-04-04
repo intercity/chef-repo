@@ -32,5 +32,11 @@ if node[:deploy_users] && node[:ssh_deploy_keys]
       group deploy_user
       variables :keys => node[:ssh_deploy_keys]
     end
+
+    execute "generate ssh keys for #{deploy_user}." do
+      user deploy_user
+      creates "/home/#{deploy_user}/.ssh/id_rsa.pub"
+      command "ssh-keygen -t rsa -q -f /home/#{deploy_user}/.ssh/id_rsa -P \"\""
+    end
   end
 end
