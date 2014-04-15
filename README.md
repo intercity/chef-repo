@@ -15,8 +15,7 @@ Takes care of automatic installation and configuration of the following software
 on a single server or multiple servers:
 
 * nginx webserver
-* Unicorn for running Ruby on Rails
-* Zero-downtime deploys
+* Passenger or Unicorn for running Ruby on Rails
 * Multiple apps on one server
 * Database creation and password generation
 * Easy SSL configuration
@@ -24,7 +23,7 @@ on a single server or multiple servers:
 
 ## Getting started
 
-The following paragraphs will guide you to set up your own server to host Ruby on Rails applications. **Note:** There's also a great guide on the website for [using these recipes with Digital Ocean](http://www.intercityup.com/guides/rails-chef-digitalocean).
+The following paragraphs will guide you to set up your own server to host Ruby on Rails applications.
 
 ### Server prerequisites
 
@@ -37,13 +36,19 @@ Your server has:
 Clone the repository onto your own workstation.
 
 ```sh
-git clone git://github.com/intercity/chef-repo.git chef_repo
+$ git clone git://github.com/intercity/chef-repo.git chef_repo
 ```
 
 Run bundle:
 
 ```sh
-bundle install
+$ bundle install
+```
+
+### Prepare all the cookbooks
+
+```
+$ bundle exec librarian-chef install
 ```
 
 ### Setting up the server
@@ -71,14 +76,10 @@ Applications are deployed using capistrano. You can find a sample application to
 
 In short you need to do the following:
 
-- Ensure you have a rbenv .ruby-version in your application, specifying the version to use.
-- Add Capistrano and Unicorn to your Gemfile.
-- Generate the `unicorn` binstub so your server can start your application.
+- Ensure you have a rbenv .ruby-version in your application which specifies the Ruby version to use.
+- Add Capistrano to your applicationa's Gemfile.
 
-So let's get started.
-
-The two commands in the previous section prepare your apps to be deployed with
-Capistrano.
+So, let's get started.
 
 The folder structure for each app on your server looks like:
 
@@ -95,123 +96,116 @@ The folder structure for each app on your server looks like:
     sockets/
 ```
 
-Ensure that you have a `.ruby-version` in your application. If you do not have it you
-can set it using rbenv like this:
-
-```ruby
-rbenv local <YOUR-RUBY-VERSION>
-```
-
-Add the Unicorn and Capistrano gems to your Gemfile:
+Add the Capistrano gem to your Gemfile:
 
 ```ruby
 # your other gems..
 
-gem 'unicorn'
-gem 'capistrano', '~> 2.15.5'
+gem 'capistrano', '~> 3.1'
+gem 'capistrano-rails', '~> 1.1'
 ```
 
-Run, bundle to install the new gems.
+And run bundle to install it:
 
 ```ruby
 bundle
 ```
 
-Generate the `unicorn` binstub so you can start Unicorn on your server and commit it.
-
-```ruby
-bundle binstub unicorn
-git commit -am 'Added Unicorn'
-git push
-```
-
-Then generate configuration files for Capistrano.
+Now generate the configuration files for Capistrano:
 
 ```sh
-bundle exec capify .
+bundle exec cap install
 ```
 
-This command will generate `Capfile` and `config/deploy.rb`
+This command will generate `Capfile`, a `config/deploy.rb` and two files in a `config/deploy/` folder.
 
-Open `Capfile` and change it to:
+Edit `Capfile` and change it's contents to:
 
 ```ruby
-load 'deploy'
-load 'deploy/assets'
-load 'config/deploy'
+# Load DSL and Setup Up Stages
+require 'capistrano/setup'
+
+# Includes default deployment tasks
+require 'capistrano/deploy'
+
+require 'capistrano/rails'
+
+# Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
+Dir.glob('lib/capistrano/tasks/*.cap').each { |r| import r }
 ```
 
-Open `config/deploy.rb` and change it to look like the sample below, and change te settings for your application, repository and server:
+Then open `config/deploy.rb` and change it to look like the sample below. Make sure to change te settings for your deploy directory and your repository Git URL:
 
 ```ruby
-require 'bundler/capistrano'
+# config valid only for Capistrano 3.1
+lock '3.1.0'
 
-default_run_options[:pty] = true
-set :default_environment, {
-  "PATH" => "/opt/rbenv/shims:/opt/rbenv/bin:$PATH"
+set :application, 'your_application_name'
+set :repo_url, '>> your git repo_url <<'
+
+# Default branch is :master
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+
+# Default deploy_to directory is /var/www/my_app
+set :deploy_to, '/u/apps/your_application_name_production'
+
+# Use agent forwarding for SSH so you can deploy with the SSH key on your workstation.
+set :ssh_options, {
+  forward_agent: true
 }
-set :ssh_options, { :forward_agent => true }
 
-set :application, "intercity_sample_app"
-set :repository, "git@github.com:intercity/intercity_sample_app.git"
-set :user, "deploy"
-set :use_sudo, false
+# Default value for :pty is false
+set :pty, true
 
-server "<your server>", :web, :app, :db, :primary => true
+# Default value for :linked_files is []
+set :linked_files, %w{config/database.yml}
 
-after "deploy:finalize_update", "symlink:all"
+# Default value for linked_dirs is []
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-namespace :symlink do
-  task :db do
-    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-  end
-  task :all do
-    symlink.db
-  end
-end
+# Default value for default_env is {}
+set :default_env, { path: "/opt/rbenv/shims:$PATH" }
+
+# Default value for keep_releases is 5
+# set :keep_releases, 5
 
 namespace :deploy do
 
-  task :start do
-    run "#{current_path}/bin/unicorn -Dc #{shared_path}/config/unicorn.rb -E #{rails_env} #{current_path}/config.ru"
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute :touch, release_path.join('tmp/restart.txt')
+    end
   end
 
-  task :restart do
-    run "kill -USR2 $(cat #{shared_path}/pids/unicorn.pid)"
-  end
+  after :publishing, :restart
 
 end
+```
 
-after "deploy:restart", "deploy:cleanup"
+Then change the configuration in `config/deploy/production.rb` to:
+
+```ruby
+server '>> your server address <<', user: 'deploy', roles: %w{web app db}
 ```
 
 Run this command to check if everything is set up correctly on your server and in your Capistrano configuration:
 
 ```sh
-bundle exec cap deploy:check
+bundle exec cap production deploy:check
 ```
 
 Then run this command for your first deploy:
 
 ```sh
-bundle exec cap deploy:cold
+bundle exec cap production deploy
 ```
 
-This will deploy your app, run your database migrations and start Unicorn. For subsequent deploys, use:
+This will deploy your app and run your database migrations if any.
 
-```sh
-bundle exec cap deploy
-```
+**Congratulations!** You've now deployed your application. Browse to your application in your webbrowser and everything should work!
 
-or
-
-```sh
-bundle exec cap deploy:migrations
-```
-
-if you made changes to your database schema.
-
-## Getting help
+## When you run into problems:
 
 The following steps will let you **set up or test your own Rails infrastructure
 in 5 - 10 minutes**. If something doesn't work or you need more instructions:
