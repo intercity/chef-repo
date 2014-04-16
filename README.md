@@ -210,7 +210,7 @@ This will deploy your app and run your database migrations if any.
 These steps should let you **set up or test your own Rails infrastructure
 in 5 - 10 minutes**. If something doesn't work or you need more instructions:
 
-**Please!** [Open an issue](https://github.com/firmhouse/locomotive-chef-repo/issues) or email [michiel@firmhouse.com](mailto:michiel@firmhouse.com).
+**Please!** [Open an issue](https://github.com/firmhouse/locomotive-chef-repo/issues) or email [hello@intercityup.com](mailto:hello@intercityup.com).
 
 ## Resources and original authors
 
