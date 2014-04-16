@@ -1,5 +1,7 @@
 include_recipe "database"
 
+package "libmysqlclient-dev"
+
 gem_package "mysql" do
   gem_binary "/opt/chef/embedded/bin/gem"
 end
