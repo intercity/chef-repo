@@ -12,3 +12,5 @@ config/servers_air.rb
 
 nodes/*.json
 !nodes/sample_host.json
+/cookbooks
+/tmp

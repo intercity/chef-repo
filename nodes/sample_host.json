@@ -1,5 +1,5 @@
 {
-  "run_list":["role[mysql]","role[rails]"],
+  "run_list":["role[mysql]","role[rails_passenger]"],
   "mysql": {
     "server_debian_password": "<enter a random password>",
     "server_root_password": "<enter a random password>",
@@ -18,7 +18,7 @@
       "rails_env": "<stage, eg: production>",
       "packages": ["nodejs"],
       "domain_names": ["<domain name>", "<domain name>", "<...>"],
-      "ruby_version": "2.0.0-p247",
+      "ruby_version": "2.1.0",
       "ssl_info": {
         "key": "<ssl key>",
         "crt": "<ssl crt>"
