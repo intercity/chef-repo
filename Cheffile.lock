@@ -85,6 +85,7 @@ DEPENDENCIES
   nginx (>= 0)
   packages (>= 0)
   postfix (>= 0)
+  postgresql (>= 0)
   rails (>= 0)
   rbenv (>= 0)
   ruby_build (>= 0)
