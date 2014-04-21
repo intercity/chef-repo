@@ -2,6 +2,7 @@ site "http://community.opscode.com/api/v1"
 
 # Community cookbooks
 cookbook "mysql"
+cookbook "postgresql"
 cookbook "apt"
 cookbook "nginx"
 cookbook "ruby_build"
