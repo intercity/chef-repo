@@ -115,6 +115,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         packages: ["nodejs"],
         rails_env: "staging",
         "database_info" => {
+          host: "localhost",
           username: "a",
           password: "b",
           database: "intercity_sample_app_production"
@@ -137,7 +138,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       chef.log_level = :info
 
-      json_payload["active_applications"]["intercity_sample_app"]["database_info"]["adapter"] = "postgres"
+      json_payload["active_applications"]["intercity_sample_app"]["database_info"]["adapter"] = "postgresql"
 
       # You may also specify custom JSON attributes:
       chef.json = json_payload

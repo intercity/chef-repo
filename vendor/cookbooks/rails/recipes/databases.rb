@@ -20,7 +20,7 @@ if node[:active_applications]
           connection(mysql_connection_info)
           username database_info['username']
           password database_info['password']
-          database database_info['database']
+          database_name database_info['database']
           table "*"
           host "localhost"
           action :grant
