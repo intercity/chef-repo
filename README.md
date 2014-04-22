@@ -205,6 +205,21 @@ This will deploy your app and run your database migrations if any.
 
 **Congratulations!** You've now deployed your application. Browse to your application in your webbrowser and everything should work!
 
+## Try before you buy (tm)
+
+Experience how easy it will become to install your production servers with these chef recipes. You can try out these recipes on your local machine using Vagrant.
+
+First, install Vagrant from http://vagrantup.com.
+
+Then go into the `vagrant/` directory and run
+
+```
+vagrant up mysql
+```
+
+This will start a local Ubuntu virtual machine and install it so you can deploy
+Ruby on Rails applications that use MySQL as the database. Check out the chef json attributes in `vagrant/Vagrantfile` to customize the test environment.
+
 ## When you run into problems:
 
 These steps should let you **set up or test your own Rails infrastructure
