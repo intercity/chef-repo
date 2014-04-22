@@ -43,26 +43,6 @@ if node[:active_applications]
           privileges [:all]
           action [:create, :grant]
         end
-
-#         execute "create-database-user" do
-#           code = <<-EOH
-# sudo su - postgres -c "psql -U postgres -c \\"select * from pg_user where usename='#{database_info['username']}'\\" | grep -c #{database_info['username']}"
-# EOH
-
-#           psql = <<-EOC
-# psql -U postgres -c "create user \\"#{database_info['username']}\\" with password '#{database_info['password']}'"
-# EOC
-#           user 'postgres'
-#           command psql
-#           not_if code
-#         end
-#         execute "create-database" do
-#           exists = <<-EOH
-# sudo su - postgres -c "psql -U postgres -c \\"select * from pg_database WHERE datname='#{database_name}'\\" | grep -c #{database_name}"
-# EOH
-#           command "sudo su - postgres -c 'createdb -U postgres -O #{database_info['username']} -E utf8 -T template0 #{database_name}'"
-#           not_if exists
-#         end
       end
 
     end
