@@ -8,7 +8,7 @@ if node[:active_applications]
 
 
       if database_info['adapter'] =~ /mysql/
-        chef_gem 'mysql'
+        include_recipe 'database::mysql'
 
         mysql_connection_info = {:host => "localhost", :username => "root", :password => node['mysql']['server_root_password']}
 
@@ -25,8 +25,8 @@ if node[:active_applications]
           host "localhost"
           action :grant
         end
-      elsif database_info['adapter'] =~ /postgres/
-        include_recipe "database::postgresql"
+      elsif database_info['adapter'] == 'postgresql'
+        include_recipe 'database::postgresql'
 
         postgresql_connection_info = {:host => "localhost", :username => "postgres", :password => node['postgresql']['password']['postgres']}
 
