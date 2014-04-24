@@ -1,6 +1,6 @@
 name 'base'
 description 'Base bootstrap for every box'
-run_list "recipe[sudo]"
+run_list "recipe[sudo]", "recipe[apt]", "recipe[build-essential]"
 default_attributes(
   "authorization" => {
     "sudo" => {
