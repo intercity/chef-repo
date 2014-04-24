@@ -5,7 +5,8 @@ if node[:active_applications]
     if app_info['database_info']
       database_info = app_info['database_info']
       database_name = app_info['database_info']['database']
-
+      database_username = database_info['username']
+      database_password = database_info['password']
 
       if database_info['adapter'] =~ /mysql/
         include_recipe 'database::mysql'
@@ -16,35 +17,29 @@ if node[:active_applications]
           connection(mysql_connection_info)
         end
 
-        mysql_database_user database_info['username'] do
+        mysql_database_user database_username do
           connection(mysql_connection_info)
-          username database_info['username']
-          password database_info['password']
-          database_name database_info['database']
+          username database_username
+          password database_password
+          database_name database_database
           table "*"
           host "localhost"
           action :grant
         end
       elsif database_info['adapter'] == 'postgresql'
-        include_recipe 'database::postgresql'
-
-        postgresql_connection_info = {:host => "localhost", :username => "postgres", :password => node['postgresql']['password']['postgres']}
-
-        postgresql_database database_name do
-          connection(postgresql_connection_info)
-          owner database_info['username']
-          action :create
+        execute "create-database-user" do
+          psql = "psql -U postgres -c \"create user #{database_username} with password '#{database_password}'\""
+          user 'postgres'
+          command psql
+          returns [0,1]
         end
-
-        postgresql_database_user database_info['username'] do
-          connection(postgresql_connection_info)
-          database_name database_name
-          password database_info['password']
-          privileges [:all]
-          action [:create, :grant]
+ 
+        execute "create-database" do
+          user 'postgres'
+          command "createdb -U postgres -O #{database_username} #{database_name}"
+          returns [0,1]
         end
       end
-
     end
   end
 
