@@ -14,3 +14,5 @@ nodes/*.json
 !nodes/sample_host.json
 /cookbooks
 /tmp
+
+.bundle/install.log
