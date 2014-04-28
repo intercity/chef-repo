@@ -123,7 +123,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       }
     },
     "ssh_deploy_keys" => [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuiCTIYcGAbNemW4e1Q0SqfweN2d1Tkhn6xtwiV6/AITgSaW5bFWo/VEUghlCYwYcBgxoOMy0jfUJLS/XG/nQUsL3MKI/oAoFiaVoyDPb/zPvYeWrp3eGi+Ey66luVEVWLdHe1RQqCA52j5mSSCYsjKWt+q8eZWADASyuBsrIZjkdQ8z3ziSeaJdTXPKBKyMPAHd26JFZoBQL39OYcq6xozM7B+IlBoLJhFQRZP1IFjWJYtdYTj2PoByDynfZKltWgS/ouDNIzPhF9ZubXSrwYR4uCXmQbdk+quBItw/RJW7rIlLua24yhoPA/STNel/8Ld33FhMV8D0bx6mj+BrqV michiel@MacBook-Air-van-Michiel.local"
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuiCTIYcGAbNemW4e1Q0SqfweN2d1Tkhn6xtwiV6/AITgSaW5bFWo/VEUghlCYwYcBgxoOMy0jfUJLS/XG/nQUsL3MKI/oAoFiaVoyDPb/zPvYeWrp3eGi+Ey66luVEVWLdHe1RQqCA52j5mSSCYsjKWt+q8eZWADASyuBsrIZjkdQ8z3ziSeaJdTXPKBKyMPAHd26JFZoBQL39OYcq6xozM7B+IlBoLJhFQRZP1IFjWJYtdYTj2PoByDynfZKltWgS/ouDNIzPhF9ZubXSrwYR4uCXmQbdk+quBItw/RJW7rIlLua24yhoPA/STNel/8Ld33FhMV8D0bx6mj+BrqV michiel@MacBook-Air-van-Michiel.local",
+"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArzYY9umFYiWoKL8scmB65Tui+QpZwpgQJENUXVIo6NnVwdaIkJTYUrDrHpAb/8NzPdVFz517qoyerFzHnLjjokhX5Nf0h5QL4GTcvajzKBsvXlGjad8ILo34nTjMpVDlYkBBOGcZ8mz7+1+KIQo7vWllcyQqEg3Sddrk0UA55U85IOgQuzRSvd8gXbEC42ghlALfnPEGgCLiUIj5koiIPU3cooa7SH3WiE6jtkt+aoeWqlzxqykS6l1JqJUkeqgobBUtM3H0uyXx8+TtqsM8Zo/Y8zYOy2u+ndIbLILp47dxi/l9IKVKrRhK4eW8yz6/yVsuDZ6YrxAV4GeYYx1pgQ== michiel@iMac-van-Michiel-Sikkes.local"
     ],
   }
 
@@ -157,7 +158,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       chef.log_level = :info
 
-      json_payload["active_applications"]["intercity_sample_app"]["database_info"]["adapter"] = "mysql"
+      json_payload["active_applications"]["intercity_sample_app"]["database_info"]["adapter"] = "mysql2"
 
       # You may also specify custom JSON attributes:
       chef.json = json_payload
