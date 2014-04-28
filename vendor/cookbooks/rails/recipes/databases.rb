@@ -28,7 +28,7 @@ if node[:active_applications]
         end
       elsif database_info['adapter'] == 'postgresql'
         execute "create-database-user" do
-          psql = "psql -U postgres -c \"create user #{database_username} with password '#{database_password}'\""
+          psql = "psql -U postgres -c \"create user \\\"#{database_username}\\\" with password '#{database_password}'\""
           user 'postgres'
           command psql
           returns [0,1]
