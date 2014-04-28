@@ -1,14 +1,14 @@
 site "http://community.opscode.com/api/v1"
 
 # Community cookbooks
-cookbook "mysql"
-cookbook "postgresql"
-cookbook "apt"
-cookbook "nginx"
-cookbook "ruby_build"
-cookbook "rbenv"
-cookbook "sudo"
-cookbook "postfix"
+cookbook "apt", "2.3.8"
+cookbook "mysql", "5.1.8"
+cookbook "postgresql", "3.3.4"
+cookbook "nginx", "2.6.2"
+cookbook "postfix", "3.1.8"
+cookbook "sudo", "2.5.2"
+cookbook "rbenv", "1.7.1"
+cookbook "ruby_build", "0.8.0"
 
 # Our own cookbooks from vendor/
 cookbook "packages", path: "vendor/cookbooks/packages"
