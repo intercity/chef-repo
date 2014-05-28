@@ -84,4 +84,4 @@ PLATFORMS
 DEPENDENCIES
   chef
   knife-solo (= 0.4.1)
-  librarian-chef
+  librarian-chef (= 0.0.2)
