@@ -36,10 +36,6 @@ SITE
     ohai (2.0.0)
     openssl (1.1.0)
     postfix (3.2.0)
-    postgresql (3.4.0)
-      apt (>= 1.9.0)
-      build-essential (>= 0.0.0)
-      openssl (>= 0.0.0)
     rbenv (1.7.1)
       apt (>= 0.0.0)
       build-essential (>= 0.0.0)
@@ -58,6 +54,16 @@ SITE
     yum (3.2.0)
     yum-epel (0.3.6)
       yum (~> 3.0)
+
+GIT
+  remote: https://github.com/intercity/cookbooks-postgresql
+  ref: ubuntu-1404
+  sha: 7f28ca9dad8de27558bdafdbcc6a58ac85cca99e
+  specs:
+    postgresql (3.4.0)
+      apt (>= 1.9.0)
+      build-essential (>= 0.0.0)
+      openssl (>= 0.0.0)
 
 PATH
   remote: vendor/cookbooks/packages
@@ -85,7 +91,7 @@ DEPENDENCIES
   nginx (= 2.7.2)
   packages (>= 0)
   postfix (= 3.2.0)
-  postgresql (= 3.4.0)
+  postgresql (>= 0)
   rails (>= 0)
   rbenv (= 1.7.1)
   ruby_build (= 0.8.0)

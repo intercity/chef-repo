@@ -3,7 +3,9 @@ site "http://community.opscode.com/api/v1"
 # Community cookbooks
 cookbook "apt", "2.4.0"
 cookbook "mysql", "5.2.12"
-cookbook "postgresql", "3.4.0"
+# cookbook "postgresql", "3.4.0"
+# cookbook "postgresql", path: "~/Code/Ruby/cookbooks-postgresql"
+cookbook "postgresql", github: 'intercity/cookbooks-postgresql', ref: 'ubuntu-1404'
 cookbook "nginx", "2.7.2"
 cookbook "postfix", "3.2.0"
 cookbook "sudo", "2.6.0"
