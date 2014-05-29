@@ -21,15 +21,19 @@ on a single server or multiple servers:
 * Easy SSL configuration
 * Deployment with Capistrano
 
+## Supported Ubuntu versions
+
+* Ubuntu 12.04 LTS
+* Ubuntu 14.04 LTS
+
+## Supported databases
+
+* MySQL
+* PostgreSQL
+
 ## Getting started
 
 The following paragraphs will guide you to set up your own server to host Ruby on Rails applications.
-
-### Server prerequisites
-
-Your server has:
-
-* A version of Ubuntu 12.04 LTS. The latest version is Ubuntu 12.04.3 LTS.
 
 ### Installation
 
