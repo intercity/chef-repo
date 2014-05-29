@@ -1,13 +1,13 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
-    apt (2.3.8)
-    aws (2.2.0)
+    apt (2.4.0)
+    aws (2.2.2)
     bluepill (2.3.1)
       rsyslog (>= 0.0.0)
-    build-essential (2.0.0)
+    build-essential (2.0.2)
     chef_handler (1.1.6)
-    database (2.1.8)
+    database (2.2.0)
       aws (>= 0.0.0)
       mysql (>= 5.0.0)
       mysql-chef_gem (>= 0.0.0)
@@ -22,24 +22,20 @@ SITE
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
     logrotate (1.5.0)
-    mysql (5.1.8)
+    mysql (5.2.12)
     mysql-chef_gem (0.0.2)
       build-essential (>= 0.0.0)
       mysql (>= 0.0.0)
-    nginx (2.6.2)
+    nginx (2.7.2)
       apt (~> 2.2)
       bluepill (~> 2.3)
       build-essential (~> 2.0)
-      ohai (~> 1.1)
+      ohai (~> 2.0)
       runit (~> 1.2)
       yum-epel (~> 0.3)
-    ohai (1.1.12)
+    ohai (2.0.0)
     openssl (1.1.0)
-    postfix (3.1.8)
-    postgresql (3.3.4)
-      apt (>= 0.0.0)
-      build-essential (>= 0.0.0)
-      openssl (>= 0.0.0)
+    postfix (3.2.0)
     rbenv (1.7.1)
       apt (>= 0.0.0)
       build-essential (>= 0.0.0)
@@ -51,13 +47,23 @@ SITE
       build-essential (>= 0.0.0)
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
-    sudo (2.5.2)
-    windows (1.30.2)
+    sudo (2.6.0)
+    windows (1.31.0)
       chef_handler (>= 0.0.0)
     xfs (1.1.0)
     yum (3.2.0)
     yum-epel (0.3.6)
       yum (~> 3.0)
+
+GIT
+  remote: https://github.com/intercity/cookbooks-postgresql
+  ref: ubuntu-1404
+  sha: 7f28ca9dad8de27558bdafdbcc6a58ac85cca99e
+  specs:
+    postgresql (3.4.0)
+      apt (>= 1.9.0)
+      build-essential (>= 0.0.0)
+      openssl (>= 0.0.0)
 
 PATH
   remote: vendor/cookbooks/packages
@@ -80,15 +86,15 @@ PATH
     ssh_deploy_keys (0.1.0)
 
 DEPENDENCIES
-  apt (= 2.3.8)
-  mysql (= 5.1.8)
-  nginx (= 2.6.2)
+  apt (= 2.4.0)
+  mysql (= 5.2.12)
+  nginx (= 2.7.2)
   packages (>= 0)
-  postfix (= 3.1.8)
-  postgresql (= 3.3.4)
+  postfix (= 3.2.0)
+  postgresql (>= 0)
   rails (>= 0)
   rbenv (= 1.7.1)
   ruby_build (= 0.8.0)
   ssh_deploy_keys (>= 0)
-  sudo (= 2.5.2)
+  sudo (= 2.6.0)
 
