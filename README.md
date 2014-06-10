@@ -229,7 +229,7 @@ Ruby on Rails applications that use MySQL as the database. Check out the chef js
 These steps should let you **set up or test your own Rails infrastructure
 in 5 - 10 minutes**. If something doesn't work or you need more instructions:
 
-**Please!** [Open an issue](https://github.com/firmhouse/locomotive-chef-repo/issues) or email [hello@intercityup.com](mailto:hello@intercityup.com).
+**Please!** [Open an issue](https://github.com/intercity/chef-repo/issues) or email [hello@intercityup.com](mailto:hello@intercityup.com).
 
 ## Resources and original authors
 
