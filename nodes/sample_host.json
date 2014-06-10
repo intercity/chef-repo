@@ -1,5 +1,5 @@
 {
-  "run_list":["role[mysql]","role[rails_passenger]"],
+  "run_list":["role[mysql]","role[rails]","recipe[rails::databases]"],
   "bluepill": { "bin": "/usr/local/bin/bluepill" },
   "mysql": {
     "server_debian_password": "<enter a random password>",
