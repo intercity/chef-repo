@@ -10,7 +10,7 @@ config/servers.rb.old.rb
 
 config/servers_air.rb
 
-nodes/*.json
+nodes/*
 !nodes/sample_host.json
 /cookbooks
 /tmp
