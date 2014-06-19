@@ -37,7 +37,7 @@ server {
   passenger_app_env <%= @rails_env %>;
 }
 
-<% if domain_group['ssl_enabled'] %>
+<% if File.exists?(File.join(node['rails']['applications_root'], @name, 'shared/config', "#{domain_group['domain_names'].first}.crt")) %>
 
 server {
   listen 443 ssl;
