@@ -26,3 +26,34 @@ server {
 }
 
 <% end %>
+
+<% @domain_groups.each do |domain_group| %>
+server {
+  listen <%= node['nginx']['port'] || '80' %>;
+  server_name <%= domain_group['domain_names'].join(' ') %>;
+  root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
+
+  passenger_enabled on;
+  passenger_app_env <%= @rails_env %>;
+}
+
+<% if domain_group['ssl_enabled'] %>
+
+server {
+  listen 443 ssl;
+
+  ssl_certificate <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/<%= domain_group['domain_names'].first %>.crt;
+  ssl_certificate_key <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/<%= domain_group['domain_names'].first %>.key;
+
+  passenger_enabled on;
+  passenger_app_env <%= @rails_env %>;
+
+  server_name <%= domain_group['domain_names'].join(' ') %>;
+
+  root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
+
+}
+
+<% end %>
+
+<% end %>

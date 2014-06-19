@@ -122,7 +122,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           username: "a",
           password: "b",
           database: "intercity_sample_app_production"
-        }
+        },
+        "domain_groups" => [{
+          "domain_names" => ['secured.dev', 'www.secured.dev'],
+          "ssl_enabled" => true
+          }
+        ]
       }
     },
     "ssh_deploy_keys" => [
