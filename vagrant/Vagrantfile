@@ -31,6 +31,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "mysql" do
     config.vm.network :forwarded_port, guest: 80, host: 8081
+    config.vm.network :forwarded_port, guest: 443, host: 4431
   end
 
   # Create a private network, which allows host-only access to the machine
@@ -124,10 +125,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           database: "intercity_sample_app_production"
         },
         "domain_groups" => [{
-          "domain_names" => ['secured.dev', 'www.secured.dev'],
-          "ssl_enabled" => true
-          }
-        ]
+          "domain_names" => ['secured.dev', 'www.secured.dev']
+        }]
       }
     },
     "ssh_deploy_keys" => [
