@@ -124,7 +124,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           password: "b",
           database: "intercity_sample_app_production"
         },
-        "domain_groups" => [{
+        "virtual_servers" => [{
           "domain_names" => ['secured.dev', 'www.secured.dev']
         }]
       }
