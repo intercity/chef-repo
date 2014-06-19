@@ -49,12 +49,6 @@ group "deploy" do
   members ['deploy']
 end
 
-sudo "deploy" do
-  user "deploy"
-  commands ["#{node[:bluepill][:bin]}"]
-  nopasswd true
-end
-
 include_recipe "rbenv::default"
 include_recipe "rbenv::ruby_build"
 include_recipe "rbenv::rbenv_vars"
