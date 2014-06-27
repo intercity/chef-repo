@@ -1,28 +1,30 @@
+<% @virtual_servers.each do |virtual_server| %>
 server {
   listen <%= node['nginx']['port'] || '80' %>;
-  server_name <%= @domain_names.join(' ') %>;
+  server_name <%= virtual_server['domain_names'].join(' ') %>;
   root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
 
   passenger_enabled on;
   passenger_app_env <%= @rails_env %>;
-
 }
 
-<% if @enable_ssl %>
+<% if File.exists?(File.join(node['rails']['applications_root'], @name, 'shared/config', "#{virtual_server['domain_names'].first}.crt")) %>
 
 server {
   listen 443 ssl;
 
-  ssl_certificate <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.crt;
-  ssl_certificate_key <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.key;
+  ssl_certificate <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/<%= virtual_server['domain_names'].first %>.crt;
+  ssl_certificate_key <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/<%= virtual_server['domain_names'].first %>.key;
 
   passenger_enabled on;
   passenger_app_env <%= @rails_env %>;
 
-  server_name <%= @domain_names.join(' ') %>;
+  server_name <%= virtual_server['domain_names'].join(' ') %>;
 
   root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
 
 }
+
+<% end %>
 
 <% end %>
