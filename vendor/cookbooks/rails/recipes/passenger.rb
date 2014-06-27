@@ -65,7 +65,12 @@ if node[:active_applications]
     app_env = app_info['app_env'] || {}
     app_env['RAILS_ENV'] = rails_env
 
-    virtual_servers = app_info['virtual_servers'] || []
+    if app_info['virtual_servers'].nil?
+      virtual_servers = []
+    else
+      virtual_servers = app_info['virtual_servers'].to_a
+    end
+
     domain_names = app_info['domain_names'] || []
     if domain_names.size > 0
       virtual_servers << { 'domain_names' => domain_names }
