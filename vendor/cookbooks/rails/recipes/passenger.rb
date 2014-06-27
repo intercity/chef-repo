@@ -63,8 +63,13 @@ if node[:active_applications]
     rails_env = app_info['rails_env'] || "production"
     deploy_user = app_info['deploy_user'] || "deploy"
     app_env = app_info['app_env'] || {}
-    virtual_servers = app_info['virtual_servers'] || []
     app_env['RAILS_ENV'] = rails_env
+
+    virtual_servers = app_info['virtual_servers'] || []
+    domain_names = app_info['domain_names'] || []
+    if domain_names.size > 0
+      virtual_servers << { 'domain_names' => domain_names }
+    end
 
     rbenv_ruby app_info['ruby_version']
 
@@ -118,7 +123,7 @@ if node[:active_applications]
 
     template "/etc/nginx/sites-available/#{app}.conf" do
       source "app_passenger_nginx.conf.erb"
-      variables :name => app, :rails_env => rails_env, :domain_names => app_info['domain_names'], :enable_ssl => File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt"), :virtual_servers => virtual_servers
+      variables :name => app, :rails_env => rails_env, :virtual_servers => virtual_servers
       notifies :reload, resources(:service => "nginx")
     end
 
