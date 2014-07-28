@@ -6,13 +6,10 @@ bin/
 
 vagrant/.vagrant
 
-config/servers.rb.old.rb
-
-config/servers_air.rb
-
 nodes/*.json
 !nodes/sample_host.json
 /cookbooks
 /tmp
+.vagrant
 
 .bundle/install.log
