@@ -213,7 +213,12 @@ This will deploy your app and run your database migrations if any.
 
 Experience how easy it will become to install your production servers with these chef recipes. You can try out these recipes on your local machine using Vagrant.
 
-First, install Vagrant from http://vagrantup.com.
+First, install Vagrant from http://vagrantup.com. And install the following two vagrant plugins:
+
+```
+vagrant plugin install vagrant-librarian-chef
+vagrant plugin install vagrant-omnibus
+```
 
 Then go into the `vagrant/` directory and run
 

@@ -1,18 +1,12 @@
 .rake_test_cache
-locomotive.tar.gz
 recipes.tgz
 /config/servers.rb
 bin/
 
-vagrant/.vagrant
-
-config/servers.rb.old.rb
-
-config/servers_air.rb
-
-nodes/*
+nodes/*.json
 !nodes/sample_host.json
 /cookbooks
 /tmp
+.vagrant
 
 .bundle/install.log
