@@ -107,11 +107,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "postgresql" do
 
     config.vm.provision :chef_solo do |chef|
-      chef.cookbooks_path = "../cookbooks"
-      chef.roles_path = "../roles"
+      chef.cookbooks_path = "./cookbooks"
+      chef.roles_path = "./roles"
 
       chef.add_role "postgresql"
-      chef.add_role "rails_passenger"
+      chef.add_role "rails"
 
       chef.log_level = :info
 
@@ -126,11 +126,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "mysql" do
 
     config.vm.provision :chef_solo do |chef|
-      chef.cookbooks_path = "../cookbooks"
-      chef.roles_path = "../roles"
+      chef.cookbooks_path = "./cookbooks"
+      chef.roles_path = "./roles"
 
       chef.add_role "mysql"
-      chef.add_role "rails_passenger"
+      chef.add_role "rails"
 
       chef.log_level = :info
 
