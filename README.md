@@ -20,6 +20,7 @@ on a single server or multiple servers:
 * Database creation and password generation
 * Easy SSL configuration
 * Deployment with Capistrano
+* Configure ENV variables
 
 ## Supported Ubuntu versions
 
@@ -162,7 +163,7 @@ set :ssh_options, {
 set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml}
+set :linked_files, %w{config/database.yml .rbenv_vars}
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
