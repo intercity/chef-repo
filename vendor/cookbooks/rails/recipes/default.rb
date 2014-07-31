@@ -65,6 +65,7 @@ include_recipe "rbenv::default"
 include_recipe "rbenv::ruby_build"
 
 include_recipe "rails::dependencies"
+include_recipe "rails::ruby_binaries"
 
 applications_root = node[:rails][:applications_root]
 
