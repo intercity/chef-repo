@@ -1,0 +1,18 @@
+description "<%= @name %>"
+
+start on virtual-filesystems
+stop on runlevel [06]
+
+env PATH=/opt/rbenv/shims:/opt/rbenv/bin:/usr/local/bin:/usr/bin:/bin:/sbin
+
+env RAILS_ENV=<%= @rails_env %>
+env RACK_ENV=<%= @rails_env %>
+
+setuid <%= @deploy_user %>
+setgid <%= @deploy_user %>
+
+chdir <%= @application_root %>/current
+
+pre-start exec start-stop-daemon -u deploy -g deploy -d <%= @application_root %>/current --start -p <%= @application_root %>/current/tmp/pids/unicorn.pid --exec <%= @application_root %>/current/bin/unicorn -- -D -c <%= @application_root %>/current/config/unicorn.rb -E <%= @rails_env %>
+
+post-stop exec start-stop-daemon --stop -p <%= @application_root %>/current/tmp/pids/unicorn.pid

@@ -19,7 +19,6 @@
 
 include_recipe "sudo"
 include_recipe "nginx"
-include_recipe "bluepill"
 
 user "deploy" do
   comment "Deploy User"
@@ -31,12 +30,6 @@ end
 
 group "deploy" do
   members ['deploy']
-end
-
-sudo "deploy" do
-  user "deploy"
-  commands ["#{node[:bluepill][:bin]}"]
-  nopasswd true
 end
 
 if node[:deploy_users]
@@ -53,11 +46,6 @@ if node[:deploy_users]
       members [deploy_user]
     end
 
-    sudo deploy_user do
-      user deploy_user
-      commands ["#{node[:bluepill][:bin]}"]
-      nopasswd true
-    end
   end
 end
 
@@ -74,6 +62,7 @@ if node[:active_applications]
   node[:active_applications].each do |app, app_info|
     rails_env = app_info['rails_env'] || "production"
     deploy_user = app_info['deploy_user'] || "deploy"
+    application_root = "#{applications_root}/#{app}"
     app_env = app_info['app_env'] || {}
     app_env['RAILS_ENV'] = rails_env
 
@@ -89,7 +78,18 @@ if node[:active_applications]
       owner deploy_user
     end
 
-    ['config', 'shared', 'shared/config', 'shared/sockets', 'shared/pids', 'shared/log', 'shared/system', 'releases'].each do |dir|
+    ["shared/config",
+     "shared/bin",
+     "shared/vendor",
+     "shared/public",
+     "shared/tmp",
+     "shared/tmp/sockets",
+     "shared/tmp/cache",
+     "shared/tmp/sockets",
+     "shared/tmp/pids",
+     "shared/log",
+     "shared/system",
+     "releases"].each do |dir|
       directory "#{applications_root}/#{app}/#{dir}" do
         recursive true
         group deploy_user
@@ -139,20 +139,15 @@ if node[:active_applications]
       variables :name => app, :deploy_user => deploy_user, :number_of_workers => app_info['number_of_workers'] || 2
     end
 
-    template "#{node[:bluepill][:conf_dir]}/#{app}.pill" do
-      mode 0644
-      source "bluepill_unicorn.rb.erb"
-      variables :name => app, :deploy_user => deploy_user, :app_env => app_env, :rails_env => rails_env
-    end
-
-    bluepill_service app do
-      action [:enable, :load, :start]
-    end
-
     template "/etc/init/#{app}.conf" do
       mode 0644
-      source "bluepill_upstart.erb"
-      variables :name => app
+      source "unicorn_upstart.erb"
+      variables(
+        name: app,
+        rails_env: rails_env,
+        deploy_user: deploy_user,
+        application_root: application_root
+      )
     end
 
     service "#{app}" do
