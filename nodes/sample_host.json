@@ -23,9 +23,9 @@
         "key": "<ssl key>",
         "crt": "<ssl crt>"
         },
-      "env_vars" => {
-        "key_1"=> "val_1",
-        "key_2"=> "val_2"
+      "env_vars": {
+        "key_1": "val_1",
+        "key_2": "val_2"
       },
       "database_info": {
         "adapter": "mysql2",
