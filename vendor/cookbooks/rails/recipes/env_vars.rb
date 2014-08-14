@@ -3,7 +3,7 @@ if node[:active_applications]
   node[:active_applications].each do |app, app_info|
     deploy_user = app_info['deploy_user'] || "deploy"
     if app_info["env_vars"]
-      template "#{applications_root}/#{app}/shared/.rbenv_vars" do
+      template "#{applications_root}/#{app}/shared/.rbenv-vars" do
         source "app_env_vars.erb"
         mode 0600
         owner deploy_user
