@@ -12,8 +12,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "ubuntu/trusty64"
-  # config.vm.box = "ubuntu/precise64"
+  # config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/precise64"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -115,7 +115,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       chef.log_level = :info
 
-      json_payload["active_applications"]["intercity_sample_app"]["database_info"]["adapter"] = "postgresql"
+      if json_payload["active_applications"].size > 0
+        json_payload["active_applications"]["intercity_sample_app"]["database_info"]["adapter"] = "postgresql"
+      end
 
       # You may also specify custom JSON attributes:
       chef.json = json_payload
@@ -134,7 +136,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       chef.log_level = :info
 
-      json_payload["active_applications"]["intercity_sample_app"]["database_info"]["adapter"] = "mysql2"
+      if json_payload["active_applications"].size > 0
+        json_payload["active_applications"]["intercity_sample_app"]["database_info"]["adapter"] = "mysql2"
+      end
 
       # You may also specify custom JSON attributes:
       chef.json = json_payload

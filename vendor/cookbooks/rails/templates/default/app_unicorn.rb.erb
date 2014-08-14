@@ -9,7 +9,7 @@ app_path = "<%= node['rails']['applications_root'] %>/<%= @name %>"
 worker_processes <%= @number_of_workers || 2 %>
 preload_app true
 timeout 30
-listen "#{app_path}/shared/sockets/unicorn.sock", :backlog => 2048
+listen "#{app_path}/shared/tmp/sockets/unicorn.sock", :backlog => 2048
 
 # Spawn unicorn master worker for user apps (group: apps)
 user '<%= @deploy_user %>', '<%= @deploy_user %>'
@@ -25,7 +25,7 @@ stderr_path "log/unicorn.log"
 stdout_path "log/unicorn.log"
 
 # Set master PID location
-pid "#{app_path}/shared/pids/unicorn.pid"
+pid "#{app_path}/shared/tmp/pids/unicorn.pid"
 
 before_exec do |server|
   ENV["BUNDLE_GEMFILE"] = "#{app_path}/current/Gemfile"
