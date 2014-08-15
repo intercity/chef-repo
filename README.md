@@ -61,7 +61,7 @@ bundle exec knife solo prepare <your user>@<your host/ip>
 This will create a file
 
 ```
-nodes/<your host/ip>.json`
+nodes/<your host/ip>.json
 ```
 
 Now copy the the contents from the `nodes/sample_host.json` from this repository into this new file. Replace the sample values between `< >` with the values for your server and applications.
