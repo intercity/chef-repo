@@ -36,7 +36,7 @@ on a single server or multiple servers:
 
 The following paragraphs will guide you to set up your own server to host Ruby on Rails applications.
 
-### Installation
+### 1. Set up this repository
 
 Clone the repository onto your own workstation.
 
@@ -50,7 +50,7 @@ Run bundle:
 $ bundle install
 ```
 
-### Setting up the server
+### 2. Install your server
 
 Use the following command to install Chef on your server and prepare it to be installed by these cookbooks:
 
@@ -72,7 +72,7 @@ When this is done. Run the following command to start the full installation of y
 bundle exec knife solo cook <your user>@<your host/ip>
 ```
 
-### Deploying your application
+### 3. Deploy your application
 
 You can deploy your applications with Capistrano.
 
@@ -197,25 +197,26 @@ This will deploy your app and run your database migrations.
 
 **Congratulations!** You've now deployed your application. Browse to your application in your webbrowser and everything should work!
 
-## Try a server setup with Vagrant
+## Try these cookbooks with Vagrant
 
-Experience how easy it will become to install your production servers with these chef recipes. You can try out these recipes on your local machine using Vagrant.
+You can use Vagrant to experience how easy it is to install your servers with this repository.
 
-First, install Vagrant from http://vagrantup.com. And install the following two vagrant plugins:
+First, install Vagrant from http://vagrantup.com. Then install the following two Vagrant plugins:
 
 ```
 vagrant plugin install vagrant-librarian-chef
 vagrant plugin install vagrant-omnibus
 ```
 
-Then go into the `vagrant/` directory and run
+Finally, start a Vagrant machine with a sample server configuration:
 
 ```
 vagrant up mysql
 ```
 
-This will start a local Ubuntu virtual machine and install it so you can deploy
-Ruby on Rails applications that use MySQL as the database. Check out the chef json attributes in `vagrant/Vagrantfile` to customize the test environment.
+This will boot a local Ubuntu virtual machine and install it so you can deploy Ruby on Rails applications that use MySQL as the database.
+
+You can check out the sample configuration in file `Vagrantfile`
 
 ## When you run into problems:
 
