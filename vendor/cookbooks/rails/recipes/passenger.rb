@@ -37,24 +37,7 @@ template "/etc/nginx/conf.d/passenger.conf" do
   notifies :restart, "service[nginx]"
 end
 
-user "deploy" do
-  comment "Deploy User"
-  home "/home/deploy"
-  shell "/bin/bash"
-
-  supports(:manage_home => true )
-end
-
-group "deploy" do
-  members ['deploy']
-end
-
-include_recipe "rbenv::default"
-include_recipe "rbenv::ruby_build"
-include_recipe "rbenv::rbenv_vars"
-
-include_recipe "rails::dependencies"
-include_recipe "rails::ruby_binaries"
+include_recipe "rails::setup"
 
 applications_root = node[:rails][:applications_root]
 
@@ -78,7 +61,19 @@ if node[:active_applications]
       owner deploy_user
     end
 
-    ['config', 'shared', 'shared/config', 'shared/sockets', 'shared/pids', 'shared/log', 'shared/system', 'releases'].each do |dir|
+    ["shared/config",
+     "shared/bin",
+     "shared/vendor",
+     "shared/public",
+     "shared/bundle",
+     "shared/tmp",
+     "shared/tmp/sockets",
+     "shared/tmp/cache",
+     "shared/tmp/sockets",
+     "shared/tmp/pids",
+     "shared/log",
+     "shared/system",
+     "releases"].each do |dir|
       directory "#{applications_root}/#{app}/#{dir}" do
         recursive true
         group deploy_user
