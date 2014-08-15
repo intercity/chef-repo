@@ -173,12 +173,13 @@ namespace :deploy do
 end
 ```
 
-Change the configuration in `config/deploy/production.rb` to the following sample.
-Change `>> your server address <<` to the domain name or ip address of your server:
+Replace the contents of `config/deploy/production.rb` with
 
 ```ruby
 server '>> your server address <<', user: 'deploy', roles: %w{web app db}
 ```
+
+Replace `>> your server address <<` with the domain name or ip address of your server.
 
 To verify that everything is set up correctly run:
 
