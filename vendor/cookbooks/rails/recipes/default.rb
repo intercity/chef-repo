@@ -82,6 +82,7 @@ if node[:active_applications]
      "shared/bin",
      "shared/vendor",
      "shared/public",
+     "shared/bundle",
      "shared/tmp",
      "shared/tmp/sockets",
      "shared/tmp/cache",
