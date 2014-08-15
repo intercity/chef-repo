@@ -12,8 +12,11 @@ if node[:active_applications]
           user node[:rbenv][:user]
           group node[:rbenv][:group]
           cwd "#{node[:rbenv][:root_path]}/versions"
-          command "wget #{node[:rbenv][:binaries_url]}#{node["platform_version"]}/#{kernel_architecture}/#{ruby_binary};" \
-            "tar jxf #{ruby_binary}"
+          command <<-EOM
+              wget #{node[:rbenv][:binaries_url]}/#{node["platform_version"]}/#{kernel_architecture}/#{ruby_binary};
+              tar jxf #{ruby_binary}
+              rm #{ruby_binary}
+            EOM
           not_if {  File.directory?(File.join('opt', 'rbenv', 'versions', ruby_version)) }
         end
       end
