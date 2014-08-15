@@ -146,7 +146,8 @@ require 'capistrano/rails'
 Dir.glob('lib/capistrano/tasks/*.cap').each { |r| import r }
 ```
 
-Then edit `config/deploy.rb` and change it to the sample below. Replace `>> your git repo_url <<` with the SSH clone URL of your repository.
+Then edit `config/deploy.rb` and change it to the sample below.
+Replace `>> your git repo_url <<` with the SSH clone URL of your repository:
 
 ```ruby
 # config valid only for Capistrano 3.1
