@@ -22,12 +22,12 @@ on a single server or multiple servers:
 * Deployment with Capistrano
 * Configure ENV variables
 
-## Supported Ubuntu versions
+### Ubuntu versions
 
 * Ubuntu 12.04 LTS
 * Ubuntu 14.04 LTS
 
-## Supported databases
+### Databases
 
 * MySQL
 * PostgreSQL
