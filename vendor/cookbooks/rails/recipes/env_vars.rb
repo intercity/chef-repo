@@ -10,7 +10,7 @@ if node[:active_applications]
       mode 0600
       owner deploy_user
       group deploy_user
-      variables env_vars: app_info["env_vars"]
+      variables(env_vars: env_vars)
     end
   end
 end
