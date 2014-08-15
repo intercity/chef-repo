@@ -38,9 +38,10 @@ The following paragraphs will guide you to set up your own server to host Ruby o
 
 ### 1. Set up this repository
 
-Clone the repository onto your own workstation.
+Clone the repository onto your own workstation. For example in your `~/Code` directory:
 
 ```sh
+$ cd ~/Code
 $ git clone git://github.com/intercity/chef-repo.git chef_repo
 ```
 
