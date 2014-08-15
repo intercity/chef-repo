@@ -50,55 +50,36 @@ Run bundle:
 $ bundle install
 ```
 
-### Prepare all the cookbooks
-
-```
-$ bundle exec librarian-chef install
-```
-
 ### Setting up the server
 
-Prepare the server with `knife solo`. This installs Chef on the server.
+Use the following command to install Chef on your server and prepare it to be installed by these cookbooks:
 
 ```sh
 bundle exec knife solo prepare <your user>@<your host/ip>
 ```
 
-This will create `nodes/<your server>.json`. Copy the contents from `nodes/sample_host.json` into
-your host json file.
+This will create a file
 
-In the file, replace the samples between `< >` with the values for your server and applications.
+```
+nodes/<your host/ip>.json`
+```
 
-Then, install everything to run Rails apps on your server with the next command. You might need to enter your password a couple of times.
+Now copy the the contents from the `nodes/sample_host.json` from this repository into this new file. Replace the sample values between `< >` with the values for your server and applications.
+
+When this is done. Run the following command to start the full installation of your server:
 
 ```sh
 bundle exec knife solo cook <your user>@<your host/ip>
 ```
 
-### Deploying your applications
+### Deploying your application
 
-Applications are deployed using capistrano. You can find a sample application to be deployed using these recipes here: [https://github.com/intercity/intercity_sample_app](https://github.com/intercity/intercity_sample_app).
+You can deploy your applications with Capistrano.
 
-In short you need to do the following:
-
-- Ensure you have a rbenv .ruby-version in your application which specifies the Ruby version to use.
-- Add Capistrano to your applicationa's Gemfile.
-
-So, let's get started.
-
-The folder structure for each app on your server looks like:
+Create a file named `.ruby-version` in your Rails project with the Ruby version you want your application ro un on:
 
 ```
-/u/apps/your_app
-  current/
-  releases/
-  shared/
-    config/
-      database.yml
-      unicorn.rb
-    pids/
-    log/
-    sockets/
+echo "2.1.2" > .ruby-version
 ```
 
 Add the Capistrano gem to your Gemfile:
@@ -106,7 +87,7 @@ Add the Capistrano gem to your Gemfile:
 ```ruby
 # your other gems..
 
-gem 'capistrano', '~> 3.1'
+gem 'capistrano', '~> 3.2.1'
 gem 'capistrano-rails', '~> 1.1'
 ```
 
@@ -116,7 +97,7 @@ And run bundle to install it:
 bundle
 ```
 
-Now generate the configuration files for Capistrano:
+Now generate configuration files for Capistrano:
 
 ```sh
 bundle exec cap install
@@ -150,17 +131,18 @@ Then edit `config/deploy.rb` and change it to the sample below.
 Replace `>> your git repo_url <<` with the SSH clone URL of your repository:
 
 ```ruby
-# config valid only for Capistrano 3.1
-lock '3.1.0'
+# config valid only for Capistrano 3.2.1
+lock '3.2.1'
 
-set :application, 'your_application_name'
+set :application, '>> your_application_name <<'
 set :repo_url, '>> your git repo_url <<'
 
 # Default branch is :master
+# Uncomment the following line to have Capistrano ask which branch to deploy.
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
-# Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/u/apps/your_application_name_production'
+# Replace the sample value with the name of your application here:
+set :deploy_to, '/u/apps/>> your_application_name <<_production'
 
 # Use agent forwarding for SSH so you can deploy with the SSH key on your workstation.
 set :ssh_options, {
@@ -170,17 +152,12 @@ set :ssh_options, {
 # Default value for :pty is false
 set :pty, true
 
-# Default value for :linked_files is []
 set :linked_files, %w{config/database.yml .rbenv-vars}
-
-# Default value for linked_dirs is []
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-# Default value for default_env is {}
 set :default_env, { path: "/opt/rbenv/shims:$PATH" }
 
-# Default value for keep_releases is 5
-# set :keep_releases, 5
+set :keep_releases, 5
 
 namespace :deploy do
 
@@ -196,25 +173,26 @@ namespace :deploy do
 end
 ```
 
-Then change the configuration in `config/deploy/production.rb` to the following sample. Change `>> your server address <<` to the domain name or ip address of your server:
+Change the configuration in `config/deploy/production.rb` to the following sample.
+Change `>> your server address <<` to the domain name or ip address of your server:
 
 ```ruby
 server '>> your server address <<', user: 'deploy', roles: %w{web app db}
 ```
 
-Run this command to check if everything is set up correctly on your server and in your Capistrano configuration:
+To verify that everything is set up correctly run:
 
 ```sh
 bundle exec cap production deploy:check
 ```
 
-Then run this command for your first deploy:
+Finally to deploy, run:
 
 ```sh
 bundle exec cap production deploy
 ```
 
-This will deploy your app and run your database migrations if any.
+This will deploy your app and run your database migrations.
 
 **Congratulations!** You've now deployed your application. Browse to your application in your webbrowser and everything should work!
 
