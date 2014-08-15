@@ -122,9 +122,16 @@ Now generate the configuration files for Capistrano:
 bundle exec cap install
 ```
 
-This command will generate `Capfile`, a `config/deploy.rb` and two files in a `config/deploy/` folder.
+This command will generate the following files in your application:
 
-Edit `Capfile` and change it's contents to:
+```
+Capfile
+config/deploy.rb
+config/deploy/production.rb
+config/deploy/staging.rb
+```
+
+Edit the file `Capfile` and change it's contents to:
 
 ```ruby
 # Load DSL and Setup Up Stages
@@ -139,7 +146,7 @@ require 'capistrano/rails'
 Dir.glob('lib/capistrano/tasks/*.cap').each { |r| import r }
 ```
 
-Then open `config/deploy.rb` and change it to look like the sample below. Make sure to change te settings for your deploy directory and your repository Git URL:
+Then edit `config/deploy.rb` and change it to the sample below. Replace `>> your git repo_url <<` with the SSH clone URL of your repository.
 
 ```ruby
 # config valid only for Capistrano 3.1
@@ -163,7 +170,7 @@ set :ssh_options, {
 set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml .rbenv_vars}
+set :linked_files, %w{config/database.yml .rbenv-vars}
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
@@ -188,7 +195,7 @@ namespace :deploy do
 end
 ```
 
-Then change the configuration in `config/deploy/production.rb` to:
+Then change the configuration in `config/deploy/production.rb` to the following sample. Change `>> your server address <<` to the domain name or ip address of your server:
 
 ```ruby
 server '>> your server address <<', user: 'deploy', roles: %w{web app db}
@@ -210,7 +217,7 @@ This will deploy your app and run your database migrations if any.
 
 **Congratulations!** You've now deployed your application. Browse to your application in your webbrowser and everything should work!
 
-## Try before you buy (tm)
+## Try a server setup with Vagrant
 
 Experience how easy it will become to install your production servers with these chef recipes. You can try out these recipes on your local machine using Vagrant.
 
