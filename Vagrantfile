@@ -111,7 +111,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.roles_path = "./roles"
 
       chef.add_role "postgresql"
-      chef.add_role "rails"
+      chef.add_role "rails_passenger"
 
       chef.log_level = :info
 
