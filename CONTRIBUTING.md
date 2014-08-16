@@ -50,3 +50,9 @@ So `cd` into this directory and start the machine
 cd vagrant
 vagrant up
 ```
+
+## Add your change to the CHANGELOG
+
+If your change is noteable, or might break other people's installations, please add an entry to the changelog.
+The maintainers will make the final decission of the entry goes in the changelog or not, and to what version.
+When you add something to the changelog, it might go in one of 4 categories: Added, Deprecated, Removed or Fixed.
