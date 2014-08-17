@@ -12,8 +12,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "ubuntu/trusty64"
-  # config.vm.box = "ubuntu/precise64"
+  config.vm.box = "chef/ubuntu-14.04"
+  # config.vm.box = "chef/ubuntu-12.04"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -63,6 +63,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Use VBoxManage to customize the VM. For example to change memory:
     vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", 2]
+  end
+
+  config.vm.provider "vmware_fusion" do |v|
+    v.vmx["memsize"] = "1024"
+    v.vmx["numvcpus"] = "2"
   end
   #
   # View the documentation for the provider you're using for more
