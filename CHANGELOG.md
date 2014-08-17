@@ -4,16 +4,19 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 
 ## 2.1.0 - TBA
 
+See [UPGRADING.md](UPGRADING.md) for upgrade instructions if you're using the Unicorn stack.
+
 ### Added
-- Starting working with a [Changelog](http://keepachangelog.com/)
-- Added support for [Rbenv-vars](https://github.com/sstephenson/rbenv-vars)
-- Added support for pre-build ruby packages for a blazing fast ruby installation
+- Started working with a [Changelog](http://keepachangelog.com/)
+- Configure ENV vars for your apps [Rbenv-vars](https://github.com/sstephenson/rbenv-vars)
+- Speed up Ruby installation with binary packages
+- [Unicorn Stack] Use Upstart to start Unicorn
 
 ### Deprecated
 - Nothing.
 
 ### Removed
-- Nothing.
+- [Unicorn Stack] Don't use Bluepill monitoring for Unicorn anymore.
 
 ### Fixed
 - Nothing.
@@ -21,9 +24,9 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ## 2.0.0 - 2014-04-28
 
 ### Added
-- Support for Phusian Passenger
-- Support for Postgresql
-- Use a cheffile with Librarian-chef to manage cookbooks
+- Use Phusion Passenger as default Rails stack.
+- Use Postgresql as your database
+- Use Cheffile with Librarian-Chef to manage cookbooks
 
 ### Deprecated
 - Nothing.
