@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project makes use of the [Sementic Versioning](http://semver.org/)
 
-## 2.1.0 - TBA
+## 2.1.0 - 2014-08-18
 
 See [UPGRADING.md](UPGRADING.md) for upgrade instructions if you're using the Unicorn stack.
 
@@ -11,6 +11,7 @@ See [UPGRADING.md](UPGRADING.md) for upgrade instructions if you're using the Un
 - Configure ENV vars for your apps [Rbenv-vars](https://github.com/sstephenson/rbenv-vars)
 - Speed up Ruby installation with binary packages
 - [Unicorn Stack] Use Upstart to start Unicorn
+- Wrote UPGRADING.md with upgrade instructions to 2.1.0
 
 ### Deprecated
 - Nothing.
