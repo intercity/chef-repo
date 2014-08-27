@@ -1,0 +1,3 @@
+<% @apps.each do |key, value|%>
+<%= "#{@application_root}/#{key}/current,#{value.to_i}" %>
+<% end %>
