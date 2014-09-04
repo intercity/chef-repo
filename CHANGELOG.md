@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project makes use of the [Sementic Versioning](http://semver.org/)
 
+## Master - TBA
+
+### Added
+- Nothing
+
+### Deprecated
+- Nothing
+
+### Removed
+- Nothing
+
+### Fixed
+- Removed spaces from the .rbenv-vars template file
+
 ## 2.1.0 - 2014-08-18
 
 See [UPGRADING.md](UPGRADING.md) for upgrade instructions if you're using the Unicorn stack.
