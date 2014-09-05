@@ -40,6 +40,7 @@ SITE
       windows (>= 0.0.0)
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
+    imagemagick (0.2.3)
     mysql (5.3.6)
       yum-mysql-community (>= 0.0.0)
     nginx (2.7.4)
@@ -99,6 +100,7 @@ PATH
 
 DEPENDENCIES
   apt (~> 2.5.2)
+  imagemagick (~> 0.2.3)
   mysql (~> 5.3.6)
   nginx (~> 2.7.4)
   packages (>= 0)
