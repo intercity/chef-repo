@@ -93,6 +93,8 @@ It automatically install also `sidekiq-manager`, so you can stop/start/restart a
 }
 ```
 
+For more informations please visit [official sidekiq upstart guide](https://github.com/mperham/sidekiq/tree/master/examples/upstart/manage-many)
+
 ### 3. Deploy your application
 
 You can deploy your applications with Capistrano.
