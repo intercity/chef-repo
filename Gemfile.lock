@@ -79,6 +79,7 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rack (1.5.2)
+    rake (10.3.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     slop (3.6.0)
@@ -93,3 +94,4 @@ DEPENDENCIES
   chef (~> 11.14.2)
   knife-solo (~> 0.4.1)
   librarian-chef (~> 0.0.4)
+  rake
