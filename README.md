@@ -51,6 +51,12 @@ Run bundle:
 $ bundle install
 ```
 
+Run Librarian install:
+
+```sh
+$ librarian-chef install
+```
+
 ### 2. Install your server
 
 Use the following command to install Chef on your server and prepare it to be installed by these cookbooks:
