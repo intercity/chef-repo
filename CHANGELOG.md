@@ -16,6 +16,9 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ### Fixed
 - Removed spaces from the .rbenv-vars template file
 
+### Misc
+- Upgraded the chef-repo ruby version to 2.1.2
+
 ## 2.1.0 - 2014-08-18
 
 See [UPGRADING.md](UPGRADING.md) for upgrade instructions if you're using the Unicorn stack.
