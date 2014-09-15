@@ -210,6 +210,8 @@ You can use Vagrant to experience how easy it is to install your servers with th
 
 First, install Vagrant from http://vagrantup.com. Then install the following two Vagrant plugins:
 
+Make sure you have Vagrant version 1.6.5 or higher installed.
+
 ```
 vagrant plugin install vagrant-librarian-chef
 vagrant plugin install vagrant-omnibus
