@@ -13,6 +13,11 @@
   "ssh_deploy_keys": [
     "<enter the contents of an id_rsa.pub here>"
   ],
+  "sidekiq": {
+    "apps": {
+      "<appname>_<stage>":"<number of workers>"
+    }
+  },
   "active_applications": {
     "<appname>_<stage>": {
       "rails_env": "<stage, eg: production>",

@@ -11,8 +11,10 @@ cookbook "postfix", "~> 3.4.0"
 cookbook "sudo", "~> 2.7.0"
 cookbook "rbenv", "~> 1.7.1"
 cookbook "ruby_build", "~> 0.8.0"
+cookbook "redisio", "~> 2.2.3"
 
 # Our own cookbooks from vendor/
 cookbook "packages", path: "vendor/cookbooks/packages"
 cookbook "rails", path: "vendor/cookbooks/rails"
 cookbook "ssh_deploy_keys", path: "vendor/cookbooks/ssh_deploy_keys"
+cookbook "sidekiq", path: "vendor/cookbooks/sidekiq"

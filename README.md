@@ -73,6 +73,28 @@ When this is done. Run the following command to start the full installation of y
 bundle exec knife solo cook <your user>@<your host/ip>
 ```
 
+#### Extensions
+
+##### Sidekiq
+
+If you want to use Sidekiq, just add `role[sidekiq]` to the run list in your node. Now you will be able to start/stop/restart sidekiq process with this command `sudo start sidekiq app=/u/apps/my_app/current index=2`, when app is location of your app and index is number of workers.
+
+It automatically install also `sidekiq-manager`, so you can stop/start/restart all sidekiq processes in one command `sudo start sidekiq-manager`. Only apps specified in node configuration are covered in this manager. You can specify this app as:
+
+```json
+{
+  ...
+  "sidekiq": {
+    "apps": {
+      "<appname>_<stage>":"<number of workers>",
+      "<second_appname>_<stage>":"<number of workers>"
+    }
+  ...
+}
+```
+
+For more informations please visit [official sidekiq upstart guide](https://github.com/mperham/sidekiq/tree/master/examples/upstart/manage-many)
+
 ### 3. Deploy your application
 
 You can deploy your applications with Capistrano.
