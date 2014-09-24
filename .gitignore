@@ -10,3 +10,4 @@ nodes/*.json
 .vagrant
 
 .bundle/install.log
+.bundle
