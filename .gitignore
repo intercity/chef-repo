@@ -6,6 +6,7 @@ bin/
 nodes/*.json
 !nodes/sample_host.json
 /cookbooks
+/certificates
 /tmp
 .vagrant
 
