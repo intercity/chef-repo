@@ -91,6 +91,11 @@ PATH
   specs:
     ssh_deploy_keys (0.1.0)
 
+PATH
+  remote: vendor/cookbooks/sysadmins
+  specs:
+    sysadmins (0.1.0)
+
 DEPENDENCIES
   apt (~> 2.5.2)
   backups (>= 0)
@@ -104,4 +109,5 @@ DEPENDENCIES
   ruby_build (~> 0.8.0)
   ssh_deploy_keys (>= 0)
   sudo (~> 2.7.0)
+  sysadmins (>= 0)
 
