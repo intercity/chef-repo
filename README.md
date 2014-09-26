@@ -51,6 +51,12 @@ Run bundle:
 $ bundle install
 ```
 
+Run Librarian install:
+
+```sh
+$ librarian-chef install
+```
+
 ### 2. Install your server
 
 Use the following command to install Chef on your server and prepare it to be installed by these cookbooks:
@@ -203,6 +209,8 @@ This will deploy your app and run your database migrations.
 You can use Vagrant to experience how easy it is to install your servers with this repository.
 
 First, install Vagrant from http://vagrantup.com. Then install the following two Vagrant plugins:
+
+Make sure you have Vagrant version 1.6.5 or higher installed.
 
 ```
 vagrant plugin install vagrant-librarian-chef
