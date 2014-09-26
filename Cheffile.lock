@@ -67,6 +67,11 @@ SITE
       yum (>= 3.0)
 
 PATH
+  remote: vendor/cookbooks/backups
+  specs:
+    backups (0.1.0)
+
+PATH
   remote: vendor/cookbooks/packages
   specs:
     packages (0.1.0)
@@ -88,6 +93,7 @@ PATH
 
 DEPENDENCIES
   apt (~> 2.5.2)
+  backups (>= 0)
   mysql (~> 5.3.6)
   nginx (~> 2.7.4)
   packages (>= 0)
