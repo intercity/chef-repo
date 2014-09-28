@@ -35,17 +35,17 @@ node[:sysadmins].each do |user|
   # Always create the file and dir, even if user did not provide
   # ssh-keys
   directory "#{home_dir}/.ssh" do
-    owner user['username']
-    group user['username']
+    owner user["username"]
+    group user["username"]
     mode "0700"
   end
-  if user['ssh_keys']
+  if user["ssh_keys"]
     template "#{home_dir}/.ssh/authorized_keys" do
       source "authorized_keys.erb"
-      owner user['username']
-      group user['username']
+      owner user["username"]
+      group user["username"]
       mode "0600"
-      variables :ssh_keys => user['ssh_keys']
+      variables ssh_keys: user["ssh_keys"]
     end
   end
 
@@ -55,4 +55,3 @@ end
 group "admin" do
   members sysadmin_users
 end
-
