@@ -103,4 +103,5 @@ DEPENDENCIES
   ruby_build (~> 0.8.0)
   ssh_deploy_keys (>= 0)
   sudo (~> 2.7.0)
+  sysadmins (>= 0)
 
