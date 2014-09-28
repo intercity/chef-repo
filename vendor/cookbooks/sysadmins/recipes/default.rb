@@ -27,6 +27,7 @@ node[:sysadmins].each do |user|
     home home_dir
     password user["password"] if user["password"]
 
+    shell "/bin/bash"
     manage_home true
     action :create
   end
@@ -51,7 +52,8 @@ node[:sysadmins].each do |user|
 
 end
 
-## Add users to the sysadmin group
-group "admin" do
+# Add users to the sysadmin group. This is the group used by
+# the sudo cookbook to grant users sudo-access.
+group "sysadmin" do
   members sysadmin_users
 end
