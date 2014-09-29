@@ -4,10 +4,12 @@ run_list "recipe[sysadmins]", "recipe[sudo]", "recipe[apt]", "recipe[build-essen
 default_attributes(
   "authorization" => {
     "sudo" => {
-      "passwordless" => true,
+      "groups" => ["admin"],
+      "passwordless" => false,
       "include_sudoers_d" => true,
       "sudoers_default" => [
         'env_reset',
+        'mail_badpass',
         'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
       ],
     }

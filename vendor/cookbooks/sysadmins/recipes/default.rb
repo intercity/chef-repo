@@ -54,6 +54,6 @@ end
 
 # Add users to the sysadmin group. This is the group used by
 # the sudo cookbook to grant users sudo-access.
-group "sysadmin" do
+group "admin" do
   members sysadmin_users
 end

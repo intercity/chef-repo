@@ -76,6 +76,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   json_payload = {
     "authorization" => {
       "sudo" => {
+        "passwordless" => true,
         "users" => ["vagrant"]
       }
     },
