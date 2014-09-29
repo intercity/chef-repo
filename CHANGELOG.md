@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project makes use of the [Sementic Versioning](http://semver.org/)
 
-## 2.2.0 - TBA
+## Master - TBA
 
 ### Added
 - Backup support (Support for filesystem, mysql and postgresql, backup to S3)
