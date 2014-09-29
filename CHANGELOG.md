@@ -5,7 +5,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ## Master - TBA
 
 ### Added
-- Nothing
+- Sysadmins recipe which allows you to provide sysadmin users in the node configuration.
 
 ### Deprecated
 - Nothing
@@ -18,6 +18,8 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 
 ### Misc
 - Upgraded the chef-repo ruby version to 2.1.2
+- Sudo recipe configuration changed to match Ubuntu's default sudo
+  behaviour more closely.
 
 ## 2.1.0 - 2014-08-18
 
