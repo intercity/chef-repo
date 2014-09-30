@@ -25,6 +25,7 @@ if backup_node
   apt_package "ruby-dev"
   execute 'gem install backup'
   backup_node.each do |app, backup_info|
+    execute "mkdir -p /home/deploy/Backup/models/"
     execute "backup generate:model --trigger #{app}"
     storage = {
       type: backup_info.fetch(:storage_type, 'unknown').to_sym,
