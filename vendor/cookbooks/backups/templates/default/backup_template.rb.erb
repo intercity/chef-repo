@@ -57,10 +57,28 @@ Model.new(:<%= @app %>, 'Backup for <%= @app %>') do
       s3.access_key_id     = "<%= @storage[:s3_access_key] %>"
       s3.secret_access_key = "<%= @storage[:s3_secret_access_key] %>"
 
-      s3.region             = '<%= @storage[:s3_region] %>'
-      s3.bucket             = '<%= @storage[:s3_bucket] %>'
-      s3.path               = '/intercitybackups/'
+      s3.region             = "<%= @storage[:s3_region] %>"
+      s3.bucket             = "<%= @storage[:s3_bucket] %>"
+      s3.path               = "/intercitybackups/"
       s3.encryption = :aes256
+    end
+  <% end %>
+
+  <% if @database[:type] == :mysql  %>
+    database MySQL do |db|
+      db.name               = :all
+      db.username           = "<%= @database[:username] %>"
+      db.password           = "<%= @database[:password] %>"
+      db.host               = "<%= @database[:host] %>"
+      db.port               = 3306
+    end
+  <% elsif @database[:type] == :postgresql %>
+    database PostgreSQL do |db|
+      db.name               = :all
+      db.username           = "<%= @database[:username] %>"
+      db.password           = "<%= @database[:password] %>"
+      db.host               = "<%= @database[:host] %>"
+      db.port               = 5432
     end
   <% end %>
 end

@@ -22,11 +22,19 @@ backup_node = node[:backups]
 
 if backup_node
   deploy_user = 'deploy'
-  apt_package "ruby-dev"
-  execute 'gem install backup'
+  package "ruby-dev"
+  gem_package "backup"
   backup_node.each do |app, backup_info|
-    execute "mkdir -p /home/deploy/Backup/models/"
+    %w[ /home/deploy/Backup /home/deploy/Backup/models].each do |path|
+      directory path do
+        owner 'deploy'
+        group 'deploy'
+        mode '0755'
+      end
+    end
+
     execute "backup generate:model --trigger #{app}"
+
     storage = {
       type: backup_info.fetch(:storage_type, 'unknown').to_sym,
       dropbox_api_key: backup_info[:dropbox_api_key],
@@ -38,12 +46,19 @@ if backup_node
       s3_region: backup_info.fetch(:s3_region, 'eu-west-1')
     }
 
+    database = {
+      type: backup_info.fetch(:database_type, 'unknown').to_sym,
+      username: backup_info[:database_username],
+      password: backup_info[:database_password],
+      host: backup_info[:database_host]
+    }
+
     template "/home/deploy/Backup/models/#{app}.rb" do
       source "backup_template.rb.erb"
       mode 0600
       owner deploy_user
       group deploy_user
-      variables(app: app, storage: storage)
+      variables(app: app, storage: storage, database: database)
     end
 
     if backup_info[:enabled]
@@ -51,7 +66,7 @@ if backup_node
         minute '0'
         hour '0'
         user 'deploy'
-        command "backup perform --trigger #{app}"
+        command "cd /home/deploy/Backup && backup perform --trigger #{app}"
       end
     else
       cron "backup_#{app}" do
