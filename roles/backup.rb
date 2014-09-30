@@ -5,6 +5,3 @@ run_list(
   "recipe[packages]",
   "recipe[backups]"
 )
-
-default_attributes(
-)
