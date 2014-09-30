@@ -1,0 +1,84 @@
+##
+# Backup Generated: <%= @app %>
+# Once configured, you can run the backup with the following command:
+#
+# $ backup perform -t my_backup [-c <path_to_configuration_file>]
+#
+# For more information about Backup's components, see the documentation at:
+# http://meskyanichi.github.io/backup
+#
+Model.new(:<%= @app %>, "Backup for <%= @app %>") do
+  ##
+  # Archive [Archive]
+  #
+  # Adding a file or directory (including sub-directories):
+  #   archive.add "/path/to/a/file.rb"
+  #   archive.add "/path/to/a/directory/"
+  #
+  # Excluding a file or directory (including sub-directories):
+  #   archive.exclude "/path/to/an/excluded_file.rb"
+  #   archive.exclude "/path/to/an/excluded_directory
+  #
+  # By default, relative paths will be relative to the directory
+  # where `backup perform` is executed, and they will be expanded
+  # to the root of the filesystem when added to the archive.
+  #
+  # If a `root` path is set, relative paths will be relative to the
+  # given `root` path and will not be expanded when added to the archive.
+  #
+  #   archive.root '/path/to/archive/root'
+  #
+  archive :<%= @app %>_archive do |archive|
+    # Run the `tar` command using `sudo`
+    # archive.use_sudo
+    archive.add "/u/apps/<%= @app %>"
+  end
+
+  ##
+  # Local (Copy) [Storage]
+  #
+  <% if @storage[:type] == :local %>
+    store_with Local do |local|
+      local.path       = "~/backups/"
+      local.keep       = 5
+    end
+  <% elsif @storage[:type] == :dropbox %>
+    store_with Dropbox do |db|
+      db.api_key     = "<%= @storage[:dropbox_api_key] %>"
+      db.api_secret  = "<%= @storage[:dropbox_api_secret] %>"
+      db.cache_path  = ".cache"
+      db.access_type = :app_folder
+      db.path        = "/intercity_backups/"
+      db.keep        = 25
+    end
+  <% elsif @storage[:type] == :s3 %>
+    store_with S3 do |s3|
+      # AWS Credentials
+      s3.access_key_id     = "<%= @storage[:s3_access_key] %>"
+      s3.secret_access_key = "<%= @storage[:s3_secret_access_key] %>"
+
+      s3.region             = "<%= @storage[:s3_region] %>"
+      s3.bucket             = "<%= @storage[:s3_bucket] %>"
+      s3.path               = "/intercitybackups/"
+      s3.encryption = :aes256
+    end
+  <% end %>
+
+  <% if @database[:type] == :mysql  %>
+    database MySQL do |db|
+      db.name               = :all
+      db.username           = "<%= @database[:username] %>"
+      db.password           = "<%= @database[:password] %>"
+      db.host               = "<%= @database[:host] %>"
+      db.port               = 3306
+    end
+  <% elsif @database[:type] == :postgresql %>
+    database PostgreSQL do |db|
+      db.name               = :all
+      db.username           = "<%= @database[:username] %>"
+      db.password           = "<%= @database[:password] %>"
+      db.host               = "<%= @database[:host] %>"
+      db.port               = 5432
+    end
+  <% end %>
+end
