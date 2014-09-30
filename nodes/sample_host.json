@@ -18,6 +18,20 @@
   "ssh_deploy_keys": [
     "<enter the contents of an id_rsa.pub here>"
   ],
+  "backups": {
+    "<app_name>_<stage>" : {
+      "enabled": true,
+      "storage_type": "s3",
+      "s3_access_key": "<s3_access_key>",
+      "s3_secret_access_key": "<s3_secret_access_key>",
+      "s3_bucket": "<s3_bucketname>",
+      "s3_region": "<s3_region, i.e.: eu-west-1>",
+      "database_type": "<mysql, postgresql or none>",
+      "database_username": "<db_username>",
+      "database_password": "<db_password>",
+      "database_host": "<db_host likely localhost>"
+    }
+  },
   "active_applications": {
     "<appname>_<stage>": {
       "rails_env": "<stage, eg: production>",

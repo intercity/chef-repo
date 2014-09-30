@@ -21,6 +21,7 @@ on a single server or multiple servers:
 * Easy SSL configuration
 * Deployment with Capistrano
 * Configure ENV variables
+* Easy backup scheduling
 
 ### Ubuntu versions
 

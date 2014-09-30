@@ -5,6 +5,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ## Master - TBA
 
 ### Added
+- Backup support (Support for filesystem, mysql and postgresql)
 - Sysadmins recipe which allows you to provide sysadmin users in the node configuration.
 
 ### Deprecated
