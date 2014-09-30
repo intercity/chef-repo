@@ -21,14 +21,14 @@ include_recipe "sudo"
 backup_node = node[:backups]
 
 if backup_node
-  deploy_user = "deploy"
+  deploy_user = backup_node[:deploy_user] || "deploy"
   package "ruby-dev"
   gem_package "backup"
   backup_node.each do |app, backup_info|
-    %w[ /home/deploy/Backup /home/deploy/Backup/models].each do |path|
+    ["/home/#{deploy_user}/Backup", "/home/#{deploy_user}/Backup/models"].each do |path|
       directory path do
-        owner "deploy"
-        group "deploy"
+        owner deploy_user
+        group deploy_user
         mode "0755"
       end
     end
@@ -53,7 +53,7 @@ if backup_node
       host: backup_info[:database_host]
     }
 
-    template "/home/deploy/Backup/models/#{app}.rb" do
+    template "/home/#{deploy_user}/Backup/models/#{app}.rb" do
       source "backup_template.rb.erb"
       mode 0600
       owner deploy_user
@@ -65,12 +65,12 @@ if backup_node
       cron "backup_#{app}" do
         minute "0"
         hour "0"
-        user "deploy"
-        command "cd /home/deploy/Backup && backup perform --trigger #{app}"
+        user deploy_user
+        command "cd /home/#{deploy_user}/Backup && backup perform --trigger #{app}"
       end
     else
       cron "backup_#{app}" do
-        user "deploy"
+        user deploy_user
         action :delete
       end
     end
