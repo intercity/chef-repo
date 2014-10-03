@@ -31,7 +31,12 @@ if backup_node
       end
     end
 
-    execute "backup generate:model --trigger #{app}"
+    template "/home/#{deploy_user}/Backup/config.rb" do
+      source "config.rb.erb"
+      mode 0600
+      owner deploy_user
+      group deploy_user
+    end
 
     storage = {
       type: backup_info.fetch(:storage_type, "unknown").to_sym,
