@@ -20,8 +20,12 @@ backup_node = node[:backups]
 
 if backup_node
   deploy_user = backup_node[:deploy_user] || "deploy"
+
   package "ruby-dev"
+  package "libxml2-dev"
+  package "libxslt-dev"
   gem_package "backup"
+
   backup_node.each do |app, backup_info|
     ["/home/#{deploy_user}/Backup", "/home/#{deploy_user}/Backup/models"].each do |path|
       directory path do
