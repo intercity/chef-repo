@@ -21,7 +21,7 @@ backup_node = node[:backups]
 if backup_node
   deploy_user = backup_node[:deploy_user] || "deploy"
 
-  package "ruby-dev"
+  package "ruby1.9.1-dev"
   package "libxml2-dev"
   package "libxslt-dev"
   gem_package "backup"
