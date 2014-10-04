@@ -6,11 +6,6 @@
     "server_repl_password": "<enter a random password>"
   },
   "packages": ["<option list of system wide packages>"],
-  "authorization": {
-    "sudo": {
-      "users": ["<your sudo user>"]
-    }
-  },
   "ssh_deploy_keys": [
     "<enter the contents of an id_rsa.pub here>"
   ],
