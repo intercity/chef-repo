@@ -6,6 +6,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 
 ### Added
 - Backup support (Support for filesystem, mysql and postgresql, backup to S3)
+- Backup compression using GZip
 
 ### Deprecated
 - Nothing
