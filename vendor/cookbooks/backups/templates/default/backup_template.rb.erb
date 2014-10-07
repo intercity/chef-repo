@@ -81,4 +81,8 @@ Model.new(:<%= @app %>, "Backup for <%= @app %>") do
       db.port               = 5432
     end
   <% end %>
+
+  <% if @compression_enabled %>
+    compress_with Gzip
+  <%end%>
 end
