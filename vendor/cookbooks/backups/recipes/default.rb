@@ -26,9 +26,9 @@ if backup_node
   package "libxslt-dev"
   gem_package "backup"
 
-  compression_enabled = node[:backups][:compression_enabled] || true
-
   backup_node.each do |app, backup_info|
+    compression_enabled = backup_info.fetch(:compression_enabled, true)
+
     ["/home/#{deploy_user}/Backup", "/home/#{deploy_user}/Backup/models"].each do |path|
       directory path do
         owner deploy_user
