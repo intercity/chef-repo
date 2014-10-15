@@ -24,6 +24,9 @@ if backup_node
   package "ruby1.9.1-dev"
   package "libxml2-dev"
   package "libxslt-dev"
+
+  # Speed up nokogiri install by using syslibs
+  ENV["NOKOGIRI_USE_SYSTEM_LIBRARIES"] = "true"
   gem_package "backup"
 
   backup_node.each do |app, backup_info|
