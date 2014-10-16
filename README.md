@@ -252,8 +252,8 @@ $ curl -X GET https://api.digitalocean.com/v2/account/keys -H "Authorization: Be
 When you've obtained both your access token and your key IDs you can run the tests like this:
 
 ```
-$ export DIGITALOCEAN_ACCESS_TOKEN="abcdefg"
-$ export DIGITALOCEAN_SSH_KEY_IDS="194173"
+$ export DIGITALOCEAN_ACCESS_TOKEN=abcdefg
+$ export DIGITALOCEAN_SSH_KEY_IDS=194173
 $ bin/kitchen test
 ```
 
