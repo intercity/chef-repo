@@ -1,0 +1,30 @@
+---
+driver:
+  name: digitalocean
+
+platforms:
+  - name: ubuntu-14-04-x64
+    driver_config:
+      region: ams1
+      size: 2gb
+      server_name: chef-repo-test
+
+suites:
+  - name: full-stack
+    run_list:
+      - role[mysql]
+      - role[rails_passenger]
+    attributes:
+      mysql:
+        server_debian_password: "test"
+        server_root_password: "test"
+        server_repl_password: "test"
+      active_applications:
+        intercity_sample_app:
+          domain_names: ['intercity.io']
+          database_info:
+            adapter: mysql2
+            username: intercity
+            password: r4nd0m
+            database: intercity_sample_app
+          ruby_version: 2.1.2
