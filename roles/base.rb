@@ -8,9 +8,9 @@ default_attributes(
       "passwordless" => false,
       "include_sudoers_d" => true,
       "sudoers_default" => [
-        'env_reset',
-        'mail_badpass',
-        'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
+        "env_reset",
+        "mail_badpass",
+        "secure_path=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\""
       ],
     }
   }
