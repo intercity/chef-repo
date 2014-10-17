@@ -16,14 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-sysadmin_users = []
-
-node[:sysadmins].each do |user|
-  sysadmin_users << user["username"]
-
-  home_dir = "/home/#{user["username"]}"
+node[:sysadmins].each do |username, user|
+  home_dir = "/home/#{username}"
   # Create a user
-  user user["username"] do
+  user username do
     home home_dir
     password user["password"] if user["password"]
 
@@ -36,15 +32,15 @@ node[:sysadmins].each do |user|
   # Always create the file and dir, even if user did not provide
   # ssh-keys
   directory "#{home_dir}/.ssh" do
-    owner user["username"]
-    group user["username"]
+    owner username
+    group username
     mode "0700"
   end
   if user["ssh_keys"]
     template "#{home_dir}/.ssh/authorized_keys" do
       source "authorized_keys.erb"
-      owner user["username"]
-      group user["username"]
+      owner username
+      group username
       mode "0600"
       variables ssh_keys: user["ssh_keys"]
     end
@@ -55,5 +51,5 @@ end
 # Add users to the sysadmin group. This is the group used by
 # the sudo cookbook to grant users sudo-access.
 group "admin" do
-  members sysadmin_users
+  members node[:sysadmins].keys
 end
