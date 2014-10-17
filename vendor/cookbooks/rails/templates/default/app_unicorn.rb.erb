@@ -32,7 +32,7 @@ before_exec do |server|
 end
 
 before_fork do |server, worker|
-  ActiveRecord::Base.connection.disconnect!
+  ActiveRecord::Base.connection.disconnect! if defined? ActiveRecord::Base
 
   sleep 10
 
@@ -47,5 +47,5 @@ before_fork do |server, worker|
 end
 
 after_fork do |server, worker|
-  ActiveRecord::Base.establish_connection
+  ActiveRecord::Base.establish_connection if defined? ActiveRecord::Base
 end
