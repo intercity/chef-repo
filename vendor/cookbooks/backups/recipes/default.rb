@@ -79,7 +79,7 @@ if backup_node
         minute "0"
         hour "0"
         user deploy_user
-        command "cd /home/#{deploy_user}/Backup && backup perform --trigger #{app}"
+        command "/bin/bash -l -c 'cd /home/#{deploy_user}/Backup && /usr/local/bin/backup perform --trigger #{app}'"
       end
     else
       cron "backup_#{app}" do
