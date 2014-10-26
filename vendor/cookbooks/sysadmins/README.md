@@ -39,3 +39,8 @@ Add sysadmins to your node configuration:
   }
 }
 ```
+
+* Create a hashed password with `openssl passwd -1 'plaintextpassword'`.
+  This password is needed for running `sudo`.
+* SSH-keys should be the **public** key. You can leave them out, in
+  which case you have to log in with the password.
