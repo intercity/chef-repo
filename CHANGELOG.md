@@ -2,6 +2,23 @@
 All notable changes to this project will be documented in this file.
 This project makes use of the [Sementic Versioning](http://semver.org/)
 
+## Master - TBA
+
+### Added
+- Nothing
+
+### Deprecated
+- Nothing
+
+### Removed
+- Nothing
+
+### Fixed
+- Nothing
+
+### Misc
+- Nothing
+
 ## 2.2.0 - 2014-10-28
 
 ### Added
