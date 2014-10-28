@@ -246,14 +246,14 @@ Test-kitchen is a tool where you can automatically provision a server with these
 First you need to obtain a DigitalOcean access token here: https://cloud.digitalocean.com/settings/applications. Then you need to find IDs of the SSH keys you added to your account: https://cloud.digitalocean.com/ssh_keys. You can obtain these IDs with the following command:
 
 ```
-$ curl -X GET https://api.digitalocean.com/v2/account/keys -H "Authorization: Bearer $DIGITALOCEAN_ACCESS_TOKEN"
+$ curl -X GET https://api.digitalocean.com/v2/account/keys -H "Authorization: Bearer <YOUR_DIGITALOCEAN_ACCESS TOKEN>"
 ```
 
 When you've obtained both your access token and your key IDs you can run the tests like this:
 
 ```
-$ export DIGITALOCEAN_ACCESS_TOKEN=abcdefg
-$ export DIGITALOCEAN_SSH_KEY_IDS=194173
+$ export DIGITALOCEAN_ACCESS_TOKEN=<YOUR DIGITALOCEAN ACCESS TOKEN>
+$ export DIGITALOCEAN_SSH_KEY_IDS=<YOUR DIGITALOCEAN SSH KEY ID>
 $ bin/kitchen test
 ```
 
