@@ -12,3 +12,7 @@ end
 describe file("/etc/nginx/sites-available/intercity_sample_app.conf") do
   its (:content) { should match /^  server_name intercity.io;$/ }
 end
+
+describe file("/u/apps/intercity_sample_app/shared/.ruby-version") do
+  its (:content) { should match /2\.1\.2/ }
+end
