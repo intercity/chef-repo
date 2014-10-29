@@ -65,6 +65,14 @@ if node[:active_applications]
       end
     end
 
+    template "#{application_root}/shared/.ruby-version" do
+      owner deploy_user
+      group deploy_user
+      mode 0600
+      source "ruby-version.erb"
+      variables ruby_version: app_info["ruby_version"]
+    end
+
     if app_info['database_info']
 
       template "#{applications_root}/#{app}/shared/config/database.yml" do

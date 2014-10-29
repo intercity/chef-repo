@@ -5,7 +5,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ## Master - TBA
 
 ### Added
-- Nothing
+- .ruby-version file is placed in app_folder/shared so you can symlink it to your app
 
 ### Deprecated
 - Nothing
