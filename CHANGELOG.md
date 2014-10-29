@@ -14,7 +14,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 - Nothing
 
 ### Fixed
-- Nothing
+- Fixed 'uninitialized constant ActiveRecord' in Unicorn configuration when a the app does not have ActiveRecord.
 
 ### Misc
 - Nothing
