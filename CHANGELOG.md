@@ -6,6 +6,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 
 ### Added
 - .ruby-version file is placed in app_folder/shared so you can symlink it to your app
+- Sysadmins recipe which allows you to provide sysadmin users in the node configuration.
 
 ### Deprecated
 - Nothing
@@ -17,7 +18,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 - Fixed 'uninitialized constant ActiveRecord' in Unicorn configuration when a the app does not have ActiveRecord.
 
 ### Misc
-- Nothing
+- Sudo recipe configuration changed to match Ubuntu's default sudo behaviour more closely.
 
 ## 2.2.0 - 2014-10-28
 
@@ -26,7 +27,6 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 - Backup compression using GZip
 - Added ruby 2.1.3 to the ruby binary list
 - test-kitchen to automatically test the cookbooks and resulting server setup
-- Sysadmins recipe which allows you to provide sysadmin users in the node configuration.
 
 ### Deprecated
 - Nothing
@@ -39,8 +39,6 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 
 ### Misc
 - Upgraded the chef-repo ruby version to 2.1.2
-- Sudo recipe configuration changed to match Ubuntu's default sudo
-  behaviour more closely.
 
 ## 2.1.0 - 2014-08-18
 

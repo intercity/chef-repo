@@ -1,5 +1,5 @@
 {
-  "run_list":["role[mysql]","role[rails_passenger]"],
+  "run_list":["role[mysql]","role[rails_passenger]", "role[sysadmins]"],
   "mysql": {
     "server_debian_password": "<enter a random password>",
     "server_root_password": "<enter a random password>",
@@ -7,7 +7,7 @@
   },
   "packages": ["<option list of system wide packages>"],
   "sysadmins": {
-    "<username>":
+    "<username>": {
       "password": "<hashed password: openssl passwd -1 'plaintextpassword'>",
       "ssh_keys": [
         "ssh-rsa AAA123...xyz== foo",
