@@ -6,6 +6,15 @@
     "server_repl_password": "<enter a random password>"
   },
   "packages": ["<option list of system wide packages>"],
+  "sysadmins": {
+    "<username>":
+      "password": "<hashed password: openssl passwd -1 'plaintextpassword'>",
+      "ssh_keys": [
+        "ssh-rsa AAA123...xyz== foo",
+        "ssh-rsa AAA456...uvw== bar"
+      ]
+    }
+  }
   "ssh_deploy_keys": [
     "<enter the contents of an id_rsa.pub here>"
   ],
