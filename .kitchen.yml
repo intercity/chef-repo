@@ -14,7 +14,12 @@ suites:
     run_list:
       - role[mysql]
       - role[rails_passenger]
+      - role[sysadmins]
     attributes:
+      sysadmins:
+        jdoe:
+          password: "test"
+          ssh_keys: ["test-key"]
       mysql:
         server_debian_password: "test"
         server_root_password: "test"
