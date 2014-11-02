@@ -25,7 +25,7 @@ SSL_EMAIL_ADDRESS = "ops@example.com"
 
 # License for new Cookbooks
 # Can be :apachev2 or :none
-NEW_COOKBOOK_LICENSE = :apachev2
+NEW_COOKBOOK_LICENSE = :none
 
 ###
 # Useful Extras (which you probably don't need to change)
