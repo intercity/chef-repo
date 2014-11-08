@@ -21,6 +21,7 @@ include_recipe "sudo"
 include_recipe "nginx"
 
 include_recipe "rails::setup"
+include_recipe "rails::imagemagick"
 
 applications_root = node[:rails][:applications_root]
 
