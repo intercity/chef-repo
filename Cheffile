@@ -11,6 +11,7 @@ cookbook "postfix", "~> 3.4.0"
 cookbook "sudo", "~> 2.7.0"
 cookbook "rbenv", "~> 1.7.1"
 cookbook "ruby_build", "~> 0.8.0"
+cookbook "imagemagick", "~> 0.2.3"
 
 # Our own cookbooks from vendor/
 cookbook "packages", path: "vendor/cookbooks/packages"
