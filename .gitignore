@@ -3,6 +3,7 @@ recipes.tgz
 /config/servers.rb
 
 nodes/*.json
+nodes/.gitignore
 !nodes/sample_host.json
 /cookbooks
 /certificates
