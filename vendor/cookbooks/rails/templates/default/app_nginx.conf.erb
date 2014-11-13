@@ -1,3 +1,5 @@
+<%= @custom_configuration["before"] %>
+
 <% if @redirect_domain_names && @redirect_domain_names.any? %>
 server {
   listen <%= node['nginx']['port'] || '80' %>;
@@ -22,8 +24,9 @@ server {
     proxy_redirect off;
 
     proxy_pass http://<%= @name %>;
+    <%= @custom_configuration["server_app"] %>
   }
-
+  <%= @custom_configuration["server_main"] %>
 }
 
 <% if @enable_ssl %>
@@ -49,12 +52,16 @@ server {
     proxy_redirect off;
 
     proxy_pass http://<%= @name %>;
+    <%= @custom_configuration["ssl_app"] %>
   }
-
+  <%= @custom_configuration["ssl_main"] %>
 }
 
 <% end %>
 
 upstream <%= @name %> {
   server unix:<%= node['rails']['applications_root'] %>/<%= @name %>/shared/tmp/sockets/unicorn.sock;
+  <%= @custom_configuration["upstream"] %>
 }
+
+<%= @custom_configuration["after"] %>
