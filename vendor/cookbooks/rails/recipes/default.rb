@@ -26,6 +26,9 @@ applications_root = node[:rails][:applications_root]
 
 if node[:active_applications]
 
+  # Include library helpers
+  ::Chef::Resource.send(:include, Rails::Helpers)
+
   node[:active_applications].each do |app, app_info|
     rails_env = app_info['rails_env'] || "production"
     deploy_user = app_info['deploy_user'] || "deploy"
@@ -103,15 +106,13 @@ if node[:active_applications]
       end
     end
 
-    custom_conf = app_info["nginx_custom"].reject { |_, v| v.nil? || v.empty? }
-
     template "/etc/nginx/sites-available/#{app}.conf" do
       source "app_nginx.conf.erb"
       variables(
         name: app,
         domain_names: app_info["domain_names"],
         enable_ssl: File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt"),
-        custom_configuration: custom_conf)
+        custom_configuration: nginx_custom_configuration(app_info))
       notifies :reload, resources(service: "nginx")
     end
 
