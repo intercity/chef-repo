@@ -113,12 +113,12 @@ if node[:active_applications]
 
     template "/etc/nginx/sites-available/#{app}.conf" do
       source "app_nginx.conf.erb"
-      variables 
+      variables(
         name: app,
         domain_names: app_info["domain_names"],
         redirect_domain_names: app_info["redirect_domain_names"],
         enable_ssl: File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt"),
-      custom_configuration: nginx_custom_configuration(app_info))
+        custom_configuration: nginx_custom_configuration(app_info))
       notifies :reload, resources(:service => "nginx")
     end
 
