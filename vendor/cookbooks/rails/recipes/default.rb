@@ -119,7 +119,7 @@ if node[:active_applications]
         redirect_domain_names: app_info["redirect_domain_names"],
         enable_ssl: File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt"),
         custom_configuration: nginx_custom_configuration(app_info))
-      notifies :reload, resources(:service => "nginx")
+      notifies :reload, resources(service: "nginx")
     end
 
     template "#{applications_root}/#{app}/shared/config/unicorn.rb" do
