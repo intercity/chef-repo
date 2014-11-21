@@ -103,12 +103,16 @@ if node[:active_applications]
       end
     end
 
-    custom_configuration = app_info["nginx_custom"].reject{ |k,v| v.nil? || v.empty? }
+    custom_conf = app_info["nginx_custom"].reject { |_, v| v.nil? || v.empty? }
 
     template "/etc/nginx/sites-available/#{app}.conf" do
       source "app_nginx.conf.erb"
-      variables :name => app, :domain_names => app_info['domain_names'], :enable_ssl => File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt"), custom_configuration: custom_configuration
-      notifies :reload, resources(:service => "nginx")
+      variables(
+        name: app,
+        domain_names: app_info["domain_names"],
+        enable_ssl: File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt"),
+        custom_configuration: custom_conf)
+      notifies :reload, resources(service: "nginx")
     end
 
     template "#{applications_root}/#{app}/shared/config/unicorn.rb" do
