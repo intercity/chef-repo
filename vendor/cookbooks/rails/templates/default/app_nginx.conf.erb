@@ -1,4 +1,4 @@
-<%= @custom_configuration["before"] %>
+<%= @custom_configuration["before_server"] %>
 
 <% if @redirect_domain_names && @redirect_domain_names.any? %>
 server {
@@ -64,4 +64,4 @@ upstream <%= @name %> {
   <%= @custom_configuration["upstream"] %>
 }
 
-<%= @custom_configuration["after"] %>
+<%= @custom_configuration["after_server"] %>
