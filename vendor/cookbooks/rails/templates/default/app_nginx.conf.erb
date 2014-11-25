@@ -1,4 +1,4 @@
-<%= @custom_configuration["before"] %>
+<%= @custom_configuration["before_server"] %>
 
 server {
   listen <%= node['nginx']['port'] || '80' %>;
@@ -53,4 +53,4 @@ upstream <%= @name %> {
   <%= @custom_configuration["upstream"] %>
 }
 
-<%= @custom_configuration["after"] %>
+<%= @custom_configuration["after_server"] %>

@@ -5,13 +5,13 @@ module Rails
     # Assure we always send certain hash keys to the template
     def nginx_custom_configuration(app_info)
       empty_conf = {
-        "before" => "",
+        "before_server" => "",
         "server_main" => "",
         "server_app" => "",
         "server_ssl"  => "",
         "server_ssl_app" => "",
         "upstream" => "",
-        "after" => "",
+        "after_server" => "",
       }
 
       empty_conf.merge(app_info["nginx_custom"] || {})
