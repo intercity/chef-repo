@@ -14,7 +14,7 @@
         "ssh-rsa AAA456...uvw== bar"
       ]
     }
-  }
+  },
   "ssh_deploy_keys": [
     "<enter the contents of an id_rsa.pub here>"
   ],
