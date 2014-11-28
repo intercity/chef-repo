@@ -1,3 +1,5 @@
+<%= @custom_configuration["before"] %>
+
 server {
   listen <%= node['nginx']['port'] || '80' %>;
   server_name <%= @domain_names.join(' ') %>;
@@ -5,7 +7,7 @@ server {
 
   passenger_enabled on;
   passenger_app_env <%= @rails_env %>;
-
+  <%= @custom_configuration["server_main"] %>
 }
 
 <% if @enable_ssl %>
@@ -22,7 +24,9 @@ server {
   server_name <%= @domain_names.join(' ') %>;
 
   root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
-
+  <%= @custom_configuration["ssl_main"] %>
 }
 
 <% end %>
+
+<%= @custom_configuration["after"] %>
