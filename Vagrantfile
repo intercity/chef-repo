@@ -104,6 +104,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         },
         "env_vars" => {
           "SECRET_KEY_BASE" => "5c11bffd8ad6d537fc291c4b4089a42a2f40ee6869d75490eef944196b3b601053a8d9c2f5c29aa8738fa786f5c14dd5a6fab1b5537095c2c5ed3f2567392463"
+        },
+        "nginx_custom" => {
+          "before_server" => "server {
+              server_name www.localhost;
+              return 301 $scheme://localhost:8081$request_uri;
+            }"
         }
       }
     },
