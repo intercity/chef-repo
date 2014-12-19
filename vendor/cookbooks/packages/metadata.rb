@@ -1,3 +1,4 @@
+name             "packages"
 maintainer       "Michiel Sikkes"
 maintainer_email "michiel@firmhouse.com"
 license          "MIT"
