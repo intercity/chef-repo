@@ -1,3 +1,4 @@
+name             "ssh_deploy_keys"
 maintainer       "Michiel Sikkes"
 maintainer_email "michiel@firmhouse.com"
 license          "Apache 2.0"
