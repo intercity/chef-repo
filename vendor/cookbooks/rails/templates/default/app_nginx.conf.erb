@@ -1,3 +1,14 @@
+<% if @redirect_domain_names && @redirect_domain_names.any? %>
+server {
+  listen <%= node['nginx']['port'] || '80' %>;
+  <% if @enable_ssl %>
+  listen 443 ssl;
+  <% end %>
+  server_name <%= @redirect_domain_names.join(' ') %>;
+  return 301 $scheme://<%= @domain_names.first %>$request_uri;
+}
+<% end %>
+
 server {
   listen <%= node['nginx']['port'] || '80' %>;
   server_name <%= @domain_names.join(' ') %>;
