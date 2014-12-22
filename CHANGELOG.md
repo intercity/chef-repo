@@ -19,6 +19,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 
 ### Misc
 - Sudo recipe configuration changed to match Ubuntu's default sudo behaviour more closely.
+- Licensing has been moved to MIT
 
 ## 2.2.0 - 2014-10-28
 
