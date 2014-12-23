@@ -6,7 +6,7 @@ platforms:
   - name: ubuntu-14-04-x64
     driver_config:
       region: ams1
-      size: 2gb
+      size: 512mb
       server_name: chef-repo-test
 
 suites:
