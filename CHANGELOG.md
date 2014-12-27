@@ -7,6 +7,8 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ### Added
 - .ruby-version file is placed in app_folder/shared so you can symlink it to your app
 - Sysadmins recipe which allows you to provide sysadmin users in the node configuration.
+- Nginx custom configuration whitch allows you to add custom configuration into the
+  generated vhost configuration.
 
 ### Deprecated
 - Nothing
