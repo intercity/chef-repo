@@ -18,9 +18,10 @@ suites:
       - role[rails_passenger]
       - role[sysadmins]
     attributes:
-      authentication:
+      authorization:
         sudo:
           passwordless: true
+          users: ["vagrant"]
       sysadmins:
         jdoe:
           password: "test"
