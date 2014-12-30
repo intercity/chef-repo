@@ -27,7 +27,7 @@ node[:sysadmins].each do |username, user|
   # Create a user
   user username do
     home home_dir
-    password user["password"] if user["password"]
+    password user["password"] if user.attribute?(:password)
 
     shell "/bin/bash"
     manage_home true

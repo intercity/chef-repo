@@ -25,7 +25,7 @@ on a single server or multiple servers:
 * Configure ENV variables
 * Easy backup scheduling
 
-### Ubuntu versions
+### Supported OSes
 
 * Ubuntu 12.04 LTS
 * Ubuntu 14.04 LTS
@@ -85,12 +85,6 @@ bundle exec knife solo cook <your user>@<your host/ip>
 ### 3. Deploy your application
 
 You can deploy your applications with Capistrano.
-
-Create a file named `.ruby-version` in your Rails project with the Ruby version you want your application ro un on:
-
-```
-echo "2.1.2" > .ruby-version
-```
 
 Add the Capistrano gem to your Gemfile:
 
