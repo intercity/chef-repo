@@ -4,8 +4,6 @@ site "https://supermarket.getchef.com/api/v1"
 cookbook "apt", "~> 2.5.2"
 cookbook "mysql", "~> 5.3.6"
 cookbook "postgresql", "~> 3.4.1"
-# cookbook "postgresql", path: "~/Code/Ruby/cookbooks-postgresql"
-# cookbook "postgresql", github: 'intercity/cookbooks-postgresql', ref: 'ubuntu-1404'
 cookbook "nginx", "~> 2.7.4"
 cookbook "postfix", "~> 3.4.0"
 cookbook "sudo", "~> 2.7.0"
