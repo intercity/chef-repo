@@ -5,8 +5,8 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ## Master - TBA
 
 ### Added
-- .ruby-version file is placed in app_folder/shared so you can symlink it to your app
-- Sysadmins recipe which allows you to provide sysadmin users in the node configuration.
+- A default .ruby-version file with the configured Ruby version from the node configuration is now placed in /u/apps/<your app folder>/shared so it can be symlinked with the default Capistrano configuration.
+- Sysadmins recipe added which allows you to provide sysadmin users in the node configuration.
 - Nginx custom configuration whitch allows you to add custom configuration into the
   generated vhost configuration.
 
@@ -20,6 +20,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 - Fixed 'uninitialized constant ActiveRecord' in Unicorn configuration when a the app does not have ActiveRecord.
 
 ### Misc
+- Updated Ruby version to 2.2.0
 - Sudo recipe configuration changed to match Ubuntu's default sudo behaviour more closely.
 - Licensing has been moved to MIT
 
