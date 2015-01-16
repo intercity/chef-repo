@@ -8,10 +8,10 @@ describe "Ngninx server" do
 
 end
 
-describe file('/etc/nginx/sites-available/intercity_sample_app.conf') do
+describe file("/etc/nginx/sites-available/intercity_sample_app.conf") do
   it { should be_file }
 
-  its(:content) do 
+  its(:content) do
     should match /location ~ \^\/\(assets\)\/.*gzip_static on;/m
   end
 end
