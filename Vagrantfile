@@ -110,6 +110,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
               server_name www.localhost;
               return 301 $scheme://localhost:8081$request_uri;
             }"
+        },
+        "cron" => {
+          "sitemap" => {
+            minute: 0,
+            hour: 5,
+            command: "rake -s sitemap:refresh"
+          }
         }
       }
     },
@@ -127,6 +134,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       chef.add_role "postgresql"
       chef.add_role "rails_passenger"
+      chef.add_recipe "cron"
 
       chef.log_level = :info
 
