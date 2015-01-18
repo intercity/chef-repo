@@ -7,7 +7,7 @@ with commands that will be ran within the context of the app.
 Attributes
 ----------
 
-#### sysadmins::default
+#### cron::default
 <table>
   <tr>
     <th>Key</th>
