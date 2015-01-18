@@ -29,8 +29,8 @@ node[:active_applications].map do |app, app_info|
     attributes = crontab.dup
 
     unscoped_command = attributes.delete("command")
-    rails_env        = app_info['rails_env'] || "production"
-    user             = attributes.delete("user") || app_info['deploy_user'] || "deploy"
+    rails_env        = app_info["rails_env"] || "production"
+    user             = attributes.delete("user") || app_info["deploy_user"] || "deploy"
     app_dir          = "#{node[:rails][:applications_root]}/#{app}/current"
 
     command = "cd #{app_dir} && ( PATH=/opt/rbenv/shims:$PATH RAILS_ENV=#{rails_env} bundle exec #{unscoped_command} )"
@@ -38,7 +38,7 @@ node[:active_applications].map do |app, app_info|
     cron "#{app}_#{id}" do
       command(command)
       user(user)
-      attributes.each {|attribute, value| send(attribute, value) }
+      attributes.each { |attribute, value| send(attribute, value) }
     end
   end
 end
