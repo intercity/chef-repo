@@ -50,6 +50,7 @@ if node[:active_applications]
 
   # Include library helpers
   ::Chef::Resource.send(:include, Rails::Helpers)
+  ::Chef::Recipe.send(:include, Rails::Helpers)
 
   node[:active_applications].each do |app, app_info|
     rails_env = app_info['rails_env'] || "production"
@@ -98,7 +99,6 @@ if node[:active_applications]
     end
 
     if app_info['database_info']
-
       template "#{applications_root}/#{app}/shared/config/database.yml" do
         owner deploy_user
         group deploy_user
@@ -106,24 +106,19 @@ if node[:active_applications]
         source "app_database.yml.erb"
         variables :database_info => app_info['database_info'], :rails_env => rails_env
       end
-
     end
 
-    if app_info['ssl_info']
-      template "#{applications_root}/#{app}/shared/config/certificate.crt" do
-        owner "deploy"
-        group "deploy"
-        mode 0644
-        source "app_cert.crt.erb"
-        variables :app_crt=> app_info['ssl_info']['crt']
-      end
+    ssl_certificate_path = ssl_certificate(applications_root, app, app_info)
+    ssl_certificate_key_path = ssl_certificate_key(applications_root, app, app_info)
 
-      template "#{applications_root}/#{app}/shared/config/certificate.key" do
-        owner "deploy"
-        group "deploy"
-        mode 0644
-        source "app_cert.key.erb"
-        variables :app_key=> app_info['ssl_info']['key']
+    if app_info["ssl_enabled"]
+      [ssl_certificate_path, ssl_certificate_key_path].each do |pathname|
+        cookbook_file pathname.to_s do
+          source "certificates/#{pathname.basename.to_s}"
+          owner "deploy"
+          group "deploy"
+          mode 0644
+        end
       end
     end
 
@@ -133,7 +128,9 @@ if node[:active_applications]
         name: app,
         rails_env: rails_env,
         domain_names: app_info["domain_names"],
-        enable_ssl: File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt"),
+        ssl_enabled: app_info["ssl_enabled"],
+        ssl_certificate: ssl_certificate_path,
+        ssl_certificate_key: ssl_certificate_key_path,
         custom_configuration: nginx_custom_configuration(app_info))
       notifies :reload, resources(:service => "nginx")
     end

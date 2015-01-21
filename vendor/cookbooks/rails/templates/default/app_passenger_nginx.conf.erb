@@ -10,13 +10,13 @@ server {
   <%= @custom_configuration["server_main"] %>
 }
 
-<% if @enable_ssl %>
+<% if @ssl_enabled %>
 
 server {
   listen 443 ssl;
 
-  ssl_certificate <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.crt;
-  ssl_certificate_key <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.key;
+  ssl_certificate     <%= @ssl_certificate %>;
+  ssl_certificate_key <%= @ssl_certificate_key %>;
 
   passenger_enabled on;
   passenger_app_env <%= @rails_env %>;
