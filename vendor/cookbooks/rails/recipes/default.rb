@@ -118,7 +118,9 @@ if node[:active_applications]
         domain_names: app_info["domain_names"],
         redirect_domain_names: app_info["redirect_domain_names"],
         enable_ssl: File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt"),
-        custom_configuration: nginx_custom_configuration(app_info))
+        custom_configuration: nginx_custom_configuration(app_info),
+        gzip_enabled: app_info["gzip_enabled"]
+      )
       notifies :reload, resources(service: "nginx")
     end
 

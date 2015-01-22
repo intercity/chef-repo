@@ -10,7 +10,7 @@ server {
   passenger_enabled on;
   passenger_app_env <%= @rails_env %>;
 
-  <%= render '_app_nginx_location_assets.erb', variables: { server_root_public_path: server_root_public_path } %>
+  <%= render '_app_nginx_location_assets.erb', variables: { server_root_public_path: server_root_public_path } if @gzip_enabled %>
 
   <%= @custom_configuration["server_main"] %>
 }
@@ -30,7 +30,7 @@ server {
 
   root <%= server_root_public_path %>; 
 
-  <%= render '_app_nginx_location_assets.erb', variables: { server_root_public_path: server_root_public_path } %>
+  <%= render '_app_nginx_location_assets.erb', variables: { server_root_public_path: server_root_public_path } if @gzip_enabled %>
 
   <%= @custom_configuration["ssl_main"] %>
 }

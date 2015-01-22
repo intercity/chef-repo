@@ -53,7 +53,8 @@
         "username": "<db username, max 10 characters>",
         "password": "<enter a random password>",
         "database": "<appname>_<stage>"
-      }
+      },
+      "gzip_enabled": true
     }
   }
 }
