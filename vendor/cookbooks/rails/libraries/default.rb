@@ -26,17 +26,17 @@ module Rails
     #
     #   applications_root = '/u/apps/'
     #   name = 'my_app'
-    #   app_info['ssl_certificate'] = nil 
+    #   app_info['ssl_certificate'] = nil
     #   ssl_certificate(applications_root, name, app_info) # => /u/apps/my_app/shared/config/my_app.crt'
     #
     def ssl_certificate(applications_root, name, app_info)
-      Pathname.new(applications_root).join(name, 'shared', 'config', app_info["ssl_certificate"] || "#{name}.crt")
+      Pathname.new(applications_root).join(name, "shared", "config", app_info["ssl_certificate"] || "#{name}.crt")
     end
 
     # See #ssl_certificate
     #
     def ssl_certificate_key(applications_root, name, app_info)
-      Pathname.new(applications_root).join(name, 'shared', 'config', app_info["ssl_certificate_key"] || "#{name}.key")
+      Pathname.new(applications_root).join(name, "shared", "config", app_info["ssl_certificate_key"] || "#{name}.key")
     end
   end
 end

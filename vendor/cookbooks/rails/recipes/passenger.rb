@@ -114,7 +114,7 @@ if node[:active_applications]
     if app_info["ssl_enabled"]
       [ssl_certificate_path, ssl_certificate_key_path].each do |pathname|
         cookbook_file pathname.to_s do
-          source "certificates/#{pathname.basename.to_s}"
+          source "certificates/#{pathname.basename}"
           owner "deploy"
           group "deploy"
           mode 0644
