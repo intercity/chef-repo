@@ -21,13 +21,15 @@ module Rails
     #
     #   applications_root = '/u/apps/'
     #   name = 'my_app'
-    #   app_info['ssl_certificate'] = 'my_cert.crt'
-    #   ssl_certificate(applications_root, name, app_info) # => /u/apps/my_app/shared/config/my_cert.crt'
+    #   ssl_certificate(applications_root, name, app_info) # => /u/apps/my_app/shared/config/my_app.crt'
+    #
+    #   or,
     #
     #   applications_root = '/u/apps/'
     #   name = 'my_app'
-    #   app_info['ssl_certificate'] = nil
-    #   ssl_certificate(applications_root, name, app_info) # => /u/apps/my_app/shared/config/my_app.crt'
+    #   app_info['ssl_info']['certificate'] = 'my_cert.crt'
+    #   ssl_certificate(applications_root, name, app_info) # => /u/apps/my_app/shared/config/my_cert.crt'
+    #
     #
     def ssl_certificate(applications_root, name, app_info)
       raise "Invalid application config given, no `ssl_info` present" unless ssl_info?(app_info)
