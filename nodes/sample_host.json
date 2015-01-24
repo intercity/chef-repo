@@ -39,9 +39,11 @@
       "domain_names": ["<domain name>", "<domain name>", "<...>"],
       "redirect_domain_names": ["<domain name>", "<domain name>", "<...>"],
       "ruby_version": "2.1.0",
-      "ssl_enabled": true,
-      "ssl_certificate":     "<optional key file name: my_cert.crt>",
-      "ssl_certificate_key": "<optional crt file name: my_cert.key>",
+      "ssl_info": {
+        "enabled": true,
+        "certificate": "The cert file, optional",
+        "certificate_key": "The key for the cert file"
+      },
       "env_vars": {
         "key_1": "val_1",
         "key_2": "val_2"

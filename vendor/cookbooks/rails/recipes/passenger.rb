@@ -108,10 +108,10 @@ if node[:active_applications]
       end
     end
 
-    ssl_certificate_path = ssl_certificate(applications_root, app, app_info)
-    ssl_certificate_key_path = ssl_certificate_key(applications_root, app, app_info)
+    if ssl_enabled?(app_info)
+      ssl_certificate_path = ssl_certificate(applications_root, app, app_info)
+      ssl_certificate_key_path = ssl_certificate_key(applications_root, app, app_info)
 
-    if app_info["ssl_enabled"]
       [ssl_certificate_path, ssl_certificate_key_path].each do |pathname|
         cookbook_file pathname.to_s do
           source "certificates/#{pathname.basename}"
@@ -120,20 +120,32 @@ if node[:active_applications]
           mode 0644
         end
       end
+
+      template "/etc/nginx/sites-available/#{app}.conf" do
+        source "app_passenger_nginx.conf.erb"
+        variables(
+          name: app,
+          rails_env: rails_env,
+          domain_names: app_info["domain_names"],
+          ssl_enabled: true, 
+          ssl_certificate: ssl_certificate_path,
+          ssl_certificate_key: ssl_certificate_key_path,
+          custom_configuration: nginx_custom_configuration(app_info))
+        notifies :reload, resources(:service => "nginx")
+      end
+    else
+      template "/etc/nginx/sites-available/#{app}.conf" do
+        source "app_passenger_nginx.conf.erb"
+        variables(
+          name: app,
+          rails_env: rails_env,
+          domain_names: app_info["domain_names"],
+          ssl_enabled: false,
+          custom_configuration: nginx_custom_configuration(app_info))
+        notifies :reload, resources(:service => "nginx")
+      end
     end
 
-    template "/etc/nginx/sites-available/#{app}.conf" do
-      source "app_passenger_nginx.conf.erb"
-      variables(
-        name: app,
-        rails_env: rails_env,
-        domain_names: app_info["domain_names"],
-        ssl_enabled: app_info["ssl_enabled"],
-        ssl_certificate: ssl_certificate_path,
-        ssl_certificate_key: ssl_certificate_key_path,
-        custom_configuration: nginx_custom_configuration(app_info))
-      notifies :reload, resources(:service => "nginx")
-    end
 
     nginx_site "#{app}.conf" do
       action :enable
