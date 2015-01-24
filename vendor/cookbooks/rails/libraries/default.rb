@@ -31,7 +31,7 @@ module Rails
     #
     def ssl_certificate(applications_root, name, app_info)
       raise "Invalid application config given, no `ssl_info` present" unless ssl_info?(app_info)
-      
+
       Pathname.new(applications_root).join(name, "shared", "config",
                                            app_info["ssl_info"]["certificate"] || "#{name}.crt")
     end
@@ -48,13 +48,13 @@ module Rails
     # Check if the app config has ssl_info section
     #
     def ssl_info?(app_info)
-      app_info.key?('ssl_info')
+      app_info.key?("ssl_info")
     end
 
     # Checks if the app config has ssl enabled
     #
     def ssl_enabled?(app_info)
-      ssl_info?(app_info) && app_info['ssl_info']['enabled']
+      ssl_info?(app_info) && app_info["ssl_info"]["enabled"]
     end
   end
 end
