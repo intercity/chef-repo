@@ -127,11 +127,11 @@ if node[:active_applications]
           name: app,
           rails_env: rails_env,
           domain_names: app_info["domain_names"],
-          ssl_enabled: true, 
+          ssl_enabled: true,
           ssl_certificate: ssl_certificate_path,
           ssl_certificate_key: ssl_certificate_key_path,
           custom_configuration: nginx_custom_configuration(app_info))
-        notifies :reload, resources(:service => "nginx")
+        notifies :reload, resources(service: "nginx")
       end
     else
       template "/etc/nginx/sites-available/#{app}.conf" do
@@ -142,7 +142,7 @@ if node[:active_applications]
           domain_names: app_info["domain_names"],
           ssl_enabled: false,
           custom_configuration: nginx_custom_configuration(app_info))
-        notifies :reload, resources(:service => "nginx")
+        notifies :reload, resources(service: "nginx")
       end
     end
 
