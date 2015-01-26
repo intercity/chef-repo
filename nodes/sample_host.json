@@ -54,7 +54,7 @@
         "password": "<enter a random password>",
         "database": "<appname>_<stage>"
       },
-      "gzip_enabled": true
+      "gzip_enabled": false
     }
   }
 }
