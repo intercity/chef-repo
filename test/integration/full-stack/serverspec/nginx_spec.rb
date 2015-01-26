@@ -11,7 +11,9 @@ end
 describe file("/etc/nginx/sites-available/intercity_sample_app.conf") do
   it { should be_file }
 
-  its(:content) do
-    should match /location ~ \^\/\(assets\)\/.*gzip_static on;/m
+  context "GZip support enabled" do
+    its(:content) do
+      should match /location ~ \^\/\(assets\)\/.*gzip_static on;/m
+    end
   end
 end

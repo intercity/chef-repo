@@ -39,3 +39,4 @@ suites:
             password: r4nd0m
             database: intercity_sample_app
           ruby_version: 2.1.2
+          gzip_enabled: true
