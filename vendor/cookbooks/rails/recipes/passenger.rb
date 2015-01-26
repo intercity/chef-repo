@@ -134,6 +134,7 @@ if node[:active_applications]
         rails_env: rails_env,
         domain_names: app_info["domain_names"],
         enable_ssl: File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt"),
+        server_root_public_path: nginx_server_root(applications_root, app),
         custom_configuration: nginx_custom_configuration(app_info),
         gzip_enabled: app_info["gzip_enabled"]
       )

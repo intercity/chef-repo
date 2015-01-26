@@ -1,16 +1,15 @@
-<% server_root_public_path = "#{node['rails']['applications_root']}/#{@name}/current/public" %>
 
 <%= @custom_configuration["before_server"] %>
 
 server {
   listen <%= node['nginx']['port'] || '80' %>;
   server_name <%= @domain_names.join(' ') %>;
-  root <%= server_root_public_path %>;
+  root <%= @server_root_public_path %>;
 
   passenger_enabled on;
   passenger_app_env <%= @rails_env %>;
 
-  <%= render '_app_nginx_location_assets.erb', variables: { server_root_public_path: server_root_public_path } if @gzip_enabled %>
+  <%= render '_app_nginx_location_assets.erb', variables: { server_root_public_path: @server_root_public_path } if @gzip_enabled %>
 
   <%= @custom_configuration["server_main"] %>
 }
@@ -28,9 +27,9 @@ server {
 
   server_name <%= @domain_names.join(' ') %>;
 
-  root <%= server_root_public_path %>; 
+  root <%= @server_root_public_path %>; 
 
-  <%= render '_app_nginx_location_assets.erb', variables: { server_root_public_path: server_root_public_path } if @gzip_enabled %>
+  <%= render '_app_nginx_location_assets.erb', variables: { server_root_public_path: @server_root_public_path } if @gzip_enabled %>
 
   <%= @custom_configuration["ssl_main"] %>
 }

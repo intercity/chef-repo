@@ -16,5 +16,13 @@ module Rails
 
       empty_conf.merge(app_info["nginx_custom"] || {})
     end
+
+    # Builds a public root path on server
+    #
+    #   nginx_server_root("/u/apps", "my_app") # => "/u/apps/my_app/current/public"
+    #
+    def nginx_server_root(applications_root, app)
+      "#{applications_root}/#{app}/current/public"
+    end
   end
 end
