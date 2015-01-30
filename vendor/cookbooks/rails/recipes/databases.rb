@@ -22,7 +22,6 @@ if node[:active_applications]
           username database_username
           password database_password
           database_name(database_name)
-          table "*"
           host "localhost"
           action :grant
         end
