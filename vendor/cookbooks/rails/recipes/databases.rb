@@ -34,7 +34,6 @@ if node[:active_applications]
           password database_password
           database_name database_name
           host "localhost"
-          table "*"
           action [:create, :grant]
         end
       elsif database_info['adapter'] == 'postgresql'
