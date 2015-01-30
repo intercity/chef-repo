@@ -2,8 +2,9 @@ site "https://supermarket.getchef.com/api/v1"
 
 # Community cookbooks
 cookbook "apt", "~> 2.6.1"
-cookbook "mysql", "~> 5.3.6"
+cookbook "mysql", "~> 6.0.0"
 cookbook "postgresql", "~> 3.4.1"
+cookbook "database", "~> 3.0.3"
 cookbook "nginx", "~> 2.7.4"
 cookbook "postfix", "~> 3.6.2"
 cookbook "sudo", "~> 2.7.0"
