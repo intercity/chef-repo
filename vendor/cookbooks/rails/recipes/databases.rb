@@ -1,25 +1,24 @@
 if node[:active_applications]
   node[:active_applications].each do |app, app_info|
     if app_info['database_info']
-      database_info = app_info['database_info']
-      
-      database_name     = database_info['database']
-      database_username = database_info['username']
-      database_password = database_info['password']
+      database_info = app_info["database_info"]
 
+      database_name     = database_info["database"]
+      database_username = database_info["username"]
+      database_password = database_info["password"]
 
       if database_info['adapter'] =~ /mysql/
         mysql_service_name = "default"
-        host = node["mysql"]["bind_address"] 
+        host = node["mysql"]["bind_address"]
         root_password = node["mysql"]["server_root_password"]
 
         mysql_connection_info = {
-          host: host, 
-          username: "root", 
+          host: host,
+          username: "root",
           password: root_password,
           socket: "/var/run/mysql-#{mysql_service_name}/mysqld.sock"
         }
-        
+
         mysql_service mysql_service_name do
           initial_root_password root_password
           action [:create, :start]
@@ -45,7 +44,7 @@ if node[:active_applications]
           command psql
           returns [0,1]
         end
- 
+
         execute "create-database" do
           user 'postgres'
           command "createdb -U postgres -O #{database_username} #{database_name}"
