@@ -53,6 +53,13 @@
         "username": "<db username, max 10 characters>",
         "password": "<enter a random password>",
         "database": "<appname>_<stage>"
+      },
+      "cron": {
+        "sitemap": {
+          "minute": 0,
+          "hour": 5,
+          "command": "rake -s sitemap:refresh"
+        }
       }
     }
   }
