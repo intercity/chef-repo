@@ -10,7 +10,7 @@ if node[:active_applications]
 
       if database_info['adapter'] =~ /mysql/
         mysql_service_name = "default"
-        host = "localhost"
+        host = node["mysql"]["bind_address"] 
         root_password = node["mysql"]["server_root_password"]
 
         mysql_connection_info = {
