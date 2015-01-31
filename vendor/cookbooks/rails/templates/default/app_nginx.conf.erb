@@ -3,7 +3,7 @@
 <% if @redirect_domain_names && @redirect_domain_names.any? %>
 server {
   listen <%= node['nginx']['port'] || '80' %>;
-  <% if @enable_ssl %>
+  <% if @ssl_enabled %>
   listen 443 ssl;
   <% end %>
   server_name <%= @redirect_domain_names.join(' ') %>;
@@ -29,13 +29,13 @@ server {
   <%= @custom_configuration["server_main"] %>
 }
 
-<% if @enable_ssl %>
+<% if @ssl_enabled %>
 
 server {
   listen 443 ssl;
 
-  ssl_certificate <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.crt;
-  ssl_certificate_key <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.key;
+  ssl_certificate     <%= @ssl_certificate %>;
+  ssl_certificate_key <%= @ssl_certificate_key %>;
 
   server_name <%= @domain_names.join(' ') %>;
 
