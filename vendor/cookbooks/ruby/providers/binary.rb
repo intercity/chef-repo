@@ -29,7 +29,7 @@ action :install do
     end.run_action :create
 
     bash "extract ruby binary" do
-      cwd path 
+      cwd path
       code <<-EOH
         mkdir -p #{path}
         tar jxf #{downloaded_ruby} -C #{path}
