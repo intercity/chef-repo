@@ -14,15 +14,17 @@ action :install do
   download_url = "#{node[:ruby][:download_url]}/#{node[:platform_version]}/#{node[:kernel][:machine]}/ruby-#{version}.tar.bz2"
   downloaded_ruby = "#{Chef::Config[:file_cache_path]}/#{::File.basename download_url}"
 
-  Chef::Log.info "Installing ruby binaries..."
+  Chef::Log.info "Installing ruby binary #{version} ..."
   Chef::Log.debug "version: #{version}"
   Chef::Log.debug "installation path: #{path}"
   Chef::Log.debug "download from: #{download_url}"
   Chef::Log.debug "save ruby to file: #{downloaded_ruby}"
 
+  node.default[:ruby][version][:installed] = false
+
   begin
     remote_file downloaded_ruby do
-      source download_url + "abc" 
+      source download_url
       action :nothing
     end.run_action :create
 
@@ -37,8 +39,7 @@ action :install do
 
     Chef::Log.debug "extracted to #{path}"
     node.default[:ruby][version][:installed] = true
-  rescue Exception => e
-    Chef::Log.warn "Ruby installation failed, cause: #{e}"
-    node.default[:ruby][version][:installed] = false
+  rescue Net::HTTPServerException => e
+    Chef::Log.warn "Binary ruby download failed, error: #{e}"
   end
 end
