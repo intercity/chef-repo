@@ -19,6 +19,12 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ### Misc
 - Nothing
 
+## 2.3.1 - 2015-02-10
+
+### Fixed
+- Fixed `Mysql2::Error: CREATE command denied to user` issue after `database`
+  cookbook upgrade.
+
 ## 2.3.0 - 2014-12-30
 
 ### Added
