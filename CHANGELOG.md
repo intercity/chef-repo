@@ -19,7 +19,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ### Misc
 - Nothing
 
-## 2.3.1 - 2015-02-10
+## 2.3.1 - 2015-02-18
 
 ### Fixed
 - Fixed `Mysql2::Error: CREATE command denied to user` issue after `database`
