@@ -3,6 +3,7 @@ recipes.tgz
 /config/servers.rb
 
 nodes/*.json
+nodes/.gitignore
 !nodes/sample_host.json
 /cookbooks
 /certificates
@@ -14,7 +15,6 @@ nodes/*.json
 
 .kitchen
 .kitchen/
-.kitchen.local.yml
 .librarian
 
 .rbenv-vars

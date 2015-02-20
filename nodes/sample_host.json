@@ -1,11 +1,20 @@
 {
-  "run_list":["role[mysql]","role[rails_passenger]"],
+  "run_list":["role[mysql]","role[rails_passenger]", "role[sysadmins]"],
   "mysql": {
     "server_debian_password": "<enter a random password>",
     "server_root_password": "<enter a random password>",
     "server_repl_password": "<enter a random password>"
   },
   "packages": ["<option list of system wide packages>"],
+  "sysadmins": {
+    "<username>": {
+      "password": "<hashed password: openssl passwd -1 'plaintextpassword'>",
+      "ssh_keys": [
+        "ssh-rsa AAA123...xyz== foo",
+        "ssh-rsa AAA456...uvw== bar"
+      ]
+    }
+  },
   "ssh_deploy_keys": [
     "<enter the contents of an id_rsa.pub here>"
   ],
@@ -28,6 +37,7 @@
       "rails_env": "<stage, eg: production>",
       "packages": ["nodejs"],
       "domain_names": ["<domain name>", "<domain name>", "<...>"],
+      "redirect_domain_names": ["<domain name>", "<domain name>", "<...>"],
       "ruby_version": "2.1.0",
       "ssl_info": {
         "key": "<ssl key>",

@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: ssh_deploy_keys
+# Cookbook Name:: sysadmins
 # Recipe:: default
 #
-# Copyright 2012, Michiel Sikkes
+# Copyright 2014, Bèr `berkes` Kessels
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,40 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-if node[:deploy_users] && node[:ssh_deploy_keys]
-  node[:deploy_users].each do |deploy_user|
-    directory "/home/#{deploy_user}/.ssh" do
-      mode 0700
-      owner deploy_user
-      group deploy_user
-    end
+node[:sysadmins].each do |username, user|
+  home_dir = "/home/#{username}"
+  # Create a user
+  user username do
+    home home_dir
+    password user["password"] if user.attribute?(:password)
 
-    template "/home/#{deploy_user}/.ssh/authorized_keys" do
+    shell "/bin/bash"
+    manage_home true
+    action :create
+  end
+
+  # Add ssh-keys to authorized_keys
+  # Always create the file and dir, even if user did not provide
+  # ssh-keys
+  directory "#{home_dir}/.ssh" do
+    owner username
+    group username
+    mode "0700"
+  end
+  if user["ssh_keys"]
+    template "#{home_dir}/.ssh/authorized_keys" do
       source "authorized_keys.erb"
-      mode 0600
-      owner deploy_user
-      group deploy_user
-      variables :keys => node[:ssh_deploy_keys]
+      owner username
+      group username
+      mode "0600"
+      variables ssh_keys: user["ssh_keys"]
     end
   end
+
+end
+
+# Add users to the sysadmin group. This is the group used by
+# the sudo cookbook to grant users sudo-access.
+group "admin" do
+  members node[:sysadmins].keys
 end
