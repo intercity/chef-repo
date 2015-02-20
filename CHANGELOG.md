@@ -17,7 +17,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 - Nothing
 
 ### Misc
-- Nothing
+- Downgraded to ruby 2.1.5
 
 ## 2.3.1 - 2015-02-18
 
