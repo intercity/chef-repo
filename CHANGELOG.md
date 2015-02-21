@@ -14,7 +14,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 - Nothing
 
 ### Fixed
-- Nothing
+- Allow redirect domains to be set for the Passenger stack as well
 
 ### Misc
 - Downgraded to ruby 2.1.5
