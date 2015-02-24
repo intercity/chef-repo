@@ -8,7 +8,7 @@ server {
 }
 <% end %>
 
-<% if @redirect_domain_names && @redirect_domain_names.any && @enable_ssl %>
+<% if @redirect_domain_names && @redirect_domain_names.any? && @enable_ssl %>
 server {
   listen 443 ssl;
   server_name <%= @redirect_domain_names.join(' ') %>;
