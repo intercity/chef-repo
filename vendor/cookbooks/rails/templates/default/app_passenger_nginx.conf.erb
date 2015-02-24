@@ -3,10 +3,17 @@
 <% if @redirect_domain_names && @redirect_domain_names.any? %>
 server {
   listen <%= node['nginx']['port'] || '80' %>;
-  <% if @enable_ssl %>
-  listen 443 ssl;
-  <% end %>
   server_name <%= @redirect_domain_names.join(' ') %>;
+  return 301 $scheme://<%= @domain_names.first %>$request_uri;
+}
+<% end %>
+
+<% if @redirect_domain_names && @redirect_domain_names.any && @enable_ssl %>
+server {
+  listen 443 ssl;
+  server_name <%= @redirect_domain_names.join(' ') %>;
+  ssl_certificate <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.crt;
+  ssl_certificate_key <%= node['rails']['applications_root'] %>/<%= @name %>/shared/config/certificate.key;
   return 301 $scheme://<%= @domain_names.first %>$request_uri;
 }
 <% end %>
