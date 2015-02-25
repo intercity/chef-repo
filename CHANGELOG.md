@@ -5,7 +5,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ## 2.4.0 - TBA
 
 ### Added
-- Nothing
+- Ruby 2.1.5 is now installed from binaries
 
 ### Deprecated
 - Nothing
