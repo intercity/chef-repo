@@ -14,7 +14,7 @@ server {
 server {
   listen <%= node['nginx']['port'] || '80' %>;
   server_name <%= @domain_names.join(' ') %>;
-  root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
+  root <%= @server_root_public_path %>
 
   try_files $uri/index.html $uri.html $uri @app;
 
@@ -39,7 +39,7 @@ server {
 
   server_name <%= @domain_names.join(' ') %>;
 
-  root <%= node['rails']['applications_root'] %>/<%= @name %>/current/public;
+  root <%= @server_root_public_path %>
 
   location / {
     try_files $uri @app;
