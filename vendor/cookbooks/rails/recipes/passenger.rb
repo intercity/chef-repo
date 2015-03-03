@@ -109,6 +109,7 @@ if node[:active_applications]
 
     end
 
+    has_ssl_info = false
     if app_info['ssl_info']
       template "#{applications_root}/#{app}/shared/config/certificate.crt" do
         owner "deploy"
@@ -125,8 +126,11 @@ if node[:active_applications]
         source "app_cert.key.erb"
         variables :app_key=> app_info['ssl_info']['key']
       end
+      has_ssl_info = true
     end
 
+    enable_ssl = has_ssl_info ||
+      File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt")
     template "/etc/nginx/sites-available/#{app}.conf" do
       source "app_passenger_nginx.conf.erb"
       variables(
@@ -134,7 +138,7 @@ if node[:active_applications]
         rails_env: rails_env,
         domain_names: app_info["domain_names"],
         redirect_domain_names: app_info["redirect_domain_names"],
-        enable_ssl: File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt"),
+        enable_ssl: enable_ssl,
         custom_configuration: nginx_custom_configuration(app_info))
       notifies :reload, resources(:service => "nginx")
     end
