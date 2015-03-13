@@ -16,6 +16,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ### Fixed
 - Allow redirect domains to be set for the Passenger stack as well
 - Set encoding to utf-8 for sysadmins metadata file
+- Reload NGINX once a certificate has changed
 
 ### Misc
 - Downgraded to ruby 2.1.5
