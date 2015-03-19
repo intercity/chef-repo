@@ -7,6 +7,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ### Added
 - Ruby 2.1.5 is now installed from binaries
 - Ability to remove an application from your server
+- Allow client_max_body_size configuration per application
 
 ### Deprecated
 - Nothing
