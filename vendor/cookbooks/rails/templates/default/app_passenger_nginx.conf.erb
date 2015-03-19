@@ -25,6 +25,9 @@ server {
 
   passenger_enabled on;
   passenger_app_env <%= @rails_env %>;
+
+  <%= "client_max_body_size #{@client_max_body_size};" if @client_max_body_size.to_i != 0 %>
+
   <%= @custom_configuration["server_main"] %>
 }
 
@@ -38,6 +41,8 @@ server {
 
   passenger_enabled on;
   passenger_app_env <%= @rails_env %>;
+
+  <%= "client_max_body_size #{@client_max_body_size};" if @client_max_body_size.to_i != 0 %>
 
   server_name <%= @domain_names.join(' ') %>;
 
