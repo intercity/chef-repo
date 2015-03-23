@@ -117,6 +117,7 @@ if node[:active_applications]
         mode 0644
         source "app_cert.crt.erb"
         variables :app_crt=> app_info['ssl_info']['crt']
+        notifies :reload, resources(service: "nginx")
       end
 
       template "#{applications_root}/#{app}/shared/config/certificate.key" do
@@ -125,6 +126,7 @@ if node[:active_applications]
         mode 0644
         source "app_cert.key.erb"
         variables :app_key=> app_info['ssl_info']['key']
+        notifies :reload, resources(service: "nginx")
       end
       has_ssl_info = true
     end
