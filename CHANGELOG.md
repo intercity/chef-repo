@@ -6,6 +6,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 
 ### Added
 - Ruby 2.1.5 is now installed from binaries
+- Ability to remove an application from your server
 
 ### Deprecated
 - Nothing
@@ -16,6 +17,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ### Fixed
 - Allow redirect domains to be set for the Passenger stack as well
 - Set encoding to utf-8 for sysadmins metadata file
+- Reload NGINX once a certificate has changed
 
 ### Misc
 - Downgraded to ruby 2.1.5
