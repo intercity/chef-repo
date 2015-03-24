@@ -117,6 +117,7 @@ if node[:active_applications]
         name: app,
         domain_names: app_info["domain_names"],
         redirect_domain_names: app_info["redirect_domain_names"],
+        client_max_body_size: app_info["client_max_body_size"],
         enable_ssl: File.exists?("#{applications_root}/#{app}/shared/config/certificate.crt"),
         custom_configuration: nginx_custom_configuration(app_info))
       notifies :reload, resources(service: "nginx")

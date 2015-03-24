@@ -140,6 +140,7 @@ if node[:active_applications]
         rails_env: rails_env,
         domain_names: app_info["domain_names"],
         redirect_domain_names: app_info["redirect_domain_names"],
+        client_max_body_size: app_info["client_max_body_size"],
         enable_ssl: enable_ssl,
         custom_configuration: nginx_custom_configuration(app_info))
       notifies :reload, resources(:service => "nginx")
