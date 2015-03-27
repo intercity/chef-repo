@@ -23,6 +23,7 @@
 # THE SOFTWARE.
 
 package "apt-transport-https"
+package "libffi-dev"
 
 apt_repository "passenger" do
   uri "https://oss-binaries.phusionpassenger.com/apt/passenger"
