@@ -27,6 +27,8 @@ include_recipe "nginx"
 
 include_recipe "rails::setup"
 
+package "libffi-dev"
+
 applications_root = node[:rails][:applications_root]
 
 if node[:active_applications]
