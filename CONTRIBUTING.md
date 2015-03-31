@@ -10,7 +10,7 @@ send us a PR.
 ## Adding cookbooks
 
 We use the standard chef way to add new cookbooks to this repo using knife. More
-info on this (http://docs.opscode.com/knife_cookbook_site.html)[http://docs.opscode.com/knife_cookbook_site.html]
+info on this [http://docs.opscode.com/knife_cookbook_site.html](http://docs.opscode.com/knife_cookbook_site.html)
 
 The basic process is like this:
 
