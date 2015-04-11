@@ -35,6 +35,10 @@ GEM
       json
       mixlib-log (~> 1.3)
       rack
+    chefspec (4.2.0)
+      chef (>= 11.14)
+      fauxhai (~> 2.0)
+      rspec (~> 3.0)
     coderay (1.1.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
@@ -49,6 +53,9 @@ GEM
     erubis (2.7.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    fauxhai (2.2.0)
+      net-ssh
+      ohai
     ffi (1.9.5)
     ffi-yajl (1.1.0)
       ffi (~> 1.5)
@@ -167,6 +174,7 @@ PLATFORMS
 
 DEPENDENCIES
   chef (~> 11.16.2)
+  chefspec
   kitchen-digitalocean
   kitchen-vagrant
   knife-solo (~> 0.4.1)

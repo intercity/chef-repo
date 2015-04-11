@@ -85,6 +85,11 @@ PATH
       sudo (> 1.2.0)
 
 PATH
+  remote: vendor/cookbooks/ruby
+  specs:
+    ruby (0.1.0)
+
+PATH
   remote: vendor/cookbooks/ssh_deploy_keys
   specs:
     ssh_deploy_keys (0.1.0)
@@ -104,6 +109,7 @@ DEPENDENCIES
   postgresql (~> 3.4.1)
   rails (>= 0)
   rbenv (~> 1.7.1)
+  ruby (>= 0)
   ruby_build (~> 0.8.0)
   ssh_deploy_keys (>= 0)
   sudo (~> 2.7.0)
