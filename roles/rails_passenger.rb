@@ -10,7 +10,8 @@ run_list(
   "recipe[rails::env_vars]",
   "recipe[git]",
   "recipe[ssh_deploy_keys]",
-  "recipe[postfix]"
+  "recipe[postfix]",
+  "recipe[apt::unattended-upgrades]"
 )
 
 default_attributes(
