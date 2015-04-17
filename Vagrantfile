@@ -80,6 +80,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "users" => ["vagrant"]
       }
     },
+    "apt" => {
+      "unattended_upgrades": {
+        "enabled": true
+      }
+    },
     "mysql" => {
       "server_debian_password" => "a",
       "server_repl_password" => "a",
