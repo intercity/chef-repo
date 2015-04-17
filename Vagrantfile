@@ -81,8 +81,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       }
     },
     "apt" => {
-      "unattended_upgrades": {
-        "enabled": true
+      "unattended_upgrades" => {
+        "enabled" => true
       }
     },
     "mysql" => {
