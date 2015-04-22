@@ -5,7 +5,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ## 2.4.0 - TBA
 
 ### Added
-- Ruby 2.1.5 and 2.2.1 are now installed from binaries
+- Ruby 2.1.0, 2.1.5 and 2.2.1 are now installed from binaries
 - Ability to remove an application from your server
 - Allow client_max_body_size configuration per application
 - Sets secure defaults for SSL protocol and ciphers
