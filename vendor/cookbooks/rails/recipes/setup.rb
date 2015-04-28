@@ -27,6 +27,8 @@ if node[:deploy_users]
   end
 end
 
+package "libffi-dev"
+
 include_recipe "rbenv::default"
 include_recipe "rbenv::ruby_build"
 include_recipe "rbenv::rbenv_vars"
