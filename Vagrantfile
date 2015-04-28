@@ -97,7 +97,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     },
     "active_applications" => {
       "intercity_sample_app" => {
-        ruby_version: "2.2.0",
+        ruby_version: "2.2.2",
         domain_names: ["localhost"],
         packages: ["nodejs"],
         rails_env: "staging",
