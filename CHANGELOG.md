@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project makes use of the [Sementic Versioning](http://semver.org/)
 
-## 2.4.0 - 2015-04-22
+## 2.4.0 - 2015-04-28
 
 ### Added
 - Ruby 2.1.0, 2.1.5 and 2.2.1 are now installed from binaries
