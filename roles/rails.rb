@@ -11,7 +11,8 @@ run_list(
   "recipe[git]",
   "recipe[ssh_deploy_keys]",
   "recipe[postfix]",
-  "recipe[rails::env_vars]"
+  "recipe[rails::env_vars]",
+  "recipe[apt::unattended-upgrades]"
 )
 
 default_attributes(
