@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project makes use of the [Sementic Versioning](http://semver.org/)
 
+## 2.5.0 - 2015-04-30
+
+### Added
+- Allow enabling of unattended upgrades by enabling the "apt:unattended-upgrades" recipe in our Rails stacks
+
 ## 2.4.0 - 2015-04-28
 
 ### Added
