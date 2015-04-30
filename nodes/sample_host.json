@@ -15,6 +15,11 @@
       ]
     }
   },
+  "apt": {
+    "unattended_upgrades": {
+      "enabled": true
+    }
+  },
   "ssh_deploy_keys": [
     "<enter the contents of an id_rsa.pub here>"
   ],

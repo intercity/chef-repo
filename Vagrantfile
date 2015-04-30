@@ -66,7 +66,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provider "vmware_fusion" do |v|
-    v.vmx["memsize"] = "1024"
+    v.vmx["memsize"] = "2048"
     v.vmx["numvcpus"] = "2"
   end
   #
@@ -78,6 +78,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "sudo" => {
         "passwordless" => true,
         "users" => ["vagrant"]
+      }
+    },
+    "apt" => {
+      "unattended_upgrades" => {
+        "enabled" => true
       }
     },
     "mysql" => {
@@ -92,7 +97,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     },
     "active_applications" => {
       "intercity_sample_app" => {
-        ruby_version: "2.1.5",
+        ruby_version: "2.2.2",
         domain_names: ["localhost"],
         packages: ["nodejs"],
         rails_env: "staging",
