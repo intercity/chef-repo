@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project makes use of the [Sementic Versioning](http://semver.org/)
 
+## 2.5.1 - Unreleased
+
+### Misc
+- Upgrade repo ruby version to 2.2.2
+
 ## 2.5.0 - 2015-04-30
 
 ### Added
