@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project makes use of the [Sementic Versioning](http://semver.org/)
 
+## Unreleased
+
+### Added
+- Set the max db `pool` size via an ENV var called `DB_POOL_SIZE`
+
 ## 2.5.0 - 2015-04-30
 
 ### Added

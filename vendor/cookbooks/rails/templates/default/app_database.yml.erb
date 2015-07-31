@@ -3,7 +3,7 @@
   host: <%= @database_info['host'] %>
   username: <%= @database_info['username'] %>
   password: <%= @database_info['password'] %>
-  pool: 5
+  pool: <%%= ENV['DB_POOL_SIZE'] || 5 %>
   timeout: 5000
   database: <%= @database_info['database'] %>
   encoding: utf8
