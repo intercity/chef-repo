@@ -7,6 +7,8 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ### Added
 - Nginx with unicorn respects and uses the "client_max_body_size" configuration similar to nginx for passenger.
 - Set the max db `pool` size via an ENV var called `DB_POOL_SIZE`
+- Fixed bug when redirect-domains were set on a site with SSL.
+- Add support for SSL redirects on passenger-sites.
 
 ### Misc
 - Upgraded to using Chef 12 and bump knife solo gem version.
