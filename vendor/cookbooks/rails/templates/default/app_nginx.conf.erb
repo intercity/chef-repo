@@ -26,6 +26,7 @@ server {
     proxy_pass http://<%= @name %>;
     <%= @custom_configuration["server_app"] %>
   }
+  <%= render 'nginx/access.erb', variables: { access: @access } %>
   <%= @custom_configuration["server_main"] %>
 }
 
@@ -54,6 +55,7 @@ server {
     proxy_pass http://<%= @name %>;
     <%= @custom_configuration["ssl_app"] %>
   }
+  <%= render 'nginx/access.erb', variables: { access: @access } %>
   <%= @custom_configuration["ssl_main"] %>
 }
 

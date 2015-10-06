@@ -142,7 +142,8 @@ if node[:active_applications]
         redirect_domain_names: app_info["redirect_domain_names"],
         client_max_body_size: app_info["client_max_body_size"],
         enable_ssl: enable_ssl,
-        custom_configuration: nginx_custom_configuration(app_info))
+        custom_configuration: nginx_custom_configuration(app_info),
+        access: nginx_access(app_info))
       notifies :reload, resources(:service => "nginx")
     end
 

@@ -1,0 +1,9 @@
+<% @access["denied"].each do |denied_address| %>
+  deny <%= denied_address %>;
+<% end %>
+<% @access["allowed"].each do |allowed_address| %>
+  allow <%= allowed_address %>;
+<% end %>
+<% if @access["allowed"].any? %>
+  deny all;
+<% end %>

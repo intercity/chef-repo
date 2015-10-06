@@ -16,5 +16,16 @@ module Rails
 
       empty_conf.merge(app_info["nginx_custom"] || {})
     end
+
+    ##
+    # Create a rendered set of access and deny rules for nginx conf.
+    # Ensures we always have a string to render.
+    def nginx_access(app_info)
+      # Ensure we always have a hash, and dup to make it writable
+      access = app_info.fetch("access", {}).dup
+      access["allowed"] ||= []
+      access["denied"]  ||= []
+      access
+    end
   end
 end
