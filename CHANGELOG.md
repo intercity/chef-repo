@@ -6,6 +6,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 
 ### Added
 - Set the max db `pool` size via an ENV var called `DB_POOL_SIZE`
+- Ability to define per-app IP-address white and blacklists that may access the app.
 
 ## 2.5.0 - 2015-04-30
 
