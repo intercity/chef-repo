@@ -7,6 +7,9 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ### Added
 - Set the max db `pool` size via an ENV var called `DB_POOL_SIZE`
 
+### Misc
+- Upgraded to using Chef 12 and bump knife solo gem version.
+
 ## 2.5.0 - 2015-04-30
 
 ### Added
