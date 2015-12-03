@@ -5,6 +5,7 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ## Unreleased
 
 ### Added
+- Nginx with unicorn respects and uses the "client_max_body_size" configuration similar to nginx for passenger.
 - Set the max db `pool` size via an ENV var called `DB_POOL_SIZE`
 
 ### Misc
