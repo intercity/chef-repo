@@ -26,6 +26,7 @@ server {
     proxy_pass http://<%= @name %>;
     <%= @custom_configuration["server_app"] %>
   }
+  <%= "client_max_body_size #{@client_max_body_size};" if @client_max_body_size.to_i != 0 %>
   <%= @custom_configuration["server_main"] %>
 }
 
@@ -54,6 +55,7 @@ server {
     proxy_pass http://<%= @name %>;
     <%= @custom_configuration["ssl_app"] %>
   }
+  <%= "client_max_body_size #{@client_max_body_size};" if @client_max_body_size.to_i != 0 %>
   <%= @custom_configuration["ssl_main"] %>
 }
 
