@@ -5,7 +5,11 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 ## Unreleased
 
 ### Added
+- Nginx with unicorn respects and uses the "client_max_body_size" configuration similar to nginx for passenger.
 - Set the max db `pool` size via an ENV var called `DB_POOL_SIZE`
+
+### Misc
+- Upgraded to using Chef 12 and bump knife solo gem version.
 
 ## 2.5.0 - 2015-04-30
 
@@ -61,7 +65,6 @@ This project makes use of the [Sementic Versioning](http://semver.org/)
 - Fixed 'uninitialized constant ActiveRecord' in Unicorn configuration when a the app does not have ActiveRecord.
 
 ### Misc
-- Updated Ruby version to 2.2.0 for this repository.
 - Sudo recipe configuration changed to match Ubuntu's default sudo behaviour more closely.
 - Licensing has been moved to MIT
 
